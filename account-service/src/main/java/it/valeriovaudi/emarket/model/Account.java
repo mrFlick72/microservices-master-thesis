@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
-
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import java.util.Date;
 
@@ -23,6 +23,9 @@ public class Account {
     private String lastName;
     private Date birthDate;
 
+    @Embedded
     private Addrees addrees;
+
+    @Embedded
     private TelephoneNumber telephoneNumber;
 }
