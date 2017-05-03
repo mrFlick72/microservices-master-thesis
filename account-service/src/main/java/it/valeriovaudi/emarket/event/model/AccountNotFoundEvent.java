@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.event.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.cassandra.mapping.Table;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.data.cassandra.mapping.Table;
 
 @Data
 @Table
+@ToString(callSuper = true)
 public class AccountNotFoundEvent extends AbstractDomainEvent {
     private String userName;
 }

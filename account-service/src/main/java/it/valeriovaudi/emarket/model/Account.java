@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import it.valeriovaudi.emarket.validator.PasswordValidator;
+import it.valeriovaudi.emarket.validator.TaxCode;
 import it.valeriovaudi.emarket.validator.UserNameValidator;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -32,12 +33,13 @@ public class Account {
     @NotNull
     private String role;
 
+    @TaxCode
     @Column(unique = true, length = 16)
     private String taxCode;
 
     @NotEmpty
     @NotNull
-    private String firsrtName;
+    private String firstName;
 
     @NotEmpty
     @NotNull
@@ -49,7 +51,7 @@ public class Account {
     private Date birthDate;
 
     @Embedded
-    private Addrees addrees;
+    private Address address;
 
     @Embedded
     private TelephoneNumber telephoneNumber;

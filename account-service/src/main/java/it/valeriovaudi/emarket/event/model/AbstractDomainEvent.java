@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.event.model;
 
 import com.datastax.driver.core.DataType;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.cassandra.mapping.CassandraType;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
  */
 
 @Data
+@ToString(callSuper = true)
 public abstract class AbstractDomainEvent implements Serializable {
 
     @PrimaryKey

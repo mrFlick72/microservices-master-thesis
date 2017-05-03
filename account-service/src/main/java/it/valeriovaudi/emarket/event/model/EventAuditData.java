@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.event.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.cassandra.mapping.UserDefinedType;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  */
 
 @Data
+@ToString(callSuper = true)
 @UserDefinedType("eventAuditData")
 public class EventAuditData {
 

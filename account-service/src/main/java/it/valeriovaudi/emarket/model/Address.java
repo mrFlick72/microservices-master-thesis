@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 
 @Data
 @Embeddable
-public class Addrees {
+public class Address {
     private String street;
     private String streenNumber;
     private String zip;

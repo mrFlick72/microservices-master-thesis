@@ -29,12 +29,12 @@ public class DomainEventFactoryTests {
     private DomainEventFactory domainEventFactory;
 
 
-    private String correlationId = UUID.randomUUID().toString();
-    private String userName = "valval";
-    private String message = "test's message";
-    private String exceptionClassName = Exception.class.getName();
-    private String cause = "test's cause";
-    private Map<String,String> errors = Stream.of("prop1","prop2","prop3","prop4")
+    public static String correlationId = UUID.randomUUID().toString();
+    public static String userName = "valval";
+    public static String message = "test's message";
+    public static String exceptionClassName = Exception.class.getName();
+    public static String cause = "test's cause";
+    public static Map<String,String> errors = Stream.of("prop1","prop2","prop3","prop4")
             .map(s -> {
                 HashMap<String, String> objectObjectHashMap = Maps.newHashMap();
                 objectObjectHashMap.put(s,"error");

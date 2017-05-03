@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.event.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.cassandra.mapping.Table;
 
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @Data
 @Table
+@ToString(callSuper = true)
 public class AccountValidationErrorEvent extends AbstractDomainEvent {
 
     private Map<String,String> validationError;

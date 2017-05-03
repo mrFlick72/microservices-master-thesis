@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.factory;
 
 import it.valeriovaudi.emarket.model.Account;
-import it.valeriovaudi.emarket.model.Addrees;
+import it.valeriovaudi.emarket.model.Address;
 import it.valeriovaudi.emarket.model.TelephoneNumber;
 
 import java.util.Date;
@@ -52,8 +52,8 @@ public class AccountBuilder {
         return this;
     }
     
-    public AccountBuilder firsrtName(String firsrtName){
-        this.account.setFirsrtName(firsrtName);
+    public AccountBuilder firstName(String firstName){
+        this.account.setFirstName(firstName);
         return this;
     }
     
@@ -68,14 +68,14 @@ public class AccountBuilder {
     }
 
     public AccountBuilder withAddrees(String street, String streenNumber, String zip, String country, String region, String city){
-        Addrees addrees = new Addrees();
-        addrees.setStreet(street);
-        addrees.setStreenNumber(streenNumber);
-        addrees.setZip(zip);
-        addrees.setCountry(country);
-        addrees.setRegion(region);
-        addrees.setCity(city);
-        this.account.setAddrees(addrees);
+        Address address = new Address();
+        address.setStreet(street);
+        address.setStreenNumber(streenNumber);
+        address.setZip(zip);
+        address.setCountry(country);
+        address.setRegion(region);
+        address.setCity(city);
+        this.account.setAddress(address);
         return this;
     }
 
