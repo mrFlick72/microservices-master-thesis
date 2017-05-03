@@ -9,6 +9,6 @@ import org.springframework.data.cassandra.mapping.Table;
 
 @Data
 @Table
-public class AccountNotFoundEvent {
+public class AccountNotFoundEvent extends AbstractDomainEvent {
     private String userName;
 }

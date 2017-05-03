@@ -9,6 +9,6 @@ import org.springframework.data.cassandra.mapping.Table;
 
 @Data
 @Table
-public class AccountCreationEvent {
+public class AccountCreationEvent extends AbstractDomainEvent {
     private String userName;
 }

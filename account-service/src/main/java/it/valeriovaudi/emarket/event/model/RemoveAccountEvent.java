@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.mapping.Table;
 
 @Data
 @Table
-public class RemoveAccountEvent  {
+public class RemoveAccountEvent  extends AbstractDomainEvent {
     private String userName;
 
 }
