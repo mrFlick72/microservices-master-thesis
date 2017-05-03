@@ -90,7 +90,7 @@ public class DomainEventFactory {
         EventAuditData eventAuditData = new EventAuditData();
 
         eventAuditData.setCorrelationId(correlationId);
-        eventAuditData.setUserName(null);
+        eventAuditData.setUserName("");
         eventAuditData.setTimeStamp(new Date());
 
         return eventAuditData;

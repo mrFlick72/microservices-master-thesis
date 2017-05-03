@@ -1,8 +1,11 @@
 package it.valeriovaudi.emarket.event.model;
 
+import com.datastax.driver.core.DataType;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.mapping.CassandraType;
+import org.springframework.data.cassandra.mapping.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -10,9 +13,11 @@ import java.util.UUID;
  */
 
 @Data
-public abstract class AbstractDomainEvent {
+public abstract class AbstractDomainEvent implements Serializable {
 
-    @Id
+    @PrimaryKey
     protected UUID id;
+
+    @CassandraType(type = DataType.Name.UDT, userTypeName = "eventAuditData")
     protected EventAuditData auditData;
 }
