@@ -2,13 +2,15 @@ package it.valeriovaudi.emarket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableEurekaClient
+@EnableConfigServer
 @SpringBootApplication
-public class EurekaServerApplication {
+public class ConfigurationServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EurekaServerApplication.class, args);
+		SpringApplication.run(ConfigurationServerApplication.class, args);
 	}
 }
