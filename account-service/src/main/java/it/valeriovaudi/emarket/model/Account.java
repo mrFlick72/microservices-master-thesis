@@ -6,7 +6,6 @@ import it.valeriovaudi.emarket.validator.UserNameValidator;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Map;
 
 import static it.valeriovaudi.emarket.event.factory.DomainEventFactoryTests.*;
 
