@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: account-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/account-service
+    username: root
+    password: root
+    maximum-pool-size: 20
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    cassandra:
+      schema-action: CREATE_IF_NOT_EXISTS
+      keyspace-name: accountEventKeyspace
