@@ -1,5 +1,6 @@
 package it.valeriovaudi.emarket.exception;
 
+import it.valeriovaudi.emarket.event.model.RemoveAccountEvent;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,12 +10,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class RemoveAccountException extends NestedRuntimeException {
-    public RemoveAccountException(String msg) {
-        super(msg);
+public class RemoveAccountException extends AbstractAccountException {
+    public RemoveAccountException(RemoveAccountEvent event, String msg) {
+        super(event, msg);
     }
 
-    public RemoveAccountException(String msg, Throwable cause) {
-        super(msg, cause);
+    public RemoveAccountException(RemoveAccountEvent event, String msg, Throwable cause) {
+        super(event, msg, cause);
     }
 }

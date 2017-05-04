@@ -1,6 +1,6 @@
 package it.valeriovaudi.emarket.exception;
 
-import org.springframework.core.NestedRuntimeException;
+import it.valeriovaudi.emarket.event.model.AccountNotFoundEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class AccountNotFoundException extends NestedRuntimeException {
-    public AccountNotFoundException(String msg) {
-        super(msg);
+public class AccountNotFoundException extends AbstractAccountException {
+    public AccountNotFoundException(AccountNotFoundEvent event, String msg) {
+        super(event, msg);
     }
 
-    public AccountNotFoundException(String msg, Throwable cause) {
-        super(msg, cause);
+    public AccountNotFoundException(AccountNotFoundEvent event, String msg, Throwable cause) {
+        super(event, msg, cause);
     }
 }
