@@ -1,11 +1,17 @@
 package it.valeriovaudi.emarket.event.service;
 
+import it.valeriovaudi.emarket.event.config.EventMessageChannels;
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.event.model.*;
 import it.valeriovaudi.emarket.event.repository.*;
-import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.processing.Processor;
 import java.util.Map;
 
 /**
@@ -13,6 +19,7 @@ import java.util.Map;
  */
 
 @Service
+@EnableBinding(value = {Processor.class,EventMessageChannels.class})
 public class EventDomainPubblishService {
 
     private final  DomainEventFactory domainEventFactory;
@@ -26,7 +33,7 @@ public class EventDomainPubblishService {
     private final RemoveAccountEventRepository removeAccountEventRepository;
     private final SaveAccountErrorEventRepository saveAccountErrorEventRepository;
 
-    private final PublishSubscribeChannel accountEventOutboundChannel;
+    private final SubscribableChannel accountEventOutboundChannel;
 
     public EventDomainPubblishService(DomainEventFactory domainEventFactory,
                                       AccountCreationEventRepository accountCreationEventRepository,
@@ -37,7 +44,7 @@ public class EventDomainPubblishService {
                                       RemoveAccountErrorEventRepository removeAccountErrorEventRepository,
                                       RemoveAccountEventRepository removeAccountEventRepository,
                                       SaveAccountErrorEventRepository saveAccountErrorEventRepository,
-                                      PublishSubscribeChannel accountEventOutboundChannel) {
+                                      SubscribableChannel accountEventOutboundChannel) {
         this.domainEventFactory = domainEventFactory;
         this.accountCreationEventRepository = accountCreationEventRepository;
         this.accountNotFoundEventRepository = accountNotFoundEventRepository;
