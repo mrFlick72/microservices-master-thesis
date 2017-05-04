@@ -1,8 +1,8 @@
 package it.valeriovaudi.emarket.event.repository;
 
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
-import it.valeriovaudi.emarket.event.factory.DomainEventFactoryTests;
 import it.valeriovaudi.emarket.event.model.AccountCreationEvent;
+import it.valeriovaudi.emarket.event.model.SaveAccountErrorEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,26 +29,7 @@ public class DomainEventsRepositoryTests {
     private AccountCreationEventRepository accountCreationEventRepository;
 
     @Autowired
-    private AccountNotFoundEventRepository accountNotFoundEventRepository;
-
-    @Autowired
-    private AccountValidationErrorEventRepository accountValidationErrorEventRepository;
-
-    @Autowired
-    private ChangeAccountPasswordEventRepository changeAccountPasswordEventRepository;
-
-    @Autowired
-    private IdentityValidationErrorEventRepository identityValidationErrorEventRepository;
-
-    @Autowired
-    private RemoveAccountErrorEventRepository removeAccountErrorEventRepository;
-
-    @Autowired
-    private RemoveAccountEventRepository removeAccountEventRepository;
-
-    @Autowired
     private SaveAccountErrorEventRepository saveAccountErrorEventRepository;
-
 
 
     @Test
@@ -68,38 +49,37 @@ public class DomainEventsRepositoryTests {
 
         accountCreationEventRepository.delete(save);
     }
-
-    @Test
-    public void testAccountNotFoundEventRepository(){
-
-    }
-
-    @Test
-    public void testAccountValidationErrorEventRepository(){
-
-    }
-
-    @Test
-    public void testChangeAccountPasswordEventRepository(){
-
-    }
-
-    @Test
-    public void testIdentityValidationErrorEventRepository(){
-
-    }
-
-    @Test
-    public void testRemoveAccountErrorEventRepository(){
-
-    }
-
-    @Test
-    public void testRemoveAccountEventRepository(){
-
-    }
-
     @Test
     public void testSaveAccountErrorEventRepository(){
+        SaveAccountErrorEvent saveAccountErrorEvent =
+                domainEventFactory.newSaveAccountErrorEvent(correlationId, userName, exception);
+
+        log.info("SaveAccountErrorEvent: " + saveAccountErrorEvent);
+         SaveAccountErrorEvent save = saveAccountErrorEventRepository.save(saveAccountErrorEvent);
+        log.info("saved SaveAccountErrorEvent: " + save);
+        Assert.assertNotNull(save);
+        Assert.assertNotNull(save.getAuditData());
+        Assert.assertNotNull(save.getAuditData().getTimeStamp());
+        Assert.assertNotNull(save.getId());
+        Assert.assertEquals(correlationId, save.getAuditData().getCorrelationId());
+        Assert.assertNotNull(save.getAuditData().getTimeStamp());
+        log.info("SaveAccountErrorEvent.id: " + save.getId());
+        log.info("SaveAccountErrorEvent.correlationId: " + save.getAuditData().getCorrelationId());
+        log.info("SaveAccountErrorEvent.timestamp: " + save.getAuditData().getTimeStamp());
+        log.info("SaveAccountErrorEvent.userName: " + save.getUserName());
+        log.info("SaveAccountErrorEvent.cause: " + save.getClass());
+        log.info("SaveAccountErrorEvent.message: " + save.getMessage());
+        log.info("SaveAccountErrorEvent.exceptionClassName: " + save.getExceptionClassName());
+
+        Assert.assertSame(saveAccountErrorEvent.getId(),save.getId());
+        Assert.assertSame(saveAccountErrorEvent.getAuditData().getCorrelationId(),save.getAuditData().getCorrelationId());
+        Assert.assertSame(saveAccountErrorEvent.getAuditData().getTimeStamp(),save.getAuditData().getTimeStamp());
+        Assert.assertSame(saveAccountErrorEvent.getUserName(),save.getUserName());
+        Assert.assertSame(saveAccountErrorEvent.getCause(),save.getCause());
+        Assert.assertSame(saveAccountErrorEvent.getMessage(),save.getMessage());
+        Assert.assertSame(saveAccountErrorEvent.getExceptionClassName(),save.getExceptionClassName());
+
+        saveAccountErrorEventRepository.delete(save);
+
     }
 }

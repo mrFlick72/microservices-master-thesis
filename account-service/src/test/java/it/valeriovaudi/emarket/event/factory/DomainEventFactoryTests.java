@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket.event.factory;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.google.common.collect.Maps;
 import it.valeriovaudi.emarket.event.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +33,8 @@ public class DomainEventFactoryTests {
     public static String message = "test's message";
     public static String exceptionClassName = Exception.class.getName();
     public static String cause = "test's cause";
+    public static Exception exception = new Exception(message, new Exception(cause));
+
     public static Map<String,String> errors = Stream.of("prop1","prop2","prop3","prop4")
             .map(s -> {
                 HashMap<String, String> objectObjectHashMap = Maps.newHashMap();
@@ -137,7 +138,7 @@ public class DomainEventFactoryTests {
 
     @Test
     public void newRemoveAccountErrorEvent(){
-        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId,userName,cause,message,exceptionClassName);
+        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId,userName,exception);
         log.info("newRemoveAccountErrorEvent: " + event);
         Assert.assertNotNull(event);
         log.info("AccountNotFoundEvent.id: " + event.getId());
@@ -178,7 +179,7 @@ public class DomainEventFactoryTests {
 
     @Test
     public void newSaveAccountErrorEvent(){
-        SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId,userName,cause,message,exceptionClassName);
+        SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId,userName,exception);
         log.info("newRemoveAccountErrorEvent: " + event);
         Assert.assertNotNull(event);
         log.info("AccountNotFoundEvent.id: " + event.getId());
