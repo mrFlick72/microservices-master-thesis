@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket.service;
 
-import it.valeriovaudi.emarket.identity.IdendtityIntegrity;
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.validator.AccountDataValidationService;
@@ -10,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by mrflick72 on 04/05/17.
@@ -31,8 +31,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Validated
     public Account createAccount(Account account) {
+        String correlationId = UUID.randomUUID().toString();
         // data validation
-        accountDataValidationService.validate(account);
+        accountDataValidationService.validate(correlationId, account);
         // save account
 
         // fire save account event
@@ -50,19 +51,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @IdendtityIntegrity
     public Account findAccount(String userName) {
         return null;
     }
 
     @Override
-    @IdendtityIntegrity
     public Account updateAccount(Account account) {
         return null;
     }
 
     @Override
-    @IdendtityIntegrity
     public void deleteAccount(String userName) {
 
     }

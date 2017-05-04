@@ -8,5 +8,5 @@ import it.valeriovaudi.emarket.model.Account;
  */
 public interface AccountDataValidationService {
 
-    void validate(Account account) throws AccountValidationException;
+    void validate(String correlationId, Account account) throws AccountValidationException;
 }
