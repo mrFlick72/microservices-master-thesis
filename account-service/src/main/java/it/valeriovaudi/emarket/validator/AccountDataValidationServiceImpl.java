@@ -91,7 +91,7 @@ public class AccountDataValidationServiceImpl implements AccountDataValidationSe
     }
 
     private void validateTaxCode(String key,String value,String validationMessageKey, Map<String,String> errors){
-        boolean inError = value == null || value.length() == TAX_CODE_LENGTH;
+        boolean inError = value == null || value.length() != TAX_CODE_LENGTH;
 
         if(inError){
             errors.put(key, messageSource.getMessage(validationMessageKey,new Object[]{}, Locale.ENGLISH));

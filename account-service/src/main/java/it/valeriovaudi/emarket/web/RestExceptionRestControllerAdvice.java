@@ -17,29 +17,31 @@ public class RestExceptionRestControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {RemoveAccountException.class, SaveAccountException.class})
     public AbstractDomainEvent handleInternalServerErrorRequest(Exception ex) {
-        AbstractDomainEvent event =  ((AbstractAccountException) ex).getEvent();
-        return event;
+        return ((AbstractAccountException) ex).getEvent();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {AccountNotFoundException.class})
     public AbstractDomainEvent handleNotFoundRequest(Exception ex) {
-        AbstractDomainEvent event =  ((AbstractAccountException) ex).getEvent();
-        return event;
+        return ((AbstractAccountException) ex).getEvent();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {AccountValidationException.class})
     public AbstractDomainEvent handleBadRequest(Exception ex) {
-        AbstractDomainEvent event =  ((AbstractAccountException) ex).getEvent();
-        return event;
+        return ((AbstractAccountException) ex).getEvent();
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = {IdentityValidationException.class})
     public AbstractDomainEvent handleForbiddenRequest(Exception ex) {
-        AbstractDomainEvent event =  ((AbstractAccountException) ex).getEvent();
-        return event;
+        return ((AbstractAccountException) ex).getEvent();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(value = {ConflictSaveAccountException.class})
+    public AbstractDomainEvent handleConflictRequest(Exception ex) {
+        return ((AbstractAccountException) ex).getEvent();
     }
 
 }

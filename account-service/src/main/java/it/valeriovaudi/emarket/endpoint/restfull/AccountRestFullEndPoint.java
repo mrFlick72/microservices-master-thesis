@@ -32,15 +32,13 @@ public class AccountRestFullEndPoint {
     }
 
     @GetMapping
-    public ResponseEntity findAccountList(@RequestParam(required = false) Long page,
-                                          @RequestParam(required = false) Long pageSize,
-                                          @RequestParam(required = false) String orderBy){
-        return null;
+    public ResponseEntity findAccountList(){
+        return ResponseEntity.ok(accountService.findAccountList());
     }
 
     @GetMapping("/{userName}")
     public ResponseEntity findAccount(@PathVariable String userName){
-        return null;
+        return ResponseEntity.ok(accountService.findAccount(userName));
     }
 
     @PutMapping("/{userName}")

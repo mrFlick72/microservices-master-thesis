@@ -10,7 +10,6 @@ public interface AccountService {
 
     Account createAccount(Account account);
 
-    List<Account> findAccountList(int pageNumber, int pageSize);
     List<Account> findAccountList();
 
     Account findAccount(String userName);

@@ -6,6 +6,7 @@ import it.valeriovaudi.emarket.event.model.AccountValidationErrorEvent;
 import it.valeriovaudi.emarket.event.model.SaveAccountErrorEvent;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
 import it.valeriovaudi.emarket.exception.AccountNotFoundException;
+import it.valeriovaudi.emarket.exception.ConflictSaveAccountException;
 import it.valeriovaudi.emarket.exception.RemoveAccountException;
 import it.valeriovaudi.emarket.exception.SaveAccountException;
 import it.valeriovaudi.emarket.model.Account;
@@ -53,13 +54,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAccountList(int pageNumber, int pageSize) {
-        return null;
-    }
-
-    @Override
     public List<Account> findAccountList() {
-        return null;
+        return accountRepository.findAll();
     }
 
     @Override
@@ -94,24 +90,46 @@ public class AccountServiceImpl implements AccountService {
         // data validation
         accountDataValidationService.validateUserName(correlationId,userName);
         // delete account
-        doDeleteAccount(correlationId,userName);
+        accountRepository.delete(userName);
         // fire remove account event
         eventDomainPubblishService.publishRemoveAccountEvent(correlationId,userName);
     }
 
     private Account doSaveAccountData(String correlationId, Account account) throws SaveAccountException {
-        Account accountAux;
-
+        Account accountAux = null;
+        SaveAccountException saveAccountException = null;
+        ConflictSaveAccountException conflictSaveAccountException = null;
+        SaveAccountErrorEvent saveAccountErrorEvent;
         try{
-            accountAux = accountRepository.save(account);
+            Account one = accountRepository.findOne(account.getUserName());
+            if(one == null){
+                accountAux = accountRepository.save(account);
+            } else {
+                 saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
+                         ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
+
+                conflictSaveAccountException = new ConflictSaveAccountException(saveAccountErrorEvent, ConflictSaveAccountException.DEFAULT_MESSAGE);
+                eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
+                        ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
+
+            }
+
         } catch (Exception e){
-            SaveAccountErrorEvent saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
+             saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
                     SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
 
-            SaveAccountException saveAccountException = new SaveAccountException(saveAccountErrorEvent, SaveAccountException.DEFAULT_MESSAGE);
+             saveAccountException = new SaveAccountException(saveAccountErrorEvent, SaveAccountException.DEFAULT_MESSAGE);
             eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
                     SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
 
+            throw saveAccountException;
+        }
+
+        if(conflictSaveAccountException!= null){
+            throw conflictSaveAccountException;
+        }
+
+        if(saveAccountException != null){
             throw saveAccountException;
         }
 
