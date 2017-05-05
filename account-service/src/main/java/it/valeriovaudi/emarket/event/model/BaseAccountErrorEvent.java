@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public abstract class BaseAccountErrorEvent extends AbstractDomainEvent {
 
-    protected String cause;
     protected String message;
     protected String exceptionClassName;
 }

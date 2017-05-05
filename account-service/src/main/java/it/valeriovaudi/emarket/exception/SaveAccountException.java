@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class SaveAccountException extends AbstractAccountException {
+    public static final String DEFAULT_MESSAGE  = "error during the saving process";
     public SaveAccountException(SaveAccountErrorEvent event, String msg) {
         super(event, msg);
     }

@@ -31,7 +31,7 @@ public class DomainEventFactoryTests {
     public static String correlationId = UUID.randomUUID().toString();
     public static String userName = "valval";
     public static String message = "test's message";
-    public static String exceptionClassName = Exception.class.getName();
+    public static Class exceptionClassName = Exception.class;
     public static String cause = "test's cause";
     public static Exception exception = new Exception(message, new Exception(cause));
 
@@ -138,13 +138,12 @@ public class DomainEventFactoryTests {
 
     @Test
     public void newRemoveAccountErrorEvent(){
-        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId,userName,exception);
+        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId,userName,message,exceptionClassName);
         log.info("newRemoveAccountErrorEvent: " + event);
         Assert.assertNotNull(event);
         log.info("AccountNotFoundEvent.id: " + event.getId());
         log.info("RemoveAccountErrorEvent.correlationId: " + correlationId);
         log.info("RemoveAccountErrorEvent.userName: " + userName);
-        log.info("RemoveAccountErrorEvent.cause: " + cause);
         log.info("RemoveAccountErrorEvent.message: " + message);
         log.info("RemoveAccountErrorEvent.exceptionClassName: " + exceptionClassName);
         Assert.assertNotNull(event.getId());
@@ -155,8 +154,7 @@ public class DomainEventFactoryTests {
         Assert.assertEquals(correlationId,event.getAuditData().getCorrelationId());
         Assert.assertEquals(userName,event.getUserName());
         Assert.assertEquals(message,event.getMessage());
-        Assert.assertEquals(cause,event.getCause());
-        Assert.assertEquals(exceptionClassName,event.getExceptionClassName());
+        Assert.assertEquals(exceptionClassName.getName(),event.getExceptionClassName());
     }
 
     @Test
@@ -179,7 +177,7 @@ public class DomainEventFactoryTests {
 
     @Test
     public void newSaveAccountErrorEvent(){
-        SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId,userName,exception);
+        SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId,userName,message,exceptionClassName);
         log.info("newRemoveAccountErrorEvent: " + event);
         Assert.assertNotNull(event);
         log.info("AccountNotFoundEvent.id: " + event.getId());
@@ -196,7 +194,6 @@ public class DomainEventFactoryTests {
         Assert.assertEquals(correlationId,event.getAuditData().getCorrelationId());
         Assert.assertEquals(userName,event.getUserName());
         Assert.assertEquals(message,event.getMessage());
-        Assert.assertEquals(cause,event.getCause());
-        Assert.assertEquals(exceptionClassName,event.getExceptionClassName());
+        Assert.assertEquals(exceptionClassName.getName(),event.getExceptionClassName());
     }
 }

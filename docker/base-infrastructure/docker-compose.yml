@@ -23,6 +23,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "/var/lib/mysql:/var/lib/mysql"
+      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/mysql:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=root

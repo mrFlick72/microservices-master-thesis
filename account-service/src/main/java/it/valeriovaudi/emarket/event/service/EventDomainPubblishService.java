@@ -17,7 +17,7 @@ import java.util.Map;
  */
 
 @Service
-@EnableBinding(value = {Processor.class,EventMessageChannels.class})
+@EnableBinding(EventMessageChannels.class)
 public class EventDomainPubblishService {
 
     private final  DomainEventFactory domainEventFactory;
@@ -85,8 +85,10 @@ public class EventDomainPubblishService {
         accountEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
     }
 
-    public void publishRemoveAccountErrorEvent(String correlationId, String userName, Exception exception){
-        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId, userName, exception);
+    public void publishRemoveAccountErrorEvent(String correlationId, String userName,
+                                               String message, Class exceptionClassName){
+
+        RemoveAccountErrorEvent event = domainEventFactory.newRemoveAccountErrorEvent(correlationId, userName, message,exceptionClassName);
         removeAccountErrorEventRepository.save(event);
         accountEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
     }
@@ -97,8 +99,10 @@ public class EventDomainPubblishService {
         accountEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
     }
 
-    public void publishSaveAccountErrorEvent(String correlationId,String userName, Exception exception){
-        SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId, userName, exception);
+    public void publishSaveAccountErrorEvent(String correlationId,String userName,
+                                             String message, Class exceptionClassName){
+
+            SaveAccountErrorEvent event = domainEventFactory.newSaveAccountErrorEvent(correlationId, userName, message, exceptionClassName);
         saveAccountErrorEventRepository.save(event);
         accountEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
     }

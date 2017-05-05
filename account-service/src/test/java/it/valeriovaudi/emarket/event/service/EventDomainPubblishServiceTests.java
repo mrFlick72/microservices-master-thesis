@@ -1,5 +1,6 @@
 package it.valeriovaudi.emarket.event.service;
 
+import it.valeriovaudi.emarket.event.config.EventMessageChannels;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.SubscribableChannel;
@@ -27,7 +29,6 @@ public class EventDomainPubblishServiceTests {
     private EventDomainPubblishService eventDomainPubblishService;
 
     @Autowired
-    @Qualifier("accountEventOutboundChannel")
     private SubscribableChannel accountEventOutboundChannel;
 
     @Autowired
@@ -36,42 +37,48 @@ public class EventDomainPubblishServiceTests {
     @Test
     public void testPublishAccountCreationEvent() throws InterruptedException {
         eventDomainPubblishService.publishAccountCreationEvent(correlationId, userName);
-        accountEventOutboundChannel.subscribe(message -> log.info("message: " + message));
         verify();
     }
 
+    @Test
     public void testPublishAccountNotFoundEvent(){
         eventDomainPubblishService.publishAccountNotFoundEvent(correlationId, userName);
         verify();
     }
 
+    @Test
     public void testPublishAccountValidationErrorEvent(){
         eventDomainPubblishService.publishAccountValidationErrorEvent(correlationId, errors);
         verify();
     }
 
+    @Test
     public void testPublishChangeAccountPasswordEvent(){
         eventDomainPubblishService.publishChangeAccountPasswordEvent(correlationId, userName);
         verify();
     }
 
+    @Test
     public void testPublishIdentityValidationErrorEvent(){
         eventDomainPubblishService.publishIdentityValidationErrorEvent(correlationId, userName,message);
         verify();
     }
 
+    @Test
     public void testPublishRemoveAccountErrorEvent(){
-        eventDomainPubblishService.publishRemoveAccountErrorEvent(correlationId, userName, exception);
+        eventDomainPubblishService.publishRemoveAccountErrorEvent(correlationId, userName, message, exceptionClassName);
         verify();
     }
 
+    @Test
     public void testPublishRemoveAccountEvent(){
         eventDomainPubblishService.publishRemoveAccountEvent(correlationId, userName);
         verify();
     }
 
+    @Test
     public void testPblishSaveAccountErrorEvent(){
-        eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, userName, exception);
+        eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, userName,  message, exceptionClassName);
         verify();
     }
 

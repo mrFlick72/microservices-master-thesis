@@ -52,7 +52,7 @@ public class DomainEventsRepositoryTests {
     @Test
     public void testSaveAccountErrorEventRepository(){
         SaveAccountErrorEvent saveAccountErrorEvent =
-                domainEventFactory.newSaveAccountErrorEvent(correlationId, userName, exception);
+                domainEventFactory.newSaveAccountErrorEvent(correlationId, userName,  message, exceptionClassName);
 
         log.info("SaveAccountErrorEvent: " + saveAccountErrorEvent);
          SaveAccountErrorEvent save = saveAccountErrorEventRepository.save(saveAccountErrorEvent);
@@ -75,7 +75,6 @@ public class DomainEventsRepositoryTests {
         Assert.assertSame(saveAccountErrorEvent.getAuditData().getCorrelationId(),save.getAuditData().getCorrelationId());
         Assert.assertSame(saveAccountErrorEvent.getAuditData().getTimeStamp(),save.getAuditData().getTimeStamp());
         Assert.assertSame(saveAccountErrorEvent.getUserName(),save.getUserName());
-        Assert.assertSame(saveAccountErrorEvent.getCause(),save.getCause());
         Assert.assertSame(saveAccountErrorEvent.getMessage(),save.getMessage());
         Assert.assertSame(saveAccountErrorEvent.getExceptionClassName(),save.getExceptionClassName());
 

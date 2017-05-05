@@ -55,13 +55,13 @@ public class DomainEventFactory {
         return event;
     }
 
-    public RemoveAccountErrorEvent newRemoveAccountErrorEvent(String correlationId, String userName, Exception exception){
+    public RemoveAccountErrorEvent newRemoveAccountErrorEvent(String correlationId, String userName,
+                                                              String message, Class exceptionClassName){
         RemoveAccountErrorEvent event = new RemoveAccountErrorEvent();
         event.setId(UUIDs.timeBased());
         event.setUserName(userName);
-        event.setCause(exception.getCause().getMessage());
-        event.setMessage(exception.getMessage());
-        event.setExceptionClassName(exception.getClass().getName());
+        event.setMessage(message);
+        event.setExceptionClassName(exceptionClassName.getName());
         event.setAuditData(newEventAuditData(correlationId));
         return event;
     }
@@ -74,13 +74,13 @@ public class DomainEventFactory {
         return event;
     }
 
-    public SaveAccountErrorEvent newSaveAccountErrorEvent(String correlationId,String userName, Exception exception){
+    public SaveAccountErrorEvent newSaveAccountErrorEvent(String correlationId,String userName,
+                                                          String message, Class exceptionClassName){
         SaveAccountErrorEvent event = new SaveAccountErrorEvent();
         event.setId(UUIDs.timeBased());
         event.setUserName(userName);
-        event.setCause(exception.getCause().getMessage());
-        event.setMessage(exception.getMessage());
-        event.setExceptionClassName(exception.getClass().getName());
+        event.setMessage(message);
+        event.setExceptionClassName(exceptionClassName.getName());
         event.setAuditData(newEventAuditData(correlationId));
         return event;
     }

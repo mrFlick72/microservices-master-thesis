@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class AccountNotFoundException extends AbstractAccountException {
+    public static final String DEFAULT_MESSAGE  = "account not found";
+
     public AccountNotFoundException(AccountNotFoundEvent event, String msg) {
         super(event, msg);
     }
