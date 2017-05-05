@@ -4,6 +4,7 @@ import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 /**
  * Created by mrflick72 on 03/05/17.
@@ -21,7 +22,10 @@ public class AccountRestFullEndPoint {
 
     @PostMapping
     public ResponseEntity createAccount(@RequestBody Account account){
-        return null;
+        Account savedAccount = accountService.createAccount(account);
+        return ResponseEntity.created(MvcUriComponentsBuilder
+                .fromMethodName(AccountRestFullEndPoint.class,"findAccount",savedAccount.getUserName())
+                .build().toUri()).build();
     }
 
     @GetMapping
