@@ -7,7 +7,6 @@ import it.valeriovaudi.emarket.repository.AccountRepository;
 import it.valeriovaudi.emarket.validator.AccountDataValidationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,22 +16,19 @@ import java.util.UUID;
  */
 @Service
 //@Cacheable
-//@Transactional
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final AccountDataValidationService accountDataValidationService;
     private final EventDomainPubblishService eventDomainPubblishService;
     private final AccountRepository accountRepository;
-    private final DomainEventFactory domainEventFactory;
 
     public AccountServiceImpl(AccountDataValidationService accountDataValidationService,
                               EventDomainPubblishService eventDomainPubblishService,
-                              AccountRepository accountRepository,
-                              DomainEventFactory domainEventFactory) {
+                              AccountRepository accountRepository) {
         this.accountDataValidationService = accountDataValidationService;
         this.eventDomainPubblishService = eventDomainPubblishService;
         this.accountRepository = accountRepository;
-        this.domainEventFactory = domainEventFactory;
     }
 
     @Override
@@ -64,11 +60,28 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateAccount(Account account) {
-        return null;
+        String correlationId = UUID.randomUUID().toString();
+        // data validation
+        accountDataValidationService.validate(correlationId, account);
+        // save account
+        Account save = accountRepository.save(account);
+        if(!account.getPassword().equals(save.getPassword())){
+            // fire change password account event
+            eventDomainPubblishService.publishChangeAccountPasswordEvent(correlationId, save.getUserName());
+        }
+        // fire save account event
+        eventDomainPubblishService.publishAccountCreationEvent(correlationId, save.getUserName());
+        return save;
     }
 
     @Override
     public void deleteAccount(String userName) {
-
+        String correlationId = UUID.randomUUID().toString();
+        // data validation
+        accountDataValidationService.validateUserName(correlationId,userName);
+        // delete account
+        accountRepository.delete(userName);
+        // fire remove account event
+        eventDomainPubblishService.publishRemoveAccountEvent(correlationId,userName);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 @Data
 @Table
 @ToString(callSuper = true)
-public class AccountValidationErrorEvent extends AbstractDomainEvent {
+public final class AccountValidationErrorEvent extends AbstractDomainEvent {
 
     private Map<String,String> validationError;
 }

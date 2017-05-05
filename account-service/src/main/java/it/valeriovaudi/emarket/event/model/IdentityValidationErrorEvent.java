@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.mapping.Table;
 @Data
 @Table
 @ToString(callSuper = true)
-public class IdentityValidationErrorEvent extends AbstractDomainEvent {
+public final class IdentityValidationErrorEvent extends AbstractDomainEvent {
     private String userName;
     private String message;
 }

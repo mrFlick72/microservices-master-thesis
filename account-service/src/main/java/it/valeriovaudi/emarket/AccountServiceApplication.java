@@ -9,12 +9,14 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.cassandra.mapping.SimpleUserTypeResolver;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableEurekaClient
 @SpringBootApplication
 //@EnableLoadTimeWeaving
 //@EnableSpringConfigured
-@EnableCassandraRepositories
+//@EnableCassandraRepositories
+@EnableTransactionManagement
 @EnableConfigurationProperties(CassandraProperties.class)
 public class AccountServiceApplication {
 

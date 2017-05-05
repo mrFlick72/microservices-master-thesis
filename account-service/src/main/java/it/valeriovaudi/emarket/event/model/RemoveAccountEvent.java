@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.mapping.Table;
 @Data
 @Table
 @ToString(callSuper = true)
-public class RemoveAccountEvent  extends AbstractDomainEvent {
+public final class RemoveAccountEvent  extends AbstractDomainEvent {
     private String userName;
 
 }

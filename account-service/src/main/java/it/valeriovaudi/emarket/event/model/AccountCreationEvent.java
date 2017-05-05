@@ -11,6 +11,6 @@ import org.springframework.data.cassandra.mapping.Table;
 @Data
 @Table
 @ToString(callSuper = true)
-public class AccountCreationEvent extends AbstractDomainEvent {
+public final class AccountCreationEvent extends AbstractDomainEvent {
     private String userName;
 }

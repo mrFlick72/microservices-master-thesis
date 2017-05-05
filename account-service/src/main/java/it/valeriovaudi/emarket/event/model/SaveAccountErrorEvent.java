@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.mapping.Table;
 @Data
 @Table
 @ToString(callSuper = true)
-public class SaveAccountErrorEvent extends BaseAccountErrorEvent {
+public final class SaveAccountErrorEvent extends BaseAccountErrorEvent {
     private String userName;
 
 }

@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.mapping.Table;
 @Data
 @Table
 @ToString(callSuper = true)
-public class ChangeAccountPasswordEvent extends AbstractDomainEvent {
+public final class ChangeAccountPasswordEvent extends AbstractDomainEvent {
 
     private String userName;
 

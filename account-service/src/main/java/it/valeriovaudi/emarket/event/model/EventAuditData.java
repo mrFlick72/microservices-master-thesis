@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @UserDefinedType("eventAuditData")
-public class EventAuditData {
+public final class EventAuditData {
 
     private String correlationId;
     private String userName;

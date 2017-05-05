@@ -56,12 +56,24 @@ public class AccountDataValidationServiceImpl implements AccountDataValidationSe
         validateTaxCode("taxCode", taxCode, "AccountDataValidationService.Account.taxCode",errors);
         validateMail("mail", mail, "AccountDataValidationService.Account.mail",errors);
 
-        if(errors.size() > 0){
+        manageError(correlationId,userName,errors);
+    }
+
+    @Override
+    public void validateUserName(String correlationId, String userName) throws AccountValidationException {
+        Map<String, String> errors = new HashMap<>();
+
+        validateNotNullAndNotEmpty("userName", userName, "AccountDataValidationService.Account.userName",errors);
+        manageError(correlationId,userName,errors);
+    }
+
+    private void manageError(String correlationId, String userName, Map<String,String> errors) {
+        if (errors.size() > 0) {
             AccountValidationErrorEvent accountValidationErrorEvent =
                     domainEventFactory.newAccountValidationErrorEvent(correlationId, errors);
             eventDomainPubblishService.publishAccountValidationErrorEvent(correlationId, errors);
             throw new AccountValidationException(accountValidationErrorEvent,
-                    String.format(ACCOUNT_VALIDATION_EXCEPTION_MESSAGE,account.getUserName()));
+                    String.format(ACCOUNT_VALIDATION_EXCEPTION_MESSAGE, userName));
         }
     }
 

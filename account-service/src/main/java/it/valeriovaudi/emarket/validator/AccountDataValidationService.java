@@ -9,4 +9,5 @@ import it.valeriovaudi.emarket.model.Account;
 public interface AccountDataValidationService {
 
     void validate(String correlationId, Account account) throws AccountValidationException;
+    void validateUserName(String correlationId, String userName) throws AccountValidationException;
 }
