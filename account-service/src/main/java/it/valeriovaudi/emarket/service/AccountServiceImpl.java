@@ -55,13 +55,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Account> findAccountList() {
         return accountRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account findAccount(String userName) {
-        return null;
+        return accountRepository.findOne(userName);
     }
 
     @Override
