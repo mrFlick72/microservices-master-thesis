@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class RemoveAccountException extends AbstractAccountException {
+    public static final String DEFAULT_MESSAGE = "delete account error";
     public RemoveAccountException(RemoveAccountErrorEvent event, String msg) {
         super(event, msg);
     }

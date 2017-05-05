@@ -3,6 +3,7 @@ package it.valeriovaudi.emarket.service;
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.event.model.AccountNotFoundEvent;
 import it.valeriovaudi.emarket.event.model.AccountValidationErrorEvent;
+import it.valeriovaudi.emarket.event.model.RemoveAccountErrorEvent;
 import it.valeriovaudi.emarket.event.model.SaveAccountErrorEvent;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
 import it.valeriovaudi.emarket.exception.AccountNotFoundException;
@@ -90,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
         // data validation
         accountDataValidationService.validateUserName(correlationId,userName);
         // delete account
-        accountRepository.delete(userName);
+        doDeleteAccount(correlationId, userName);
         // fire remove account event
         eventDomainPubblishService.publishRemoveAccountEvent(correlationId,userName);
     }
@@ -160,7 +161,13 @@ public class AccountServiceImpl implements AccountService {
 
     private void doDeleteAccount(String correlationId, String userName) throws RemoveAccountException, AccountNotFoundException {
         doCheckAccountExist(correlationId, userName);
-        accountRepository.delete(userName);
+        try{
+            accountRepository.delete(userName);
+        } catch (Exception e){
+            RemoveAccountErrorEvent removeAccountErrorEvent = domainEventFactory.newRemoveAccountErrorEvent(correlationId, userName, RemoveAccountException.DEFAULT_MESSAGE, RemoveAccountException.class);
+            RemoveAccountException removeAccountException = new RemoveAccountException(removeAccountErrorEvent, RemoveAccountException.DEFAULT_MESSAGE);
+            eventDomainPubblishService.publishRemoveAccountErrorEvent(correlationId, userName,RemoveAccountException.DEFAULT_MESSAGE,RemoveAccountException.class);
+            throw removeAccountException;
+        }
     }
-
 }
