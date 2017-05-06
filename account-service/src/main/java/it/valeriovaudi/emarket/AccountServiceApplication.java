@@ -6,15 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.cassandra.mapping.SimpleUserTypeResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableHystrix
 @EnableEurekaClient
 @SpringBootApplication
 //@EnableLoadTimeWeaving
 //@EnableSpringConfigured
-//@EnableCassandraRepositories
 @EnableTransactionManagement
 @EnableConfigurationProperties(CassandraProperties.class)
 public class AccountServiceApplication {

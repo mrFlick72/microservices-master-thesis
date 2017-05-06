@@ -1,6 +1,6 @@
 spring:
   application:
-    name: account-service
+    name: api-gateway-server
   cloud:
     config:
       discovery:

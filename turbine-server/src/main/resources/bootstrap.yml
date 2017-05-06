@@ -1,0 +1,7 @@
+spring:
+ application:
+   name: turbin-stream-server
+
+management:
+  security:
+    enabled: false

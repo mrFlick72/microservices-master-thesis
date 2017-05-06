@@ -1,14 +1,10 @@
 spring:
   application:
-    name: account-service
+    name: router-gateway-server
   cloud:
     config:
       discovery:
         enabled: true
-
-management:
-  security:
-    enabled: false
 
 eureka:
   client:

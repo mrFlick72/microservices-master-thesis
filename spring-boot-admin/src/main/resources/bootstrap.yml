@@ -1,0 +1,18 @@
+spring:
+ application:
+   name: spring-boot-admin
+ boot:
+   admin:
+     turbine:
+       clusters: default
+     routes:
+       endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,activiti,refresh,flyway,liquibase,heapdump,hystrix.stream
+
+management:
+  security:
+    enabled: false
+
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: http://localhost:8761/eureka/
