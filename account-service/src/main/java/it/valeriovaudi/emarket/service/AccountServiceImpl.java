@@ -97,27 +97,25 @@ public class AccountServiceImpl implements AccountService {
 
     private Account doSaveAccountData(String correlationId, Account account, boolean checkDuplicate) throws SaveAccountException {
         Account accountAux = account;
-        SaveAccountException saveAccountException;
         ConflictSaveAccountException conflictSaveAccountException = null;
         SaveAccountErrorEvent saveAccountErrorEvent;
         try{
-            Account one = accountRepository.findOne(account.getUserName());
-            if(one == null){
-                accountAux = accountRepository.saveAndFlush(account);
-            } else {
-                if(checkDuplicate) {
+            if(checkDuplicate){
+                Account one = accountRepository.findOne(account.getUserName());
+                if(one == null){
+                    accountAux = accountRepository.saveAndFlush(account);
+                } else {
                     saveAccountErrorEvent = eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
                             ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
                     conflictSaveAccountException = new ConflictSaveAccountException(saveAccountErrorEvent, ConflictSaveAccountException.DEFAULT_MESSAGE);
                 }
+            }else {
+                accountAux = accountRepository.saveAndFlush(account);
             }
-
         } catch (Exception e){
              saveAccountErrorEvent = eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
                      SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
-             saveAccountException = new SaveAccountException(saveAccountErrorEvent, SaveAccountException.DEFAULT_MESSAGE);
-
-            throw saveAccountException;
+            throw new SaveAccountException(saveAccountErrorEvent, SaveAccountException.DEFAULT_MESSAGE);
         }
 
         if(conflictSaveAccountException!= null){
@@ -127,7 +125,7 @@ public class AccountServiceImpl implements AccountService {
         return accountAux;
     }
 
-    private Account doCheckAccountExist(String correlationId, String userName) throws AccountNotFoundException {
+    private void doCheckAccountExist(String correlationId, String userName) throws AccountNotFoundException {
         Account accountAux;
 
         Function<String, AccountNotFoundException> f =(userNameAux) -> {
@@ -143,8 +141,6 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e){
             throw f.apply(userName);
         }
-
-        return accountAux;
     }
 
     private void doDeleteAccount(String correlationId, String userName) throws RemoveAccountException, AccountNotFoundException {

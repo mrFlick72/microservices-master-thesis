@@ -19,7 +19,6 @@ public class Account {
     @Id
     private String userName;
 
-    @JsonIgnore
     private String password;
 
     private String mail;
