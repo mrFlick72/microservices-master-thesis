@@ -1,6 +1,10 @@
 spring:
  application:
-   name: turbin-stream-server
+   name: turbine-stream-server
+ cloud:
+  config:
+   discovery:
+    enabled: true
 
 management:
   security:

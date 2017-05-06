@@ -19,6 +19,8 @@
 	</parent>
 
 	<properties>
+		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
+		<spring.boot.admin.version>1.5.0</spring.boot.admin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -50,17 +52,17 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server</artifactId>
-			<version>1.4.6</version>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
-			<version>1.4.6</version>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui-activiti</artifactId>
-			<version>1.4.6</version>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
@@ -87,6 +89,18 @@
 		</dependency>
 		<!-- end test dependencies -->
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
