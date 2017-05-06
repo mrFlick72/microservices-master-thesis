@@ -1,14 +1,13 @@
 package it.valeriovaudi.emarket.exception;
 
-import lombok.Getter;
-import org.springframework.core.NestedRuntimeException;
 import it.valeriovaudi.emarket.event.model.AbstractDomainEvent;
+import lombok.Getter;
 
 /**
  * Created by mrflick72 on 04/05/17.
  */
 @Getter
-public abstract class AbstractAccountException extends NestedRuntimeException {
+public abstract class AbstractAccountException extends RuntimeException {
 
     protected final AbstractDomainEvent event;
 

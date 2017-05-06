@@ -4,56 +4,44 @@ import it.valeriovaudi.emarket.event.config.EventMessageChannels;
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.event.model.*;
 import it.valeriovaudi.emarket.event.repository.*;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.processing.Processor;
 import java.util.Map;
 
 /**
  * Created by mrflick72 on 04/05/17.
  */
 
+@Data
 @Service
 @EnableBinding(EventMessageChannels.class)
 public class EventDomainPubblishService {
 
-    private final  DomainEventFactory domainEventFactory;
-
-    private final AccountCreationEventRepository accountCreationEventRepository;
-    private final AccountNotFoundEventRepository accountNotFoundEventRepository;
-    private final AccountValidationErrorEventRepository accountValidationErrorEventRepository;
-    private final ChangeAccountPasswordEventRepository changeAccountPasswordEventRepository;
-    private final IdentityValidationErrorEventRepository identityValidationErrorEventRepository;
-    private final RemoveAccountErrorEventRepository removeAccountErrorEventRepository;
-    private final RemoveAccountEventRepository removeAccountEventRepository;
-    private final SaveAccountErrorEventRepository saveAccountErrorEventRepository;
-
-    private final SubscribableChannel accountEventOutboundChannel;
-
-    public EventDomainPubblishService(DomainEventFactory domainEventFactory,
-                                      AccountCreationEventRepository accountCreationEventRepository,
-                                      AccountNotFoundEventRepository accountNotFoundEventRepository,
-                                      AccountValidationErrorEventRepository accountValidationErrorEventRepository,
-                                      ChangeAccountPasswordEventRepository changeAccountPasswordEventRepository,
-                                      IdentityValidationErrorEventRepository identityValidationErrorEventRepository,
-                                      RemoveAccountErrorEventRepository removeAccountErrorEventRepository,
-                                      RemoveAccountEventRepository removeAccountEventRepository,
-                                      SaveAccountErrorEventRepository saveAccountErrorEventRepository,
-                                      SubscribableChannel accountEventOutboundChannel) {
-        this.domainEventFactory = domainEventFactory;
-        this.accountCreationEventRepository = accountCreationEventRepository;
-        this.accountNotFoundEventRepository = accountNotFoundEventRepository;
-        this.accountValidationErrorEventRepository = accountValidationErrorEventRepository;
-        this.changeAccountPasswordEventRepository = changeAccountPasswordEventRepository;
-        this.identityValidationErrorEventRepository = identityValidationErrorEventRepository;
-        this.removeAccountErrorEventRepository = removeAccountErrorEventRepository;
-        this.removeAccountEventRepository = removeAccountEventRepository;
-        this.saveAccountErrorEventRepository = saveAccountErrorEventRepository;
-        this.accountEventOutboundChannel = accountEventOutboundChannel;
-    }
+    @Autowired
+    private DomainEventFactory domainEventFactory;
+    @Autowired
+    private AccountCreationEventRepository accountCreationEventRepository;
+    @Autowired
+    private AccountNotFoundEventRepository accountNotFoundEventRepository;
+    @Autowired
+    private AccountValidationErrorEventRepository accountValidationErrorEventRepository;
+    @Autowired
+    private ChangeAccountPasswordEventRepository changeAccountPasswordEventRepository;
+    @Autowired
+    private IdentityValidationErrorEventRepository identityValidationErrorEventRepository;
+    @Autowired
+    private RemoveAccountErrorEventRepository removeAccountErrorEventRepository;
+    @Autowired
+    private RemoveAccountEventRepository removeAccountEventRepository;
+    @Autowired
+    private SaveAccountErrorEventRepository saveAccountErrorEventRepository;
+    @Autowired
+    private SubscribableChannel accountEventOutboundChannel;
 
     public AccountCreationEvent publishAccountCreationEvent(String correlationId, String userName){
         AccountCreationEvent event = domainEventFactory.newAccountCreationEvent(correlationId, userName);

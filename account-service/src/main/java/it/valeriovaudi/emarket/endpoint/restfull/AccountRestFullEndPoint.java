@@ -3,6 +3,8 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 import it.valeriovaudi.emarket.hatoas.AccountHatoasFactory;
 import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.service.AccountService;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -11,18 +13,15 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
  * Created by mrflick72 on 03/05/17.
  */
 
+@Data
 @RestController
 @RequestMapping("/account")
 public class AccountRestFullEndPoint {
 
-    private final AccountService accountService;
-    private final AccountHatoasFactory accountHatoasFactory;
-
-    public AccountRestFullEndPoint(AccountService accountService,
-                                   AccountHatoasFactory accountHatoasFactory) {
-        this.accountService = accountService;
-        this.accountHatoasFactory = accountHatoasFactory;
-    }
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private AccountHatoasFactory accountHatoasFactory;
 
     @PostMapping
     public ResponseEntity createAccount(@RequestBody Account account){

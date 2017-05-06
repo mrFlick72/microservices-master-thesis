@@ -2,7 +2,10 @@ package it.valeriovaudi.emarket.hatoas;
 
 import it.valeriovaudi.emarket.endpoint.restfull.AccountRestFullEndPoint;
 import it.valeriovaudi.emarket.model.Account;
-import org.springframework.hateoas.*;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.UriTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

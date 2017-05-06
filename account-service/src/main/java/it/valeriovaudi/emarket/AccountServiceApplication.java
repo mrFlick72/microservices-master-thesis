@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.cassandra.mapping.SimpleUserTypeResolver;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableEurekaClient

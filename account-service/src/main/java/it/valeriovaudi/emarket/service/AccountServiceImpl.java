@@ -1,8 +1,6 @@
 package it.valeriovaudi.emarket.service;
 
-import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.event.model.AccountNotFoundEvent;
-import it.valeriovaudi.emarket.event.model.AccountValidationErrorEvent;
 import it.valeriovaudi.emarket.event.model.RemoveAccountErrorEvent;
 import it.valeriovaudi.emarket.event.model.SaveAccountErrorEvent;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
@@ -13,6 +11,8 @@ import it.valeriovaudi.emarket.exception.SaveAccountException;
 import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.repository.AccountRepository;
 import it.valeriovaudi.emarket.validator.AccountDataValidationService;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,21 +23,17 @@ import java.util.function.Function;
 /**
  * Created by mrflick72 on 04/05/17.
  */
+@Data
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountDataValidationService accountDataValidationService;
-    private final EventDomainPubblishService eventDomainPubblishService;
-    private final AccountRepository accountRepository;
-
-    public AccountServiceImpl(AccountDataValidationService accountDataValidationService,
-                              EventDomainPubblishService eventDomainPubblishService,
-                              AccountRepository accountRepository) {
-        this.accountDataValidationService = accountDataValidationService;
-        this.eventDomainPubblishService = eventDomainPubblishService;
-        this.accountRepository = accountRepository;
-    }
+    @Autowired
+    private AccountDataValidationService accountDataValidationService;
+    @Autowired
+    private EventDomainPubblishService eventDomainPubblishService;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Override
     public Account createAccount(Account account) {
@@ -95,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
         eventDomainPubblishService.publishRemoveAccountEvent(correlationId,userName);
     }
 
-    private Account doSaveAccountData(String correlationId, Account account, boolean checkDuplicate) throws SaveAccountException {
+    private Account doSaveAccountData(String correlationId, Account account, boolean checkDuplicate) {
         Account accountAux = account;
         ConflictSaveAccountException conflictSaveAccountException = null;
         SaveAccountErrorEvent saveAccountErrorEvent;
@@ -125,7 +121,7 @@ public class AccountServiceImpl implements AccountService {
         return accountAux;
     }
 
-    private void doCheckAccountExist(String correlationId, String userName) throws AccountNotFoundException {
+    private void doCheckAccountExist(String correlationId, String userName) {
         Account accountAux;
 
         Function<String, AccountNotFoundException> f =(userNameAux) -> {
@@ -143,7 +139,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    private void doDeleteAccount(String correlationId, String userName) throws RemoveAccountException, AccountNotFoundException {
+    private void doDeleteAccount(String correlationId, String userName) {
         doCheckAccountExist(correlationId, userName);
         try{
             accountRepository.delete(userName);
