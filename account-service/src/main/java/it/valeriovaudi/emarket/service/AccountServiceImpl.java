@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
         // data validation
         accountDataValidationService.validate(correlationId, account);
         // save account
-        Account save = doSaveAccountData(correlationId, account);
+        Account save = doSaveAccountData(correlationId, account, true);
         // fire save account event
         eventDomainPubblishService.publishAccountCreationEvent(correlationId, save.getUserName());
         return save;
@@ -77,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
         doCheckAccountExist(correlationId, account.getUserName());
 
         // save account
-        Account save = doSaveAccountData(correlationId, account);
+        Account save = doSaveAccountData(correlationId, account, false);
 
         if(!account.getPassword().equals(save.getPassword())){
             // fire change password account event
@@ -98,23 +98,24 @@ public class AccountServiceImpl implements AccountService {
         eventDomainPubblishService.publishRemoveAccountEvent(correlationId,userName);
     }
 
-    private Account doSaveAccountData(String correlationId, Account account) throws SaveAccountException {
-        Account accountAux = null;
-        SaveAccountException saveAccountException = null;
+    private Account doSaveAccountData(String correlationId, Account account, boolean checkDuplicate) throws SaveAccountException {
+        Account accountAux = account;
+        SaveAccountException saveAccountException;
         ConflictSaveAccountException conflictSaveAccountException = null;
         SaveAccountErrorEvent saveAccountErrorEvent;
         try{
             Account one = accountRepository.findOne(account.getUserName());
             if(one == null){
-                accountAux = accountRepository.save(account);
+                accountAux = accountRepository.saveAndFlush(account);
             } else {
-                 saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
-                         ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
+                if(checkDuplicate){
+                    saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
+                            ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
 
-                conflictSaveAccountException = new ConflictSaveAccountException(saveAccountErrorEvent, ConflictSaveAccountException.DEFAULT_MESSAGE);
-                eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
-                        ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
-
+                    conflictSaveAccountException = new ConflictSaveAccountException(saveAccountErrorEvent, ConflictSaveAccountException.DEFAULT_MESSAGE);
+                    eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
+                            ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
+                }
             }
 
         } catch (Exception e){
@@ -130,10 +131,6 @@ public class AccountServiceImpl implements AccountService {
 
         if(conflictSaveAccountException!= null){
             throw conflictSaveAccountException;
-        }
-
-        if(saveAccountException != null){
-            throw saveAccountException;
         }
 
         return accountAux;

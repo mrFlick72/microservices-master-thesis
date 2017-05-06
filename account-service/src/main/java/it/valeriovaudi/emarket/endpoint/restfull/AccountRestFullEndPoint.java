@@ -1,13 +1,11 @@
 package it.valeriovaudi.emarket.endpoint.restfull;
 
+import it.valeriovaudi.emarket.hatoas.AccountHatoasFactory;
 import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.service.AccountService;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import java.util.Optional;
 
 /**
  * Created by mrflick72 on 03/05/17.
@@ -18,9 +16,12 @@ import java.util.Optional;
 public class AccountRestFullEndPoint {
 
     private final AccountService accountService;
+    private final AccountHatoasFactory accountHatoasFactory;
 
-    public AccountRestFullEndPoint(AccountService accountService) {
+    public AccountRestFullEndPoint(AccountService accountService,
+                                   AccountHatoasFactory accountHatoasFactory) {
         this.accountService = accountService;
+        this.accountHatoasFactory = accountHatoasFactory;
     }
 
     @PostMapping
@@ -33,12 +34,12 @@ public class AccountRestFullEndPoint {
 
     @GetMapping
     public ResponseEntity findAccountList(){
-        return ResponseEntity.ok(accountService.findAccountList());
+        return ResponseEntity.ok(accountHatoasFactory.toResources(accountService.findAccountList()));
     }
 
     @GetMapping("/{userName}")
     public ResponseEntity findAccount(@PathVariable String userName){
-        return ResponseEntity.ok(accountService.findAccount(userName));
+        return ResponseEntity.ok(accountHatoasFactory.toResource(accountService.findAccount(userName)));
     }
 
     @PutMapping("/{userName}")

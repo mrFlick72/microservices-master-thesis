@@ -1,9 +1,11 @@
 package it.valeriovaudi.emarket.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -17,13 +19,14 @@ public class Account {
     @Id
     private String userName;
 
+    @JsonIgnore
     private String password;
 
     private String mail;
 
     private String role;
 
-    @Column(unique = true, length = 16)
+    @Column(length = 16)
     private String taxCode;
 
     private String firstName;
