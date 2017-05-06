@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.security.Principal;
+
 /**
  * Created by mrflick72 on 03/05/17.
  */
@@ -61,4 +63,9 @@ public class AccountRestFullEndPoint {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/userInfo")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+    public Principal userInfo(Principal principal){
+        return principal;
+    }
 }
