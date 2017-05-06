@@ -70,8 +70,7 @@ public class AccountDataValidationServiceImpl implements AccountDataValidationSe
     private void manageError(String correlationId, String userName, Map<String,String> errors) {
         if (errors.size() > 0) {
             AccountValidationErrorEvent accountValidationErrorEvent =
-                    domainEventFactory.newAccountValidationErrorEvent(correlationId, errors);
-            eventDomainPubblishService.publishAccountValidationErrorEvent(correlationId, errors);
+                    eventDomainPubblishService.publishAccountValidationErrorEvent(correlationId, errors);
             throw new AccountValidationException(accountValidationErrorEvent,
                     String.format(ACCOUNT_VALIDATION_EXCEPTION_MESSAGE, userName));
         }

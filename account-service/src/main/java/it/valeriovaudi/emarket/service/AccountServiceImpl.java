@@ -28,16 +28,13 @@ import java.util.function.Function;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountDataValidationService accountDataValidationService;
-    private final DomainEventFactory domainEventFactory;
     private final EventDomainPubblishService eventDomainPubblishService;
     private final AccountRepository accountRepository;
 
     public AccountServiceImpl(AccountDataValidationService accountDataValidationService,
-                              DomainEventFactory domainEventFactory,
                               EventDomainPubblishService eventDomainPubblishService,
                               AccountRepository accountRepository) {
         this.accountDataValidationService = accountDataValidationService;
-        this.domainEventFactory = domainEventFactory;
         this.eventDomainPubblishService = eventDomainPubblishService;
         this.accountRepository = accountRepository;
     }
@@ -108,23 +105,17 @@ public class AccountServiceImpl implements AccountService {
             if(one == null){
                 accountAux = accountRepository.saveAndFlush(account);
             } else {
-                if(checkDuplicate){
-                    saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
+                if(checkDuplicate) {
+                    saveAccountErrorEvent = eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
                             ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
-
                     conflictSaveAccountException = new ConflictSaveAccountException(saveAccountErrorEvent, ConflictSaveAccountException.DEFAULT_MESSAGE);
-                    eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
-                            ConflictSaveAccountException.DEFAULT_MESSAGE, ConflictSaveAccountException.class);
                 }
             }
 
         } catch (Exception e){
-             saveAccountErrorEvent = domainEventFactory.newSaveAccountErrorEvent(correlationId, account.getUserName(),
-                    SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
-
+             saveAccountErrorEvent = eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
+                     SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
              saveAccountException = new SaveAccountException(saveAccountErrorEvent, SaveAccountException.DEFAULT_MESSAGE);
-            eventDomainPubblishService.publishSaveAccountErrorEvent(correlationId, account.getUserName(),
-                    SaveAccountException.DEFAULT_MESSAGE, SaveAccountException.class);
 
             throw saveAccountException;
         }
@@ -140,10 +131,8 @@ public class AccountServiceImpl implements AccountService {
         Account accountAux;
 
         Function<String, AccountNotFoundException> f =(userNameAux) -> {
-            AccountNotFoundEvent accountNotFoundEvent = domainEventFactory.newAccountNotFoundEvent(correlationId, userNameAux);
-            AccountNotFoundException accountNotFoundException = new AccountNotFoundException(accountNotFoundEvent, AccountNotFoundException.DEFAULT_MESSAGE);
-            eventDomainPubblishService.publishAccountNotFoundEvent(correlationId, userNameAux);
-            return accountNotFoundException;
+            AccountNotFoundEvent accountNotFoundEvent = eventDomainPubblishService.publishAccountNotFoundEvent(correlationId, userNameAux);
+            return new AccountNotFoundException(accountNotFoundEvent, AccountNotFoundException.DEFAULT_MESSAGE);
         };
 
         try{
@@ -163,10 +152,8 @@ public class AccountServiceImpl implements AccountService {
         try{
             accountRepository.delete(userName);
         } catch (Exception e){
-            RemoveAccountErrorEvent removeAccountErrorEvent = domainEventFactory.newRemoveAccountErrorEvent(correlationId, userName, RemoveAccountException.DEFAULT_MESSAGE, RemoveAccountException.class);
-            RemoveAccountException removeAccountException = new RemoveAccountException(removeAccountErrorEvent, RemoveAccountException.DEFAULT_MESSAGE);
-            eventDomainPubblishService.publishRemoveAccountErrorEvent(correlationId, userName,RemoveAccountException.DEFAULT_MESSAGE,RemoveAccountException.class);
-            throw removeAccountException;
+            RemoveAccountErrorEvent removeAccountErrorEvent = eventDomainPubblishService.publishRemoveAccountErrorEvent(correlationId, userName,RemoveAccountException.DEFAULT_MESSAGE,RemoveAccountException.class);
+            throw new RemoveAccountException(removeAccountErrorEvent, RemoveAccountException.DEFAULT_MESSAGE);
         }
     }
 }
