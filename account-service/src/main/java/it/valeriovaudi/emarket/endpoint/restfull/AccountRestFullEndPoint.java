@@ -1,5 +1,7 @@
 package it.valeriovaudi.emarket.endpoint.restfull;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.hatoas.AccountHatoasFactory;
 import it.valeriovaudi.emarket.model.Account;
 import it.valeriovaudi.emarket.service.AccountService;
@@ -24,6 +26,7 @@ public class AccountRestFullEndPoint {
     private AccountHatoasFactory accountHatoasFactory;
 
     @PostMapping
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity createAccount(@RequestBody Account account){
         Account savedAccount = accountService.createAccount(account);
         return ResponseEntity.created(MvcUriComponentsBuilder
@@ -32,16 +35,19 @@ public class AccountRestFullEndPoint {
     }
 
     @GetMapping
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findAccountList(){
         return ResponseEntity.ok(accountHatoasFactory.toResources(accountService.findAccountList()));
     }
 
     @GetMapping("/{userName}")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findAccount(@PathVariable String userName){
         return ResponseEntity.ok(accountHatoasFactory.toResource(accountService.findAccount(userName)));
     }
 
     @PutMapping("/{userName}")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity updateAccount(@PathVariable String userName, @RequestBody Account account){
         account.setUserName(userName);
         accountService.updateAccount(account);
@@ -49,6 +55,7 @@ public class AccountRestFullEndPoint {
     }
 
     @DeleteMapping("/{userName}")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deleteAccount(@PathVariable String userName){
         accountService.deleteAccount(userName);
         return ResponseEntity.noContent().build();
