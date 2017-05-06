@@ -124,7 +124,7 @@ public class AccountServiceImpl implements AccountService {
     private void doCheckAccountExist(String correlationId, String userName) {
         Account accountAux;
 
-        Function<String, AccountNotFoundException> f =(userNameAux) -> {
+        Function<String, AccountNotFoundException> f = userNameAux -> {
             AccountNotFoundEvent accountNotFoundEvent = eventDomainPubblishService.publishAccountNotFoundEvent(correlationId, userNameAux);
             return new AccountNotFoundException(accountNotFoundEvent, AccountNotFoundException.DEFAULT_MESSAGE);
         };
