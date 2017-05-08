@@ -21,11 +21,8 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    private final AccountUserDetailsService accountUserDetailsService;
-
-    public SecurityOAuth2AutorizationServerConfig(AccountUserDetailsService accountUserDetailsService) {
-        this.accountUserDetailsService = accountUserDetailsService;
-    }
+    @Autowired
+    private AccountUserDetailsService accountUserDetailsService;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -34,11 +31,11 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
                 .userDetailsService(accountUserDetailsService);
     }
 
-
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
+//                .and().formLogin().failureUrl("/login");
                 .allowFormAuthenticationForClients();
     }
 
