@@ -45,12 +45,14 @@ public class AccountRestFullEndPoint {
     }
 
     @GetMapping("/{userName}")
+    @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findAccount(@PathVariable String userName){
         return ResponseEntity.ok(accountHateoasFactory.toResource(accountService.findAccount(userName)));
     }
 
     @PutMapping("/{userName}")
+    @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity updateAccount(@PathVariable String userName, @RequestBody Account account){
         account.setUserName(userName);
@@ -59,6 +61,7 @@ public class AccountRestFullEndPoint {
     }
 
     @DeleteMapping("/{userName}")
+    @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deleteAccount(@PathVariable String userName){
         accountService.deleteAccount(userName);
