@@ -50,6 +50,19 @@
 		</dependency>
 		<!-- end cache dependencies -->
 
+
+		<!-- start cloud security dependencies -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+		</dependency>
+		<!-- end cloud security dependencies-->
+
 		<!-- start cloud dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

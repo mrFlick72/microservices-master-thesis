@@ -48,16 +48,19 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
                 .scopes("read", "write", "trust")
                 .resourceIds("oauth2-resource")
                 .autoApprove(true)
+                .redirectUris("http://localhost:5050/v1/account-service/login")
                 .accessTokenValiditySeconds(600);
-		/*
-				.and()
+
+				/*.and()
 				.withClient("my-client-with-registered-redirect")
 				.authorizedGrantTypes("authorization_code")
 				.authorities("ROLE_CLIENT", "ROLE_USER")
 				.scopes("read", "trust")
-				.scopes("read", "trust")
+                .autoApprove(true)
+                .accessTokenValiditySeconds(600)
 				.resourceIds("oauth2-resource")
 				.redirectUris("http://localhost:9090/login")
+
 				.and()
 				.withClient("my-client-with-secret")
 				.authorizedGrantTypes("client_credentials", "password")

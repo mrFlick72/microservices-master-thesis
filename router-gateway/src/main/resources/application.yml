@@ -1,0 +1,38 @@
+
+server:
+  use-forward-headers: true
+
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: my-trusted-client
+      clientSecret:
+      scope: read,write,trust
+      accessTokenUri: http://localhost:5050/v1/account-service/oauth/access_token
+      clientAuthenticationScheme: form
+      auto-approve-scopes: read
+      id: my-trusted-client
+      authorized-grant-types:
+        - client_credentials
+        - password
+        - authorization_code
+        - refresh_token
+        - implicit
+      registered-redirect-uri: http://localhost:5050/v1/account-service/account/login
+    resource:
+      filter-order: 3
+      userInfoUri: http://localhost:5050/v1/account-service/account/userInfo
+      preferTokenInfo: false
+    sso:
+      login-path: /login
+      filter-order: 3
+    authorization:
+
+      check-token-access: http://localhost:5050/v1/account-service/oauth/authorize
+zuul:
+  sensitiveHeaders:
+  add-host-header: true
+  ignore-security-headers: false

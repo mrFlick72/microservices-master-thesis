@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: account-managment
+
+server:
+  use-forward-headers: true
+
+
+security:
+  basic:
+    enabled: false
