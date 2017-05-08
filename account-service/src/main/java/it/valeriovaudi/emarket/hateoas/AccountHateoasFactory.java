@@ -1,4 +1,4 @@
-package it.valeriovaudi.emarket.hatoas;
+package it.valeriovaudi.emarket.hateoas;
 
 import it.valeriovaudi.emarket.endpoint.restfull.AccountRestFullEndPoint;
 import it.valeriovaudi.emarket.model.Account;
@@ -17,7 +17,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  */
 
 @Component
-public class AccountHatoasFactory{
+public class AccountHateoasFactory {
 
     public Resource<Account> toResource(Account account) {
         Resource<Account> accountResource = new Resource<>(account);
