@@ -8,6 +8,7 @@ import it.valeriovaudi.emarket.service.AccountService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
@@ -37,6 +38,7 @@ public class AccountRestFullEndPoint {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findAccountList(){
         return ResponseEntity.ok(accountHateoasFactory.toResources(accountService.findAccountList()));
