@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
@@ -16,11 +17,12 @@ import java.util.List;
 @Document
 public class PriceList implements Serializable {
 
-
     @Id
     private String id;
-
     private String name;
+
+    @Version
+    private Long version;
 
     private List<GoodsInPriceList> goodsInPriceList;
 }

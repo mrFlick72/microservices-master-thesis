@@ -20,7 +20,7 @@ public interface GoodsService {
     Goods saveCategoryAttributeValue(String idGoods, GoodsAttributeSchema goodsAttributeSchema);
     Goods removeCategoryAttributeValue(String idGoods, GoodsAttributeSchema goodsAttributeSchema);
 
-    Goods updateGoods(Goods account);
+    Goods updateGoods(Goods goods);
 
     void deleteGoods(String idGoods);
 }

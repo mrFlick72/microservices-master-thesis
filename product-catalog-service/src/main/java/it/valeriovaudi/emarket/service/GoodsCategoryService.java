@@ -15,15 +15,13 @@ public interface GoodsCategoryService {
 
     List<GoodsCategory> findGoodsCategoryList();
 
-    GoodsCategory findGoodsCategoryList(String idGoods);
-
     GoodsCategory findGoodsCategory(String idGoodsCategory);
 
     GoodsCategory saveCategoryAttributeSchema(String idGoodsCategory, GoodsAttributeSchema goodsAttributeSchema);
 
     GoodsCategory removeCategoryAttributeSchema(String goodsCategoryName, GoodsAttributeSchema goodsAttributeSchema);
 
-    GoodsCategory updateGoods(GoodsCategory account);
+    GoodsCategory updateGoods(GoodsCategory goodsCategory);
 
     void deleteGoodsCategory(String idGoodsCategory);
 }

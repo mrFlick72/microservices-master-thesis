@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,9 +21,14 @@ import java.util.List;
 public class Goods implements Serializable {
 
     @Id
+    private String id;
+
     private String barCode;
     private String name;
     private String description;
+
+    @Version
+    private Long version;
 
     @DBRef
     private GoodsCategory goodsCategory;

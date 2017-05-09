@@ -1,6 +1,8 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  */
 
 @Data
+@EqualsAndHashCode
 public class GoodsAttributeSchema implements Serializable {
     private String name;
     private String type;
