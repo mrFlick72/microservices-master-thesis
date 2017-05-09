@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 

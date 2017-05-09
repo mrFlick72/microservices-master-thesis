@@ -2,7 +2,6 @@ package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.model.GoodsAttributeSchema;
-import it.valeriovaudi.emarket.model.GoodsCategory;
 import it.valeriovaudi.emarket.repository.GoodsCategoryRepository;
 import it.valeriovaudi.emarket.repository.GoodsRepository;
 import lombok.Data;

@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 import java.io.Serializable;
 import java.util.List;
 

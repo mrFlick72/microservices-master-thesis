@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.service;
 
-import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.model.PriceList;
+
 import java.math.BigDecimal;
 import java.util.List;
 
