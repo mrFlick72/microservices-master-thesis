@@ -1,6 +1,6 @@
 spring:
   application:
-    name: account-managment
+    name: account-management-web-site
 
 server:
   use-forward-headers: true

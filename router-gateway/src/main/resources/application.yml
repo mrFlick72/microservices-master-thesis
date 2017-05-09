@@ -2,7 +2,6 @@
 server:
   use-forward-headers: true
 
-
 security:
   basic:
     enabled: false
@@ -30,9 +29,16 @@ security:
       login-path: /login
       filter-order: 3
     authorization:
-
       check-token-access: http://localhost:5050/v1/account-service/oauth/authorize
+
 zuul:
+  ignoredServices: '*'
   sensitiveHeaders:
   add-host-header: true
   ignore-security-headers: false
+  routes:
+    goods-management-web-site: /goods-management/**
+    account-management-web-site: /account-management/**
+management:
+  security:
+    enabled: false
