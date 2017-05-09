@@ -1,13 +1,14 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 import java.io.Serializable;
 import java.util.List;
+
 
 /**
  * Created by mrflick72 on 09/05/17.
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Data
-@Entity
+@Document
 public class Goods implements Serializable {
 
     @Id
@@ -23,9 +24,8 @@ public class Goods implements Serializable {
     private String name;
     private String description;
 
-    @OneToOne
+    @DBRef
     private GoodsCategory goodsCategory;
 
-    @OneToMany
     private List<GoodsAttributeValue> goodsAttributeValues;
 }

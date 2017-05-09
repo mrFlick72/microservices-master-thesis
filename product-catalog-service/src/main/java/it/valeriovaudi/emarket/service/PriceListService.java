@@ -11,17 +11,16 @@ import java.util.List;
 
 
 public interface PriceListService {
-
     PriceList createPriceList(String name);
 
     List<PriceList> findPriceLists();
 
-    PriceList findPriceList(Long id);
+    PriceList findPriceList(String priceListId);
 
-    PriceList saveGoodsInPriceList(Long priceListId, Goods goods, BigDecimal price);
-    PriceList removeGoodsInPriceList(Long priceListId, String goodsBarCode);
+    PriceList saveGoodsInPriceList(String priceListId, String goodsId, BigDecimal price);
+    PriceList removeGoodsInPriceList(String priceListId, String goodsId);
 
     PriceList updatePriceList(PriceList priceList);
 
-    void deleteGoods(String barCode);
+    void deletePriceList(String priceListId);
 }
