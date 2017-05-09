@@ -1,0 +1,26 @@
+security:
+   oauth2:
+     client:
+       clientId: my-trusted-client
+       clientSecret:
+       accessTokenUri: http://localhost:5050/v1/account-service/oauth/access_token
+       userAuthorizationUri: http://localhost:5050/v1/account-service/oauth/authorize
+       clientAuthenticationScheme: form
+     resource:
+       userInfoUri: http://localhost:5050/v1/account-service/account/userInfo
+       preferTokenInfo: false
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/product_catalog_service
+    username: root
+    password: root
+    maximum-pool-size: 20
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  use-forward-headers: true
