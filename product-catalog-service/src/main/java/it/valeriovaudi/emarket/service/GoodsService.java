@@ -1,9 +1,6 @@
 package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.model.Goods;
-import it.valeriovaudi.emarket.model.GoodsAttributeSchema;
-import it.valeriovaudi.emarket.model.GoodsAttributeValue;
-
 import java.util.List;
 
 /**
@@ -14,12 +11,12 @@ public interface GoodsService {
     Goods createGoods(Goods goods);
 
     List<Goods> findGoodsList();
-    List<Goods> findGoodsList(String idGoodsCategory);
+    List<Goods> findGoodsList(String category);
 
     Goods findGoods(String idGoods);
 
-    Goods saveCategoryAttributeValue(String idGoods, GoodsAttributeValue goodsAttributeValue);
-    Goods removeCategoryAttributeValue(String idGoods, GoodsAttributeValue goodsAttributeValue);
+    Goods saveGoodsAttributeValue(String idGoods, String goodsAttributeKey, String goodsAttributeValue);
+    Goods removeGoodsAttributeValue(String idGoods, String goodsAttributeKey);
 
     Goods updateGoods(Goods goods);
 

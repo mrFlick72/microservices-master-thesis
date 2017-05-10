@@ -4,11 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,12 +26,10 @@ public class Goods implements Serializable {
     private String barCode;
     private String name;
     private String description;
+    private String category;
 
     @Version
     private Long version;
 
-    @DBRef
-    private GoodsCategory goodsCategory;
-
-    private List<GoodsAttributeValue> goodsAttributeValues;
+    private Map<String, String> goodsAttribute;
 }
