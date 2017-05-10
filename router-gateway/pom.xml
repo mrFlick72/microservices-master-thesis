@@ -46,7 +46,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-redis</artifactId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		<!-- end cache dependencies -->
 
@@ -61,7 +61,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>-->
-		<!-- end cloud security dependencies-->
+		<!-- end cloud security dependencies -->
 
 		<!-- start cloud dependencies -->
 		<dependency>

@@ -94,7 +94,7 @@
 		<!-- start cloud security dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-starter-security</artifactId>
+			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
 
 		<dependency>
