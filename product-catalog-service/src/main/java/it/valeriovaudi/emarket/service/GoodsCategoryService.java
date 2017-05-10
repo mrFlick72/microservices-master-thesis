@@ -10,7 +10,6 @@ import java.util.List;
  */
 
 public interface GoodsCategoryService {
-
     GoodsCategory createGoodsCategory(GoodsCategory goodsCategory);
 
     List<GoodsCategory> findGoodsCategoryList();

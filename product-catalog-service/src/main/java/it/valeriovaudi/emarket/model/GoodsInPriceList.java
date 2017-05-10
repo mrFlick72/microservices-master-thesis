@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
  */
 
 @Data
+@EqualsAndHashCode(of = "goods")
 public class GoodsInPriceList implements Serializable {
 
     @DBRef
