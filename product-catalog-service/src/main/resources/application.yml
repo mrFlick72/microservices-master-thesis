@@ -16,7 +16,7 @@ spring:
       keyspace-name: productCatalogEventKeyspace
       schema-action: create_if_not_exists
     mongodb:
-      database: product-catalog
+      database: product_catalog
 
 server:
   use-forward-headers: true

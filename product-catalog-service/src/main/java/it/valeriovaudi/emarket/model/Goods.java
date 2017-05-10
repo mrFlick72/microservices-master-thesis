@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Data
 @Document
-@EqualsAndHashCode(of = "id")
+@ToString
 public class Goods implements Serializable {
 
     @Id

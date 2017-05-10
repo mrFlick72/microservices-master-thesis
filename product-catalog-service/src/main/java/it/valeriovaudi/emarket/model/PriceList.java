@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Data
 @Document
+@ToString
 public class PriceList implements Serializable {
 
     @Id

@@ -57,7 +57,6 @@ public class GoodsServiceImpl implements GoodsService {
         return goods;
     }
 
-
     @Override
     public Goods updateGoods(Goods goods) {
         return goodsRepository.save(goods);
@@ -67,6 +66,5 @@ public class GoodsServiceImpl implements GoodsService {
     public void deleteGoods(String idGoods) {
         goodsRepository.delete(idGoods);
     }
-
 
 }
