@@ -3,7 +3,9 @@ package it.valeriovaudi.emarket.service;
 import it.valeriovaudi.emarket.event.model.GoodsErrorEvent;
 import it.valeriovaudi.emarket.event.model.GoodsEventTypeEnum;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
+import it.valeriovaudi.emarket.exception.ConflictSaveGoodsException;
 import it.valeriovaudi.emarket.exception.GoodsNotFoundException;
+import it.valeriovaudi.emarket.exception.SaveGoodsException;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.repository.GoodsRepository;
 import it.valeriovaudi.emarket.validator.PriceListDataValidator;
@@ -68,7 +70,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         Goods goods = goodsRepository.findOne(idGoods);
         Map<String, String> stringStringMap = getSafeGoodsAttribute.apply(goods);
-        stringStringMap.putIfAbsent(goodsAttributeKey, goodsAttributeValue);
+        stringStringMap.put(goodsAttributeKey, goodsAttributeValue);
         goods.setGoodsAttribute(stringStringMap);
 
         goodsRepository.save(goods);
@@ -118,6 +120,36 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     Function<Goods, Map<String, String>> getSafeGoodsAttribute = (goods) -> Optional.ofNullable(goods.getGoodsAttribute()).orElse(new HashMap<>());
+
+    private Goods doSaveAGoodsData(String correlationId, Goods goods, boolean checkDuplicate) {
+        Goods goodsAux = goods;
+        ConflictSaveGoodsException conflictSaveGoodsException = null;
+        GoodsErrorEvent goodsErrorEvent;
+        try{
+            if(checkDuplicate){
+                Goods one = goodsRepository.findOne(goods.getId());
+                if(one == null){
+                    goodsAux = goodsRepository.save(goods);
+                } else {
+                    goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), one.getName(),one.getBarCode(),
+                            one.getCategory(),GoodsEventTypeEnum.SAVE, ConflictSaveGoodsException.DEFAULT_MESSAGE, ConflictSaveGoodsException.class);
+                    conflictSaveGoodsException = new ConflictSaveGoodsException(goodsErrorEvent, ConflictSaveGoodsException.DEFAULT_MESSAGE);
+                }
+            }else {
+                goodsAux = goodsRepository.save(goods);
+            }
+        } catch (Exception e){
+            goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), goods.getName(),goods.getBarCode(),
+                    goods.getCategory(),GoodsEventTypeEnum.SAVE, SaveGoodsException.DEFAULT_MESSAGE, SaveGoodsException.class);
+            throw  new SaveGoodsException(goodsErrorEvent, SaveGoodsException.DEFAULT_MESSAGE);
+        }
+
+        if(conflictSaveGoodsException!= null){
+            throw conflictSaveGoodsException;
+        }
+
+        return goodsAux;
+    }
 
     private void doCheckGoodsExist(String correlationId, String idGoods) {
         Goods goodsAux;
