@@ -67,12 +67,12 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
-			<version>1.4.6</version>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui-turbine</artifactId>
-			<version>1.4.6</version>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 		<!--end admin dashboard dependencies-->
 
