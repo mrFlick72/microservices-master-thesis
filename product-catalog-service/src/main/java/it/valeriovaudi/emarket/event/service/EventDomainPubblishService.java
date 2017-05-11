@@ -7,18 +7,12 @@ import it.valeriovaudi.emarket.event.repository.GoodsErrorEventRepository;
 import it.valeriovaudi.emarket.event.repository.GoodsEventRepository;
 import it.valeriovaudi.emarket.event.repository.PriceListErrorEventRepository;
 import it.valeriovaudi.emarket.event.repository.PriceListEventRepository;
-import it.valeriovaudi.emarket.model.Goods;
-import it.valeriovaudi.emarket.model.PriceList;
-import it.valeriovaudi.emarket.repository.PriceListRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 /**
  * Created by mrflick72 on 04/05/17.

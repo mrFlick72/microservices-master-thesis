@@ -1,7 +1,6 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
