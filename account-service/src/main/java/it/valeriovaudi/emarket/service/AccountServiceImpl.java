@@ -56,6 +56,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     public Account findAccount(String userName) {
+        doCheckAccountExist(UUID.randomUUID().toString(),userName);
         return accountRepository.findOne(userName);
     }
 

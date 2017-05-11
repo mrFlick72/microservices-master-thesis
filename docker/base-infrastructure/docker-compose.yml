@@ -22,10 +22,14 @@ services:
     image: mongo
     ports:
     - "27017:27017"
+    volumes:
+      - "/data/db:/data/db"
 
   database:
     image: mysql
     ports:
       - "3306:3306"
+    volumes:
+      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/mysql:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=root
