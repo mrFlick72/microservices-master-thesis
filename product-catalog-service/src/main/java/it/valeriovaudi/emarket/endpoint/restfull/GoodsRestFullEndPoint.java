@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -50,10 +49,7 @@ public class GoodsRestFullEndPoint {
 
     @PatchMapping("/{idGoods}/category-attribute")
     public ResponseEntity saveGoodsAttributeValue(@PathVariable String idGoods, @RequestBody HashMap<String,String> goods){
-        goods.entrySet().forEach(entry -> {
-            goodsService.saveGoodsAttributeValue(idGoods,entry.getKey(), entry.getValue());
-        });
-
+        goods.entrySet().forEach(entry -> goodsService.saveGoodsAttributeValue(idGoods,entry.getKey(), entry.getValue()));
         return ResponseEntity.noContent().build();
     }
 

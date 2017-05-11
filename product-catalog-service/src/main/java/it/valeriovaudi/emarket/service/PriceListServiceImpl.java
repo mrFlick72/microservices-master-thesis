@@ -28,10 +28,7 @@ public class PriceListServiceImpl implements PriceListService {
     private GoodsRepository goodsRepository;
 
     @Override
-    public PriceList createPriceList(String name) {
-        PriceList priceList = new PriceList();
-        priceList.setName(name);
-
+    public PriceList createPriceList(PriceList priceList) {
         return priceListRepository.save(priceList);
     }
 
@@ -41,14 +38,14 @@ public class PriceListServiceImpl implements PriceListService {
     }
 
     @Override
-    public PriceList findPriceList(String priceListId) {
-        return priceListRepository.findOne(priceListId);
+    public PriceList findPriceList(String idPriceList) {
+        return priceListRepository.findOne(idPriceList);
     }
 
     @Override
-    public PriceList saveGoodsInPriceList(String priceListId, String goodsId, BigDecimal price) {
-        PriceList priceList = priceListRepository.findOne(priceListId);
-        Goods goods  = goodsRepository.findOne(goodsId);
+    public PriceList saveGoodsInPriceList(String idPriceList, String idGoods, BigDecimal price) {
+        PriceList priceList = priceListRepository.findOne(idPriceList);
+        Goods goods  = goodsRepository.findOne(idGoods);
         List<GoodsInPriceList> goodsInPriceListAux = priceList.getGoodsInPriceList();
 
         GoodsInPriceList goodsInPriceList = new GoodsInPriceList();
@@ -67,9 +64,9 @@ public class PriceListServiceImpl implements PriceListService {
     }
 
     @Override
-    public PriceList removeGoodsInPriceList(String priceListId, String goodsId) {
-        PriceList priceList = priceListRepository.findOne(priceListId);
-        Goods goods  = goodsRepository.findOne(goodsId);
+    public PriceList removeGoodsInPriceList(String idPriceList, String idGoods) {
+        PriceList priceList = priceListRepository.findOne(idPriceList);
+        Goods goods  = goodsRepository.findOne(idGoods);
         List<GoodsInPriceList> goodsInPriceListAux = priceList.getGoodsInPriceList();
 
         GoodsInPriceList goodsInPriceList = new GoodsInPriceList();
@@ -85,8 +82,8 @@ public class PriceListServiceImpl implements PriceListService {
     }
 
     @Override
-    public void deletePriceList(String priceListId) {
-        priceListRepository.delete(priceListId);
+    public void deletePriceList(String idPriceList) {
+        priceListRepository.delete(idPriceList);
     }
 
 }
