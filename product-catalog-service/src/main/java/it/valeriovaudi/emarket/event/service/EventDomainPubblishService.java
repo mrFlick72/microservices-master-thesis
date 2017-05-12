@@ -43,7 +43,7 @@ public class EventDomainPubblishService {
     private SubscribableChannel priceListEventOutboundChannel;
 
     public GoodsEvent publishGoodsEvent(String correlationId, String idGoods, String name, String barCode,
-                                        String category, GoodsEventTypeEnum type){
+                                        String category, EventTypeEnum type){
         GoodsEvent event = domainEventFactory.newGoodsEvent(correlationId, idGoods, name, barCode, category, type);
         goodsEventRepository.save(event);
         goodsEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
@@ -52,7 +52,7 @@ public class EventDomainPubblishService {
     }
 
     public GoodsErrorEvent publishGoodsErrorEvent(String correlationId, String idGoods, String name, String barCode,
-                                                  String category, GoodsEventTypeEnum type,
+                                                  String category, EventTypeEnum type,
                                                   String message, Class exceptionClassName){
         GoodsErrorEvent event = domainEventFactory.newGoodsErrorEvent(correlationId, idGoods, name, barCode, category, type,message,exceptionClassName);
         goodsErrorEventRepository.save(event);
@@ -61,7 +61,7 @@ public class EventDomainPubblishService {
     }
 
     public PriceListEvent publishPriceListEvent(String correlationId, String idPriceList,
-                                                String name, PriceListEventTypeEnum type){
+                                                String name, EventTypeEnum type){
         PriceListEvent event = domainEventFactory.newPriceListEvent(correlationId, idPriceList, name, type);
         priceListEventRepository.save(event);
         priceListEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
@@ -69,7 +69,7 @@ public class EventDomainPubblishService {
     }
 
     public PriceListErrorEvent publishPriceListErrorEvent(String correlationId, String idPriceList,
-                                                          String name, PriceListEventTypeEnum type,
+                                                          String name, EventTypeEnum type,
                                                           String message, Class exceptionClassName){
         PriceListErrorEvent event = domainEventFactory.newPriceListErrorEvent(correlationId, idPriceList, name, type, message, exceptionClassName);
         priceListErrorEventRepository.save(event);

@@ -18,5 +18,5 @@ public class GoodsEvent extends AbstractDomainEvent {
     private String barCode;
     private String category;
 
-    private GoodsEventTypeEnum type;
+    private EventTypeEnum type;
 }

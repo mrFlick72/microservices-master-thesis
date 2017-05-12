@@ -14,7 +14,7 @@ import java.util.Date;
 public class DomainEventFactory {
 
     public GoodsEvent newGoodsEvent(String correlationId, String idGoods, String name, String barCode,
-                                    String category, GoodsEventTypeEnum type){
+                                    String category, EventTypeEnum type){
         GoodsEvent event = new GoodsEvent();
         event.setId(UUIDs.timeBased());
         event.setBarCode(barCode);
@@ -27,7 +27,7 @@ public class DomainEventFactory {
     }
 
     public GoodsErrorEvent newGoodsErrorEvent(String correlationId, String idGoods, String name, String barCode,
-                                         String category, GoodsEventTypeEnum type,
+                                         String category, EventTypeEnum type,
                                          String message, Class exceptionClassName){
         GoodsErrorEvent event = new GoodsErrorEvent();
         event.setId(UUIDs.timeBased());
@@ -43,7 +43,7 @@ public class DomainEventFactory {
     }
 
     public PriceListEvent newPriceListEvent(String correlationId, String idPriceList,
-                                            String name, PriceListEventTypeEnum type){
+                                            String name, EventTypeEnum type){
         PriceListEvent event = new PriceListEvent();
         event.setId(UUIDs.timeBased());
         event.setIdPriceList(idPriceList);
@@ -54,7 +54,7 @@ public class DomainEventFactory {
     }
 
     public PriceListErrorEvent newPriceListErrorEvent(String correlationId, String idPriceList,
-                                                     String name, PriceListEventTypeEnum type,
+                                                     String name, EventTypeEnum type,
                                                      String message, Class exceptionClassName){
         PriceListErrorEvent event = new PriceListErrorEvent();
         event.setId(UUIDs.timeBased());

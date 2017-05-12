@@ -15,5 +15,5 @@ public class PriceListErrorEvent extends BaseErrorEvent {
     private String idPriceList;
     private String name;
 
-    private PriceListEventTypeEnum type;
+    private EventTypeEnum type;
 }

@@ -17,5 +17,5 @@ public class GoodsErrorEvent extends BaseErrorEvent {
     private String barCode;
     private String category;
 
-    private GoodsEventTypeEnum type;
+    private EventTypeEnum type;
 }

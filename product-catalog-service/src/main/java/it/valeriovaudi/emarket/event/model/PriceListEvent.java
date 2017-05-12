@@ -16,5 +16,5 @@ public class PriceListEvent extends AbstractDomainEvent {
     private String idPriceList;
     private String name;
 
-    private PriceListEventTypeEnum type;
+    private EventTypeEnum type;
 }

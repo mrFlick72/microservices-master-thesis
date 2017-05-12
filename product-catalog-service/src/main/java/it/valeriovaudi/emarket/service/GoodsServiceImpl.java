@@ -1,20 +1,9 @@
 package it.valeriovaudi.emarket.service;
 
-import it.valeriovaudi.emarket.event.model.GoodsErrorEvent;
-import it.valeriovaudi.emarket.event.model.GoodsEventTypeEnum;
-import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
-import it.valeriovaudi.emarket.exception.ConflictSaveGoodsException;
-import it.valeriovaudi.emarket.exception.GoodsNotFoundException;
-import it.valeriovaudi.emarket.exception.SaveGoodsException;
+import it.valeriovaudi.emarket.event.model.EventTypeEnum;
 import it.valeriovaudi.emarket.model.Goods;
-import it.valeriovaudi.emarket.repository.GoodsRepository;
-import it.valeriovaudi.emarket.validator.PriceListDataValidator;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.*;
 import java.util.function.Function;
 
@@ -22,28 +11,17 @@ import java.util.function.Function;
  * Created by vvaudi on 09/05/17.
  */
 
-@Data
-@Slf4j
 @Service
-public class GoodsServiceImpl implements GoodsService {
-
-    @Autowired
-    private GoodsRepository goodsRepository;
-
-    @Autowired
-    private PriceListDataValidator priceListDataValidator;
-
-    @Autowired
-    private EventDomainPubblishService eventDomainPubblishService;
+public class GoodsServiceImpl extends AbstractService implements GoodsService {
 
     @Override
     public Goods createGoods(Goods goods) {
         String correlationId = UUID.randomUUID().toString();
         priceListDataValidator.validate(correlationId, goods);
-        Goods save = doSaveAGoodsData(correlationId, goods, true);
+        Goods save = doSaveGoodsData(correlationId, goods, true);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
-                goods.getBarCode(), goods.getCategory(), GoodsEventTypeEnum.CREATE);
+                goods.getBarCode(), goods.getCategory(), EventTypeEnum.CREATE);
         return save;
     }
 
@@ -73,8 +51,7 @@ public class GoodsServiceImpl implements GoodsService {
         stringStringMap.put(goodsAttributeKey, goodsAttributeValue);
         goods.setGoodsAttribute(stringStringMap);
 
-        goodsRepository.save(goods);
-        return goods;
+        return doSaveGoodsData(correlationId, goods, false);
     }
 
     @Override
@@ -88,8 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
         stringStringMap.remove(goodsAttributeKey);
         goods.setGoodsAttribute(stringStringMap);
 
-        goodsRepository.save(goods);
-        return goods;
+        return doSaveGoodsData(correlationId, goods, false);
     }
 
     @Override
@@ -99,10 +75,10 @@ public class GoodsServiceImpl implements GoodsService {
 
         doCheckGoodsExist(correlationId, goods.getId());
 
-        Goods save = doSaveAGoodsData(correlationId, goods, false);
+        Goods save = doSaveGoodsData(correlationId, goods, false);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
-                goods.getBarCode(), goods.getCategory(), GoodsEventTypeEnum.UPDATE);
+                goods.getBarCode(), goods.getCategory(), EventTypeEnum.UPDATE);
         return save;
     }
 
@@ -116,57 +92,10 @@ public class GoodsServiceImpl implements GoodsService {
         goodsRepository.delete(idGoods);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId, idGoods, one.getName(),one.getBarCode(),
-                one.getCategory(),GoodsEventTypeEnum.DELETE);
+                one.getCategory(),EventTypeEnum.DELETE);
     }
 
-    Function<Goods, Map<String, String>> getSafeGoodsAttribute = (goods) -> Optional.ofNullable(goods.getGoodsAttribute()).orElse(new HashMap<>());
-
-    private Goods doSaveAGoodsData(String correlationId, Goods goods, boolean checkDuplicate) {
-        Goods goodsAux = goods;
-        ConflictSaveGoodsException conflictSaveGoodsException = null;
-        GoodsErrorEvent goodsErrorEvent;
-        try{
-            if(checkDuplicate){
-                Goods one = goodsRepository.findOne(goods.getId());
-                if(one == null){
-                    goodsAux = goodsRepository.save(goods);
-                } else {
-                    goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), one.getName(),one.getBarCode(),
-                            one.getCategory(),GoodsEventTypeEnum.SAVE, ConflictSaveGoodsException.DEFAULT_MESSAGE, ConflictSaveGoodsException.class);
-                    conflictSaveGoodsException = new ConflictSaveGoodsException(goodsErrorEvent, ConflictSaveGoodsException.DEFAULT_MESSAGE);
-                }
-            }else {
-                goodsAux = goodsRepository.save(goods);
-            }
-        } catch (Exception e){
-            goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), goods.getName(),goods.getBarCode(),
-                    goods.getCategory(),GoodsEventTypeEnum.SAVE, SaveGoodsException.DEFAULT_MESSAGE, SaveGoodsException.class);
-            throw  new SaveGoodsException(goodsErrorEvent, SaveGoodsException.DEFAULT_MESSAGE);
-        }
-
-        if(conflictSaveGoodsException!= null){
-            throw conflictSaveGoodsException;
-        }
-
-        return goodsAux;
-    }
-
-    private void doCheckGoodsExist(String correlationId, String idGoods) {
-        Goods goodsAux;
-        Function<String, GoodsNotFoundException> f = userNameAux -> {
-            GoodsErrorEvent goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, idGoods,
-                    null, null, null, GoodsEventTypeEnum.READ, GoodsNotFoundException.DEFAULT_MESSAGE, GoodsNotFoundException.class);
-            return new GoodsNotFoundException(goodsErrorEvent, GoodsNotFoundException.DEFAULT_MESSAGE);
-        };
-
-        try{
-            goodsAux =  goodsRepository.findOne(idGoods);
-            if(goodsAux== null){
-                throw f.apply(idGoods);
-            }
-        } catch (Exception e){
-            throw f.apply(idGoods);
-        }
-    }
+    private Function<Goods, Map<String, String>> getSafeGoodsAttribute =
+            (goods) -> Optional.ofNullable(goods.getGoodsAttribute()).orElse(new HashMap<>());
 
 }
