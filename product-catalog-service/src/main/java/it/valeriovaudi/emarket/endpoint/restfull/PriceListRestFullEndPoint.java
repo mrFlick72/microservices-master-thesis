@@ -32,6 +32,11 @@ public class PriceListRestFullEndPoint {
         return ResponseEntity.ok(priceListService.findPriceList(idPriceList));
     }
 
+    @GetMapping("/{idPriceList}/goods")
+    public ResponseEntity findGoodsInPriceList(@PathVariable String idPriceList){
+        return ResponseEntity.ok(priceListService.findPriceList(idPriceList).getGoodsInPriceList());
+    }
+
     @PatchMapping("/{idPriceList}/goods/{idGoods}")
     public ResponseEntity saveGoodsInPriceList(@PathVariable String idPriceList, @PathVariable  String idGoods, @RequestBody BigDecimal price){
         priceListService.saveGoodsInPriceList(idPriceList,idGoods,price);
