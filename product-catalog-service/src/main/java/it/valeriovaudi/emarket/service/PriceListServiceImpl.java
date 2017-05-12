@@ -1,6 +1,10 @@
 package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
+import it.valeriovaudi.emarket.event.model.GoodsErrorEvent;
+import it.valeriovaudi.emarket.exception.GoodsInPriceListNotFoundException;
+import it.valeriovaudi.emarket.exception.GoodsListInPriceListNotFoundException;
+import it.valeriovaudi.emarket.exception.GoodsNotFoundException;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
@@ -37,6 +41,34 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
     public PriceList findPriceList(String idPriceList) {
         doCheckPriceListExist(UUID.randomUUID().toString(), idPriceList);
         return priceListRepository.findOne(idPriceList);
+    }
+
+    @Override
+    public List<GoodsInPriceList> findGoodsListInPriceList(String idPriceList) {
+        String correlationId = UUID.randomUUID().toString();
+        doCheckPriceListExist(correlationId, idPriceList);
+
+        List<GoodsInPriceList> goodsInPriceListAux = getSafeGoodsInPriceList.apply(priceListRepository.findOne(idPriceList));
+        if(goodsInPriceListAux.size() <= 0){
+              throw new GoodsListInPriceListNotFoundException(GoodsListInPriceListNotFoundException.DEFAULT_MESSAGE);
+        }
+        return goodsInPriceListAux;
+    }
+
+    @Override
+    public GoodsInPriceList findGoodsInPriceList(String idPriceList, String idGoods) {
+        String correlationId = UUID.randomUUID().toString();
+        doCheckPriceListExist(correlationId, idPriceList);
+        doCheckGoodsExist(correlationId, idGoods);
+
+        GoodsInPriceList goodsInPriceListAux = getSafeGoodsInPriceList.apply(priceListRepository.findOne(idPriceList)).
+                stream().filter(goodsInPriceList -> goodsInPriceList.getGoods().getId().equals(idGoods))
+                .findFirst().orElse(null);
+
+        if(goodsInPriceListAux == null){
+            throw new GoodsInPriceListNotFoundException(GoodsInPriceListNotFoundException.DEFAULT_MESSAGE);
+        }
+        return goodsInPriceListAux;
     }
 
     @Override

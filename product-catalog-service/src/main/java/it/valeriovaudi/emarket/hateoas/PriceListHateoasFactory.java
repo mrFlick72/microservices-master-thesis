@@ -22,7 +22,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class PriceListHateoasFactory {
 
     public Resource<PriceList> toResource(PriceList priceList) {
-        Resource<PriceList> accountResource = new Resource<>(priceList);
+        Resource<PriceList> priceListResource = new Resource<>(priceList);
 
         Link selfLink = linkTo(PriceListRestFullEndPoint.class).slash(priceList.getId())
                 .withSelfRel();
@@ -31,12 +31,12 @@ public class PriceListHateoasFactory {
                 .slash(priceList.getId()).slash("goods")
                 .withRel("goods-list-in-price-list");
 
-        accountResource.add(selfLink, goodsInPriceListLink);
-        return accountResource;
+        priceListResource.add(selfLink, goodsInPriceListLink);
+        return priceListResource;
     }
 
-    public Resources<Goods> toResources(List<Goods> goodsList) {
-        Resources<Goods> accountResource = new Resources<>(goodsList);
+    public Resources<PriceList> toResources(List<PriceList> priceList) {
+        Resources<PriceList> priceListResource = new Resources<>(priceList);
 
         UriTemplate priceListLinkUriTemplate = new UriTemplate(String.format("%s/{idPriceList}",linkTo(PriceListRestFullEndPoint.class).toString()));
         Link priceListLink = new Link(priceListLinkUriTemplate, "price-list");
@@ -44,7 +44,7 @@ public class PriceListHateoasFactory {
         UriTemplate goodsListInPriceListLinkUriTemplate = new UriTemplate(String.format("%s/{idPriceList}/goods",linkTo(PriceListRestFullEndPoint.class).toString()));
         Link goodsListInPriceListLink = new Link(goodsListInPriceListLinkUriTemplate, "goods-list-in-price-list");
 
-        accountResource.add(priceListLink,goodsListInPriceListLink);
-        return accountResource;
+        priceListResource.add(priceListLink,goodsListInPriceListLink);
+        return priceListResource;
     }
 }

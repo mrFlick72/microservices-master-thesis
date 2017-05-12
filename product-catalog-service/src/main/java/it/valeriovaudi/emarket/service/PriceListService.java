@@ -1,5 +1,6 @@
 package it.valeriovaudi.emarket.service;
 
+import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
 
 import java.math.BigDecimal;
@@ -17,6 +18,8 @@ public interface PriceListService {
 
     PriceList findPriceList(String idPriceList);
 
+    List<GoodsInPriceList> findGoodsListInPriceList(String idPriceList);
+    GoodsInPriceList findGoodsInPriceList(String idPriceList, String idGoods);
     PriceList saveGoodsInPriceList(String idPriceList, String idGoods, BigDecimal price);
     PriceList removeGoodsInPriceList(String idPriceList, String idGoods);
 
