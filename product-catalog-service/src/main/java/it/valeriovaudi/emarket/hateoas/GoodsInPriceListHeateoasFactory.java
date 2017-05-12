@@ -1,13 +1,10 @@
 package it.valeriovaudi.emarket.hateoas;
 
-import it.valeriovaudi.emarket.endpoint.restfull.GoodsRestFullEndPoint;
 import it.valeriovaudi.emarket.endpoint.restfull.PriceListRestFullEndPoint;
 import it.valeriovaudi.emarket.model.GoodsInPriceList;
-import it.valeriovaudi.emarket.model.PriceList;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.hateoas.UriTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,10 +1,8 @@
 package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
-import it.valeriovaudi.emarket.event.model.GoodsErrorEvent;
 import it.valeriovaudi.emarket.exception.GoodsInPriceListNotFoundException;
 import it.valeriovaudi.emarket.exception.GoodsListInPriceListNotFoundException;
-import it.valeriovaudi.emarket.exception.GoodsNotFoundException;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;

@@ -2,7 +2,6 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 
 import it.valeriovaudi.emarket.hateoas.GoodsInPriceListHeateoasFactory;
 import it.valeriovaudi.emarket.hateoas.PriceListHateoasFactory;
-import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
 import it.valeriovaudi.emarket.service.PriceListService;
 import lombok.Data;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by mrflick72 on 09/05/17.

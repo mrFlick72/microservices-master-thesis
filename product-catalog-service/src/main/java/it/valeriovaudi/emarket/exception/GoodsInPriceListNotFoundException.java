@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket.exception;
 
-import it.valeriovaudi.emarket.event.model.AbstractDomainEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
