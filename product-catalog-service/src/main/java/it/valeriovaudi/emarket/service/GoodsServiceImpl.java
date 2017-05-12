@@ -40,7 +40,7 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods createGoods(Goods goods) {
         String correlationId = UUID.randomUUID().toString();
         priceListDataValidator.validate(correlationId, goods);
-        Goods save = goodsRepository.save(goods);
+        Goods save = doSaveAGoodsData(correlationId, goods, true);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
                 goods.getBarCode(), goods.getCategory(), GoodsEventTypeEnum.CREATE);
@@ -99,7 +99,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         doCheckGoodsExist(correlationId, goods.getId());
 
-        Goods save = goodsRepository.save(goods);
+        Goods save = doSaveAGoodsData(correlationId, goods, false);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
                 goods.getBarCode(), goods.getCategory(), GoodsEventTypeEnum.UPDATE);
