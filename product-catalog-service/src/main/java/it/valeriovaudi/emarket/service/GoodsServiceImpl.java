@@ -94,8 +94,4 @@ public class GoodsServiceImpl extends AbstractService implements GoodsService {
         eventDomainPubblishService.publishGoodsEvent(correlationId, idGoods, one.getName(),one.getBarCode(),
                 one.getCategory(),EventTypeEnum.DELETE);
     }
-
-    private Function<Goods, Map<String, String>> getSafeGoodsAttribute =
-            (goods) -> Optional.ofNullable(goods.getGoodsAttribute()).orElse(new HashMap<>());
-
 }

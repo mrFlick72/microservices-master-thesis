@@ -6,6 +6,7 @@ import it.valeriovaudi.emarket.event.model.PriceListErrorEvent;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
 import it.valeriovaudi.emarket.exception.*;
 import it.valeriovaudi.emarket.model.Goods;
+import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
 import it.valeriovaudi.emarket.repository.GoodsRepository;
 import it.valeriovaudi.emarket.repository.PriceListRepository;
@@ -13,6 +14,7 @@ import it.valeriovaudi.emarket.validator.PriceListDataValidator;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -33,6 +35,13 @@ public abstract class AbstractService {
 
     @Autowired
     protected GoodsRepository goodsRepository;
+
+    protected Function<Goods, Map<String, String>> getSafeGoodsAttribute =
+            (goods) -> Optional.ofNullable(goods.getGoodsAttribute()).orElse(new HashMap<>());
+
+    protected Function<PriceList, List<GoodsInPriceList>> getSafeGoodsInPriceList =
+            (priceList) -> Optional.ofNullable(priceList.getGoodsInPriceList()).orElse(new ArrayList<>());
+
 
     protected Goods doSaveGoodsData(String correlationId, Goods goods, boolean checkDuplicate) {
         Goods goodsAux = goods;

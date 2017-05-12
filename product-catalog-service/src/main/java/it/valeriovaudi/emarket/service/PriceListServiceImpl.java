@@ -21,7 +21,7 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
     public PriceList createPriceList(PriceList priceList) {
         String correlationId = UUID.randomUUID().toString();
         priceListDataValidator.validate(correlationId, priceList);
-        PriceList save = priceListRepository.save(priceList);
+        PriceList save = doSavePriceListData(correlationId, priceList, true);
 
         eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
                 priceList.getName(), EventTypeEnum.CREATE);
@@ -43,11 +43,12 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
     public PriceList saveGoodsInPriceList(String idPriceList, String idGoods, BigDecimal price) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPriceListExist(correlationId, idPriceList);
+        doCheckGoodsExist(correlationId, idGoods);
 
         PriceList priceList = priceListRepository.findOne(idPriceList);
 
         Goods goods  = goodsRepository.findOne(idGoods);
-        List<GoodsInPriceList> goodsInPriceListAux = priceList.getGoodsInPriceList();
+        List<GoodsInPriceList> goodsInPriceListAux = getSafeGoodsInPriceList.apply(priceList);
 
         GoodsInPriceList goodsInPriceList = new GoodsInPriceList();
         goodsInPriceList.setGoods(goods);
@@ -61,22 +62,35 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
             goodsInPriceListAux.set(index, goodsInPriceList);
         }
 
-        return priceListRepository.save(priceList);
+        PriceList priceListAux = doSavePriceListData(correlationId, priceList, false);
+
+        eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
+                priceList.getName(), EventTypeEnum.UPDATE);
+
+        return priceListAux;
     }
 
     @Override
     public PriceList removeGoodsInPriceList(String idPriceList, String idGoods) {
         String correlationId = UUID.randomUUID().toString();
+        doCheckPriceListExist(correlationId, idPriceList);
+        doCheckGoodsExist(correlationId, idGoods);
 
         PriceList priceList = priceListRepository.findOne(idPriceList);
         Goods goods  = goodsRepository.findOne(idGoods);
-        List<GoodsInPriceList> goodsInPriceListAux = priceList.getGoodsInPriceList();
+
+        List<GoodsInPriceList> goodsInPriceListAux = getSafeGoodsInPriceList.apply(priceList);
 
         GoodsInPriceList goodsInPriceList = new GoodsInPriceList();
         goodsInPriceList.setGoods(goods);
         goodsInPriceListAux.remove(goodsInPriceList);
 
-        return priceListRepository.save(priceList);
+        PriceList priceListAux = doSavePriceListData(correlationId, priceList, false);
+
+        eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
+                priceList.getName(), EventTypeEnum.UPDATE);
+
+        return priceListAux;
     }
 
     @Override
