@@ -19,8 +19,7 @@ services:
 
   cassandra:
     image: cassandra
-    volumes:
-      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/cassandra:/var/lib/cassandra"
+
     ports:
       - "9042:9042"
 
@@ -35,8 +34,7 @@ services:
     image: mysql
     ports:
       - "3306:3306"
-    volumes:
-      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/mysql:/var/lib/mysql"
+
     environment:
       - MYSQL_ROOT_PASSWORD=root
     networks:
