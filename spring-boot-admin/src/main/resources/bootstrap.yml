@@ -1,6 +1,10 @@
 spring:
  application:
    name: spring-boot-admin
+ cloud:
+   config:
+     discovery:
+       enabled: true
  boot:
    admin:
      turbine:

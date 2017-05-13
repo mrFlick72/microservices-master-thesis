@@ -1,0 +1,33 @@
+version: "2.1"
+
+services:
+  account-service-replicas-1:
+    image: master-thesis/account-service-server:lastest
+    ports:
+      - "3030:3030"
+    environment:
+      - server.port=3030
+      - spring.profiles.active=docker
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+      - baseinfrastructure_cassandra
+      - baseinfrastructure_memcache
+      - baseinfrastructure_database
+
+
+networks:
+  basecloudnativeinfrastructure_discovery:
+    external: true
+  baseinfrastructure_messaging:
+    external: true
+  baseinfrastructure_mongo:
+    external: true
+  baseinfrastructure_cassandra:
+    external: true
+  baseinfrastructure_database:
+    external: true
+  baseinfrastructure_memcache:
+    external: true

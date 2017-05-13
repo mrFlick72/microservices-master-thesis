@@ -6,11 +6,7 @@ spring:
       discovery:
         enabled: true
 
+
 management:
   security:
     enabled: false
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/

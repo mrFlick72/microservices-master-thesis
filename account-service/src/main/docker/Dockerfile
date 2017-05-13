@@ -1,9 +1,7 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 
-ADD account-service.jar /usr/local/account-service/
+ADD account-service-server.jar /usr/local/account-service-server/
 
-WORKDIR /usr/local/account-service/
+WORKDIR /usr/local/account-service-server/
 
-EXPOSE 8080
-
-CMD ["java", "-Xms512m", "-Xmx1g", "-jar", "account-service.jar"]
+CMD ["java", "-Xms512m", "-Xmx1g", "-jar", "account-service-server.jar"]

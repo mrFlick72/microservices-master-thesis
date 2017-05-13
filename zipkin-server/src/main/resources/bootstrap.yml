@@ -5,7 +5,6 @@ spring:
     config:
       discovery:
         enabled: true
-
   zipkin:
     locator:
       discovery:
@@ -14,8 +13,3 @@ spring:
 management:
   security:
     enabled: false
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/

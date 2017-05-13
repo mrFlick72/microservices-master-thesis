@@ -19,22 +19,28 @@ services:
 
   cassandra:
     image: cassandra
-
+    volumes:
+      - "${CASSANDRA_LOCAL_VOLUME}:/var/lib/cassandra"
     ports:
       - "9042:9042"
+    networks:
+      - cassandra
 
   mongo:
     image: mongo
     ports:
     - "27017:27017"
     volumes:
-      - "/data/db:/data/db"
+      - "${MONGO_LOCAL_VOLUME}:/data/db"
+    networks:
+      - mongo
 
   database:
     image: mysql
     ports:
       - "3306:3306"
-
+    volumes:
+      - "${DATABASE_LOCAL_VOLUME}:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=root
     networks:
@@ -46,4 +52,8 @@ networks:
   database:
     driver: bridge
   messaging:
+    driver: bridge
+  cassandra:
+    driver: bridge
+  mongo:
     driver: bridge
