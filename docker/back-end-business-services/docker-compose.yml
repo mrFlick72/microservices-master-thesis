@@ -4,9 +4,9 @@ services:
   account-service-replicas-1:
     image: master-thesis/account-service-server:lastest
     ports:
-      - "3030:3030"
+      - "1011:1011"
     environment:
-      - server.port=3030
+      - server.port=1011
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
@@ -17,6 +17,21 @@ services:
       - baseinfrastructure_memcache
       - baseinfrastructure_database
 
+  account-service-replicas-2:
+    image: master-thesis/account-service-server:lastest
+    ports:
+      - "1012:1012"
+    environment:
+      - server.port=1012
+      - spring.profiles.active=docker
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+      - baseinfrastructure_cassandra
+      - baseinfrastructure_memcache
+      - baseinfrastructure_database
 
 networks:
   basecloudnativeinfrastructure_discovery:

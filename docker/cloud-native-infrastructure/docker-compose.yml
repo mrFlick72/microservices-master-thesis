@@ -37,9 +37,12 @@ services:
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
     networks:
       - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_memcache
       - baseinfrastructure_messaging
 
 networks:
+  baseinfrastructure_memcache:
+    external: true
   basecloudnativeinfrastructure_discovery:
     external: true
   baseinfrastructure_messaging:
