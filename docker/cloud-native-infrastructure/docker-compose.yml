@@ -1,0 +1,43 @@
+version: "2.1"
+
+services:
+  zipkin:
+    image: master-thesis/zipkin-server:lastest
+    ports:
+      - "4000:4000"
+    environment:
+      - server.port=4000
+      - spring.rabbitmq.host=rabbitmq
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+
+  spring-boot-admin:
+    image: master-thesis/spring-boot-admin-server:lastest
+    ports:
+      - "8000:8000"
+    environment:
+      - server.port=8000
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+      - spring.boot.admin.turbine.url=http://turbine:7070/turbine.stream
+    networks:
+      - basecloudnativeinfrastructure_discovery
+
+  api-gateway:
+    image: master-thesis/api-gateway-server:lastest
+    ports:
+      - "5050:5050"
+    environment:
+      - server.port=5050
+      - spring.rabbitmq.host=rabbitmq
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+
+networks:
+  basecloudnativeinfrastructure_discovery:
+    external: true
+  baseinfrastructure_messaging:
+    external: true

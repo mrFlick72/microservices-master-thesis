@@ -1,0 +1,26 @@
+version: "2.1"
+
+services:
+  eureka:
+    image: master-thesis/eureka-server:lastest
+    ports:
+      - "8761:8761"
+    environment:
+      - server.port=8761
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - discovery
+
+  configuration-server:
+    image: master-thesis/configuration-server:lastest
+    ports:
+      - "8888:8888"
+    environment:
+      - server.port=8888
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - discovery
+
+networks:
+  discovery:
+    driver: bridge

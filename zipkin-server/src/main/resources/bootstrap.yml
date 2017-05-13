@@ -6,6 +6,11 @@ spring:
       discovery:
         enabled: true
 
+  zipkin:
+    locator:
+      discovery:
+        enabled: true
+
 management:
   security:
     enabled: false

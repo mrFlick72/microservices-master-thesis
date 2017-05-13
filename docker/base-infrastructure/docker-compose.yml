@@ -5,6 +5,8 @@ services:
     image: redis
     ports:
       - "6379:6379"
+    networks:
+      - memcache
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -12,9 +14,13 @@ services:
       - "5672:5672"
       - "15671:15671"
       - "15672:15672"
+    networks:
+      - messaging
 
   cassandra:
     image: cassandra
+    volumes:
+      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/cassandra:/var/lib/cassandra"
     ports:
       - "9042:9042"
 
@@ -29,6 +35,17 @@ services:
     image: mysql
     ports:
       - "3306:3306"
-
+    volumes:
+      - "/home/vvaudi/Desktop/microservices-master-thesis/datastore/mysql:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - database
+
+networks:
+  memcache:
+    driver: bridge
+  database:
+    driver: bridge
+  messaging:
+    driver: bridge
