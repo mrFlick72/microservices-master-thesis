@@ -29,9 +29,10 @@ public class AccountDataValidationServiceImpl implements AccountDataValidationSe
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     @Autowired
-    private  EventDomainPubblishService eventDomainPubblishService;
+    private EventDomainPubblishService eventDomainPubblishService;
+
     @Autowired
-    private  MessageSource messageSource;
+    private MessageSource messageSource;
 
     @Override
     public void validate(String correlationId, Account account) {

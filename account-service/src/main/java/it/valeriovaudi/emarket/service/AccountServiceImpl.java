@@ -30,8 +30,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDataValidationService accountDataValidationService;
+
     @Autowired
     private EventDomainPubblishService eventDomainPubblishService;
+
     @Autowired
     private AccountRepository accountRepository;
 

@@ -6,7 +6,6 @@ spring:
       discovery:
         enabled: true
 
-
 management:
   security:
     enabled: false

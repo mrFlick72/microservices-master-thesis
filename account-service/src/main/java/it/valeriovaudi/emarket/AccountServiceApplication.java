@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableHystrix
 @EnableEurekaClient
 @SpringBootApplication
-//@EnableLoadTimeWeaving
-//@EnableSpringConfigured
 @EnableTransactionManagement
 @EnableConfigurationProperties(CassandraProperties.class)
 public class AccountServiceApplication {
