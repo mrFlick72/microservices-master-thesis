@@ -2,7 +2,6 @@ package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
 import it.valeriovaudi.emarket.exception.GoodsInPriceListNotFoundException;
-import it.valeriovaudi.emarket.exception.GoodsListInPriceListNotFoundException;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
@@ -46,11 +45,7 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
         String correlationId = UUID.randomUUID().toString();
         doCheckPriceListExist(correlationId, idPriceList);
 
-        List<GoodsInPriceList> goodsInPriceListAux = getSafeGoodsInPriceList.apply(priceListRepository.findOne(idPriceList));
-        if(goodsInPriceListAux.size() <= 0){
-              throw new GoodsListInPriceListNotFoundException(GoodsListInPriceListNotFoundException.DEFAULT_MESSAGE);
-        }
-        return goodsInPriceListAux;
+        return getSafeGoodsInPriceList.apply(priceListRepository.findOne(idPriceList));
     }
 
     @Override
