@@ -57,7 +57,7 @@ public class PriceListRestFullEndPoint {
     }
 
     @PostMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity createPriceList(@RequestBody PriceList priceList){
         PriceList priceListAux = priceListService.createPriceList(priceList);
         return ResponseEntity.created(MvcUriComponentsBuilder.fromMethodName(PriceListRestFullEndPoint.class,
