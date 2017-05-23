@@ -10,4 +10,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface PriceListRepository extends MongoRepository<PriceList, String> {
 
+    PriceList findByName(String name);
 }

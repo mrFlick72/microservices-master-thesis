@@ -30,14 +30,14 @@ public class PriceListDataValidatorImpl implements PriceListDataValidator {
         Map<String,String> errors = new HashMap<>();
         validateNotNullAndNotEmpty("priceListName", priceList.getName(), "PriceListDataValidator.PriceList.name", errors);
 
-        List<String> priceErrors = Optional.ofNullable(priceList.getGoodsInPriceList())
+/*        List<String> priceErrors = Optional.ofNullable(priceList.getGoodsInPriceList())
                 .map(goodsInPriceListList -> goodsInPriceListList.stream()
                         .filter(priceIsInvalid)
                         .map(this::goodsPriceError)
                         .collect(Collectors.toList())).orElse(new ArrayList<>());
         if(priceErrors.size() > 0){
             errors.put("priceListGoodsPrice", priceErrors.toString());
-        }
+        }*/
     }
 
     @Override

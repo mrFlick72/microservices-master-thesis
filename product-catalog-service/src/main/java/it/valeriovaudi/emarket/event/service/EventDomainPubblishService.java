@@ -1,5 +1,6 @@
 package it.valeriovaudi.emarket.event.service;
 
+import lombok.Data;
 import it.valeriovaudi.emarket.event.config.EventMessageChannels;
 import it.valeriovaudi.emarket.event.factory.DomainEventFactory;
 import it.valeriovaudi.emarket.event.model.*;
@@ -7,7 +8,6 @@ import it.valeriovaudi.emarket.event.repository.GoodsErrorEventRepository;
 import it.valeriovaudi.emarket.event.repository.GoodsEventRepository;
 import it.valeriovaudi.emarket.event.repository.PriceListErrorEventRepository;
 import it.valeriovaudi.emarket.event.repository.PriceListEventRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.SubscribableChannel;
@@ -28,11 +28,13 @@ public class EventDomainPubblishService {
 
     @Autowired
     private GoodsEventRepository goodsEventRepository;
+
     @Autowired
     private GoodsErrorEventRepository goodsErrorEventRepository;
 
     @Autowired
     private PriceListEventRepository priceListEventRepository;
+
     @Autowired
     private PriceListErrorEventRepository priceListErrorEventRepository;
 

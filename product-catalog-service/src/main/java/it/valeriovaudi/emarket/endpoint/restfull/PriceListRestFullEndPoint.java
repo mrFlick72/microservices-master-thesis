@@ -7,7 +7,9 @@ import it.valeriovaudi.emarket.service.PriceListService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.math.BigDecimal;
 
@@ -31,31 +33,45 @@ public class PriceListRestFullEndPoint {
     private GoodsInPriceListHeateoasFactory goodsInPriceListHeateoasFactory;
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity findPriceLists(){
         return ResponseEntity.ok(priceListHateoasFactory.toResources(priceListService.findPriceLists()));
     }
 
     @GetMapping("/{idPriceList}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity findPriceList(@PathVariable String idPriceList){
         return ResponseEntity.ok(priceListHateoasFactory.toResource(priceListService.findPriceList(idPriceList)));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{idPriceList}/goods")
     public ResponseEntity findGoodsListInPriceList(@PathVariable String idPriceList){
         return ResponseEntity.ok(goodsInPriceListHeateoasFactory.toResources(idPriceList, priceListService.findGoodsListInPriceList(idPriceList)));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{idPriceList}/goods/{idGoods}")
     public ResponseEntity findGoodsInPriceList(@PathVariable String idPriceList, @PathVariable String idGoods){
         return ResponseEntity.ok(goodsInPriceListHeateoasFactory.toResource(idPriceList, priceListService.findGoodsInPriceList(idPriceList, idGoods)));
     }
 
+    @PostMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity createPriceList(@RequestBody PriceList priceList){
+        PriceList priceListAux = priceListService.createPriceList(priceList);
+        return ResponseEntity.created(MvcUriComponentsBuilder.fromMethodName(PriceListRestFullEndPoint.class,
+                "findPriceList", priceListAux.getId()).build().toUri()).build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @PatchMapping("/{idPriceList}/goods/{idGoods}")
     public ResponseEntity saveGoodsInPriceList(@PathVariable String idPriceList, @PathVariable  String idGoods, @RequestBody BigDecimal price){
         priceListService.saveGoodsInPriceList(idPriceList,idGoods,price);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @DeleteMapping("/{idPriceList}/goods/{idGoods}")
     public ResponseEntity removeGoodsInPriceList(@PathVariable String idPriceList, @PathVariable  String idGoods){
         priceListService.removeGoodsInPriceList(idPriceList,idGoods);
@@ -63,6 +79,7 @@ public class PriceListRestFullEndPoint {
     }
 
     @PutMapping("/{idPriceList}")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity updatePriceList(@PathVariable String idPriceList, @RequestBody PriceList priceList){
         priceList.setId(idPriceList);
         priceListService.updatePriceList(priceList);
@@ -70,6 +87,7 @@ public class PriceListRestFullEndPoint {
     }
 
     @DeleteMapping("/{idPriceList}")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity deletePriceList(@PathVariable String idPriceList){
         priceListService.deletePriceList(idPriceList);
         return ResponseEntity.noContent().build();

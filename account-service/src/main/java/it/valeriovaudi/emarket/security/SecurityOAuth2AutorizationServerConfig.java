@@ -44,7 +44,7 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
         clients.inMemory()
                 .withClient("my-trusted-client")
                 .authorizedGrantTypes("client_credentials", "password", "authorization_code", "refresh_token", "implicit")
-                .authorities("ROLE_USER")
+                .authorities("ROLE_USER","ROLE_EMPLOYEE")
                 .scopes("read", "write", "trust")
                 .resourceIds("oauth2-resource")
                 .autoApprove(true)

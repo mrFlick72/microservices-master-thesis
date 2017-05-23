@@ -19,7 +19,7 @@ public class GoodsServiceImpl extends AbstractService implements GoodsService {
     public Goods createGoods(Goods goods) {
         String correlationId = UUID.randomUUID().toString();
         priceListDataValidator.validate(correlationId, goods);
-        Goods save = doSaveGoodsData(correlationId, goods, true);
+        Goods save = doSaveGoodsData(correlationId, goods);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
                 goods.getBarCode(), goods.getCategory(), EventTypeEnum.CREATE);
@@ -52,7 +52,7 @@ public class GoodsServiceImpl extends AbstractService implements GoodsService {
         stringStringMap.put(goodsAttributeKey, goodsAttributeValue);
         goods.setGoodsAttribute(stringStringMap);
 
-        return doSaveGoodsData(correlationId, goods, false);
+        return doSaveGoodsData(correlationId, goods);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class GoodsServiceImpl extends AbstractService implements GoodsService {
         stringStringMap.remove(goodsAttributeKey);
         goods.setGoodsAttribute(stringStringMap);
 
-        return doSaveGoodsData(correlationId, goods, false);
+        return doSaveGoodsData(correlationId, goods);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class GoodsServiceImpl extends AbstractService implements GoodsService {
 
         doCheckGoodsExist(correlationId, goods.getId());
 
-        Goods save = doSaveGoodsData(correlationId, goods, false);
+        Goods save = doSaveGoodsData(correlationId, goods);
 
         eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(), goods.getName(),
                 goods.getBarCode(), goods.getCategory(), EventTypeEnum.UPDATE);

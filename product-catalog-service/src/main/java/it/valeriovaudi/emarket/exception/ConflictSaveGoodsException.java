@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by vvaudi on 11/05/17.
  */
 
+@Deprecated
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ConflictSaveGoodsException extends AbstractException {
 

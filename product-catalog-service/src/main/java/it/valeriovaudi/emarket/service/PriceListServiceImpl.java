@@ -8,7 +8,9 @@ import it.valeriovaudi.emarket.model.PriceList;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -21,8 +23,9 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
     @Override
     public PriceList createPriceList(PriceList priceList) {
         String correlationId = UUID.randomUUID().toString();
+        priceList.setGoodsInPriceList(Optional.ofNullable(priceList.getGoodsInPriceList()).orElse(new ArrayList<>()));
         priceListDataValidator.validate(correlationId, priceList);
-        PriceList save = doSavePriceListData(correlationId, priceList, true);
+        PriceList save = doSavePriceListData(correlationId, priceList);
 
         eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
                 priceList.getName(), EventTypeEnum.CREATE);
@@ -87,7 +90,7 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
             goodsInPriceListAux.set(index, goodsInPriceList);
         }
 
-        PriceList priceListAux = doSavePriceListData(correlationId, priceList, false);
+        PriceList priceListAux = doSavePriceListData(correlationId, priceList);
 
         eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
                 priceList.getName(), EventTypeEnum.UPDATE);
@@ -110,7 +113,7 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
         goodsInPriceList.setGoods(goods);
         goodsInPriceListAux.remove(goodsInPriceList);
 
-        PriceList priceListAux = doSavePriceListData(correlationId, priceList, false);
+        PriceList priceListAux = doSavePriceListData(correlationId, priceList);
 
         eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
                 priceList.getName(), EventTypeEnum.UPDATE);

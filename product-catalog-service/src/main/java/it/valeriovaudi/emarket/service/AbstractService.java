@@ -43,59 +43,28 @@ public abstract class AbstractService {
             (priceList) -> Optional.ofNullable(priceList.getGoodsInPriceList()).orElse(new ArrayList<>());
 
 
-    protected Goods doSaveGoodsData(String correlationId, Goods goods, boolean checkDuplicate) {
-        Goods goodsAux = goods;
-        ConflictSaveGoodsException conflictSaveGoodsException = null;
+    protected Goods doSaveGoodsData(String correlationId, Goods goods) {
+        Goods goodsAux;
         GoodsErrorEvent goodsErrorEvent;
         try{
-            if(checkDuplicate){
-                Goods one = goodsRepository.findOne(goods.getId());
-                if(one == null){
-                    goodsAux = goodsRepository.save(goods);
-                } else {
-                    goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), one.getName(),one.getBarCode(),
-                            one.getCategory(), EventTypeEnum.SAVE, ConflictSaveGoodsException.DEFAULT_MESSAGE, ConflictSaveGoodsException.class);
-                    conflictSaveGoodsException = new ConflictSaveGoodsException(goodsErrorEvent, ConflictSaveGoodsException.DEFAULT_MESSAGE);
-                }
-            }else {
-                goodsAux = goodsRepository.save(goods);
-            }
+            goodsAux = goodsRepository.save(goods);
         } catch (Exception e){
             goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), goods.getName(),goods.getBarCode(),
                     goods.getCategory(), EventTypeEnum.SAVE, SaveGoodsException.DEFAULT_MESSAGE, SaveGoodsException.class);
             throw  new SaveGoodsException(goodsErrorEvent, SaveGoodsException.DEFAULT_MESSAGE);
         }
 
-        if(conflictSaveGoodsException!= null){
-            throw conflictSaveGoodsException;
-        }
-
         return goodsAux;
     }
 
-    protected PriceList doSavePriceListData(String correlationId, PriceList priceList, boolean checkDuplicate) {
-        PriceList priceListAux = priceList;
-        ConflictSavePriceListException conflictSavePriceListException = null;
+    protected PriceList doSavePriceListData(String correlationId, PriceList priceList) {
+        PriceList priceListAux;
         PriceListErrorEvent priceListErrorEvent ;
         try{
-            if(checkDuplicate){
-                Goods one = goodsRepository.findOne(priceListAux.getId());
-                if(one == null){
-                    priceListAux = priceListRepository.save(priceList);
-                } else {
-                    priceListErrorEvent = eventDomainPubblishService.publishPriceListErrorEvent(correlationId, priceList.getId(), priceList.getName(),EventTypeEnum.SAVE, ConflictSavePriceListException.DEFAULT_MESSAGE, ConflictSavePriceListException.class);
-                    conflictSavePriceListException = new ConflictSavePriceListException(priceListErrorEvent, ConflictSavePriceListException.DEFAULT_MESSAGE);
-                }
-            }else {
-                priceListAux = priceListRepository.save(priceList);
-            }
+            priceListAux = priceListRepository.save(priceList);
         } catch (Exception e){
             priceListErrorEvent = eventDomainPubblishService.publishPriceListErrorEvent(correlationId, priceList.getId(), priceList.getName(),EventTypeEnum.SAVE, SavePriceListException.DEFAULT_MESSAGE, SavePriceListException.class);
-            throw  new SaveGoodsException(priceListErrorEvent, SaveGoodsException.DEFAULT_MESSAGE);
-        }
-
-        if(conflictSavePriceListException!= null){
-            throw conflictSavePriceListException;
+            throw  new SavePriceListException(priceListErrorEvent, SavePriceListException.DEFAULT_MESSAGE);
         }
 
         return priceListAux;
