@@ -84,17 +84,18 @@
 		</dependency>
 		<!-- end cloud dependencies -->
 
-		<!-- start cloud security dependencies -->
-	<!--	<dependency>
+		<!-- start  security dependencies -->
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-starter-security</artifactId>
+			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
-		</dependency>-->
-		<!-- end cloud security dependencies -->
+		</dependency>
+
+		<!-- end  security dependencies -->
 
 		<!-- start distributed tracing dependencies -->
 		<dependency>
