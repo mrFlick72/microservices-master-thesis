@@ -34,18 +34,17 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .approvalStoreDisabled()
-//                .tokenStore(tokenStore())
+                .tokenStore(tokenStore())
                 .userDetailsService(accountUserDetailsService);
     }
 
-/*    @Bean
+    @Bean
     public RedisTokenStore tokenStore(){
         JdkSerializationStrategy jdkSerializationStrategy = new JdkSerializationStrategy();
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
         redisTokenStore.setSerializationStrategy(jdkSerializationStrategy);
         return redisTokenStore;
-    }*/
-
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -59,15 +58,7 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
         clients.inMemory()
                 .withClient("my-trusted-client")
                 .authorizedGrantTypes("client_credentials", "password", "authorization_code", "refresh_token", "implicit")
-                .authorities("ROLE_USER")
-                .scopes("read", "write", "trust","openid")
-                .resourceIds("oauth2-resource")
-                .autoApprove(true)
-                .accessTokenValiditySeconds(200)
-        .and()
-                .withClient("employee-trusted-client")
-                .authorizedGrantTypes("client_credentials", "password", "authorization_code", "refresh_token", "implicit")
-                .authorities("ROLE_EMPLOYEE")
+                .authorities("ROLE_USER","ROLE_EMPLOYEE")
                 .scopes("read", "write", "trust","openid")
                 .resourceIds("oauth2-resource")
                 .autoApprove(true)

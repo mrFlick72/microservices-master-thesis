@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: product-catalog-management-web-site
+
+server:
+  use-forward-headers: true
+  context-path: /site
+
+security:
+  oauth2:
+    client:
+     clientId: employee-trusted-client
+     clientSecret:
+     accessTokenUri: http://localhost:3030/oauth/token
+     userAuthorizationUri: http://localhost:3030/oauth/authorize
+     auto-approve-scopes: '.*'
+     registered-redirect-uri: http://localhost:3030/login
+    resource:
+     id: oauth2-resource
+     userInfoUri: http://localhost:5050/api/v1/account-service/account/userInfo.json
+
+management:
+  security:
+    enabled: false

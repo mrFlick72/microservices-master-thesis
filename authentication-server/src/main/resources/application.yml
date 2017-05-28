@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: authentacation-server
+
+server:
+  port: 9090
+
+management:
+  security:
+    enabled: false

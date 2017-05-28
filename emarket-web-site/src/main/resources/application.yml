@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: emarcket-web-site
+
+server:
+  use-forward-headers: true
+  context-path: /site
+
+security:
+  oauth2:
+    client:
+     clientId: my-trusted-client
+     clientSecret:
+     accessTokenUri: http://localhost:3030/oauth/token
+     userAuthorizationUri: http://localhost:3030/oauth/authorize
+     auto-approve-scopes: '.*'
+     registered-redirect-uri: http://localhost:3030/login
+     clientAuthenticationScheme: form
+    resource:
+     id: oauth2-resource
+     user-info-uri: http://localhost:3030/account/userInfo.json
+
+management:
+  security:
+    enabled: false

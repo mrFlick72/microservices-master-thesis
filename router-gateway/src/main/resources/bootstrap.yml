@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: router-gateway-server
-  cloud:
-    config:
-      discovery:
-        enabled: true
