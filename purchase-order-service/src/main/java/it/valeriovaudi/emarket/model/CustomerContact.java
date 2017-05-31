@@ -11,6 +11,5 @@ import java.io.Serializable;
 public class CustomerContact implements Serializable {
 
     private String telephone;
-    private String mobile;
     private String mail;
 }
