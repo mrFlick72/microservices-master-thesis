@@ -1,5 +1,7 @@
 package it.valeriovaudi.emarket.endpoint.restfull;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.service.GoodsService;
 import lombok.Data;
@@ -27,7 +29,7 @@ public class GoodsRestFullEndPoint {
     private GoodsService goodsService;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findAllGoods(@RequestParam String category){
         List<Goods> goodsList = Optional.ofNullable(category)
                 .map(categoryAux -> goodsService.findGoodsList(categoryAux))
@@ -37,13 +39,14 @@ public class GoodsRestFullEndPoint {
     }
 
     @GetMapping("/{idGoods}")
-    @PreAuthorize("isAuthenticated()")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findGoods(@PathVariable String idGoods){
         return ResponseEntity.ok(goodsService.findGoods(idGoods));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity createGoods(@RequestBody Goods goods){
         Goods goodsAux = goodsService.createGoods(goods);
         URI findGoods = MvcUriComponentsBuilder.fromMethodName(GoodsRestFullEndPoint.class,
@@ -53,6 +56,7 @@ public class GoodsRestFullEndPoint {
 
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @PatchMapping("/{idGoods}/category-attribute")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity saveGoodsAttributeValue(@PathVariable String idGoods, @RequestBody HashMap<String,String> goods){
         goods.entrySet().forEach(entry -> goodsService.saveGoodsAttributeValue(idGoods,entry.getKey(), entry.getValue()));
         return ResponseEntity.noContent().build();
@@ -60,6 +64,7 @@ public class GoodsRestFullEndPoint {
 
     @PutMapping("/{idGoods}")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity updateGoods(@PathVariable String idGoods, @RequestBody Goods goods){
         goods.setId(idGoods);
         goodsService.updateGoods(goods);
@@ -68,6 +73,7 @@ public class GoodsRestFullEndPoint {
 
     @DeleteMapping("/{idGoods}")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deleteGoods(@PathVariable String idGoods){
         goodsService.deleteGoods(idGoods);
         return ResponseEntity.noContent().build();
@@ -75,6 +81,7 @@ public class GoodsRestFullEndPoint {
 
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @DeleteMapping("/{idGoods}/category-attribute")
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity removeGoodsAttributeValue(@PathVariable String idGoods, @PathVariable String goodsAttributeKey){
         goodsService.removeGoodsAttributeValue(idGoods, goodsAttributeKey);
         return ResponseEntity.noContent().build();
