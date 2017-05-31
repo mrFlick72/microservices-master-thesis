@@ -8,4 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccountIntegrationService {
+
+    public String getAccountData(String userName){
+        //....
+        return "";
+    }
 }

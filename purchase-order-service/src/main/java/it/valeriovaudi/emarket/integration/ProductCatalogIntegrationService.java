@@ -8,4 +8,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductCatalogIntegrationService {
+
+    public String getPriceListData(String priceListId){
+        //....
+        return "";
+    }
+
+    public String getGoodsInPriceListData(String priceListId, String goodsId){
+        //....
+        return "";
+    }
 }

@@ -8,7 +8,8 @@ import it.valeriovaudi.emarket.model.*;
 public interface PurchaseOrderService {
 
     PurchaseOrder createPurchaseOrder();
-    PurchaseOrder deletePurchaseOrder(String orderNumber);
+    PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder);
+    void deletePurchaseOrder(String orderNumber);
     PurchaseOrder changeStatus(String orderNumber, PurchaseOrderStatusEnum purchaseOrderStatusEnum);
 
     PurchaseOrder withCustomer(String orderNumber, String userName, Customer customer);

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: purchase-order-service
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+     clientId: my-trusted-client
+     clientSecret:
+     accessTokenUri: http://localhost:5050/v1/account-service/oauth/access_token
+     userAuthorizationUri: http://localhost:5050/v1/account-service/oauth/authorize
+     clientAuthenticationScheme: form
+    resource:
+     userInfoUri: http://localhost:5050/v1/account-service/account/userInfo
+     preferTokenInfo: false

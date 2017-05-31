@@ -20,14 +20,13 @@ public class PurchaseOrder implements Serializable {
     @Id
     public String orderNumber;
     public Date orderDate;
-
+    public String userName;
 
     @Version
     private Long version;
 
     private PurchaseOrderStatusEnum purchaseOrderStatusEnum;
 
-    private AuditData auditData;
     private Customer customer;
     private CustomerContact customerContact;
     private List<Goods> goodsList;
