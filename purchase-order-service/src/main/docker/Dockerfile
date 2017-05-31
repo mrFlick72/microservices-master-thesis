@@ -1,7 +1,7 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 
-ADD purchase-order-service-server.jar /usr/local/product-catalog-service-server/
+ADD purchase-order-service-server.jar /usr/local/purchase-order-service-server/
 
-WORKDIR /usr/local/product-catalog-service-server/
+WORKDIR /usr/local/purchase-order-service-server/
 
-CMD ["java", "-Xms512m", "-Xmx1g", "-jar", "product-catalog-service-server.jar"]
+CMD ["java", "-Xms512m", "-Xmx1g", "-jar", "purchase-order-service-server.jar"]

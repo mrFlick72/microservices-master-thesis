@@ -1,5 +1,7 @@
 package it.valeriovaudi.emarket.service;
 
+import it.valeriovaudi.emarket.integration.AccountIntegrationService;
+import it.valeriovaudi.emarket.integration.ProductCatalogIntegrationService;
 import it.valeriovaudi.emarket.model.*;
 import it.valeriovaudi.emarket.repository.PurchaseOrderRepository;
 import lombok.Data;
@@ -8,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by mrflick72 on 30/05/17.
@@ -23,6 +24,13 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Autowired
+    private ProductCatalogIntegrationService productCatalogIntegrationService;
+
+    @Autowired
+    private AccountIntegrationService accountIntegrationService;
+
 
     @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
@@ -64,7 +72,11 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         Optional.ofNullable(customer).ifPresent(customerAux -> {
             throw new UnsupportedOperationException();
         });
-        return null;
+        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
+        Customer customerFormAccountData = accountIntegrationService.getCustomerFormAccountData(userName);
+        one.setCustomer(customerFormAccountData);
+
+        return purchaseOrderRepository.save(one);
     }
 
     @Override
@@ -72,7 +84,12 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         Optional.ofNullable(customerContact).ifPresent(customerAux -> {
             throw new UnsupportedOperationException();
         });
-        return null;
+
+        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
+        CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
+        one.setCustomerContact(customerContactFormAccountData);
+
+        return purchaseOrderRepository.save(one);
     }
 
     @Override
@@ -81,26 +98,41 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
             throw new UnsupportedOperationException();
         }
 
-        // find the purchase order
+        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
 
-        // find the customer and customerContact data
+        Customer customerFormAccountData = accountIntegrationService.getCustomerFormAccountData(userName);
+        one.setCustomer(customerFormAccountData);
 
-        // apply anticorruptation
+        CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
+        one.setCustomerContact(customerContactFormAccountData);
 
-        // apply modification
-
-        // save on mongo
-        return null;
+        return purchaseOrderRepository.save(one);
     }
 
     @Override
-    public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String goodsId) {
-        return null;
+    public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
+        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
+        Goods goodsInPriceListData = productCatalogIntegrationService.getGoodsInPriceListData(priceListId, goodsId);
+        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>());
+
+        goodsInPriceListData.setQuantity(quantity);
+        goods.add(goodsInPriceListData);
+
+        one.setGoodsList(goods);
+
+        return purchaseOrderRepository.save(one);
     }
 
     @Override
-    public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber, String goodsId) {
-        return null;
+    public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber, String barCode) {
+        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
+        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>())
+                .stream().filter(goodsAux -> !goodsAux.getBarCode().equals(barCode))
+                .collect(Collectors.toList());
+
+        one.setGoodsList(goods);
+
+        return purchaseOrderRepository.save(one);
     }
 
     @Override
@@ -127,15 +159,14 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return purchaseOrderRepository.save(purchaseOrder);
     }
 
-
     private String getPrincipalUserName(){
-        String userNAme = "";
+        String userName = "";
         try{
-            userNAme = SecurityContextHolder.getContext().getAuthentication().getName();
+            userName = SecurityContextHolder.getContext().getAuthentication().getName();
         } catch (Throwable t){
             // ignore it
-            log.info("session without an authenticated user");
+            log.error("session without an authenticated user");
         }
-        return userNAme;
+        return userName;
     }
 }

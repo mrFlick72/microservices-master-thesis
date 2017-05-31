@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**

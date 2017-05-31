@@ -1,5 +1,9 @@
 package it.valeriovaudi.emarket.integration;
 
+import it.valeriovaudi.emarket.anticorruptation.account.AccountAnticorruptationLayerService;
+import it.valeriovaudi.emarket.model.Customer;
+import it.valeriovaudi.emarket.model.CustomerContact;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,8 +13,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountIntegrationService {
 
-    public String getAccountData(String userName){
+    @Autowired
+    private AccountAnticorruptationLayerService accountAnticorruptationLayerService;
+
+    public Customer getCustomerFormAccountData(String userName){
         //....
-        return "";
+        return null;
     }
+
+    public CustomerContact getCustomerContactFormAccountData(String userName){
+        //....
+        return null;
+    }
+
 }

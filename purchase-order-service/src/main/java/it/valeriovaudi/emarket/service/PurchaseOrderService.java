@@ -18,7 +18,7 @@ public interface PurchaseOrderService {
     PurchaseOrder withCustomerAndCustomerContact(String orderNumber, String userName, Customer customer, CustomerContact customerContact);
 
 
-    PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber,String goodsId);
+    PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity);
     PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber,String goodsId);
 
     PurchaseOrder withShipment(String orderNumber, Shipment shipment);
