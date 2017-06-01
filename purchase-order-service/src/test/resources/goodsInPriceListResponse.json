@@ -1,0 +1,23 @@
+{
+  "goods": {
+    "id": "59307676c92d7229c2b8d8e2",
+    "barCode": "ASRE2345",
+    "name": "Penne Barilla",
+    "description": "",
+    "category": "food",
+    "version": 0,
+    "goodsAttribute": {
+      "weight": "5kg",
+      "expire-date": "5-10-2017"
+    }
+  },
+  "price": 10.5,
+  "_links": {
+    "self": {
+      "href": "http://localhost:5050/api/v1/product-catalog-service/price-list/5924a1f7bf51d512677ae9c2/goods/59307676c92d7229c2b8d8e2"
+    },
+    "price-list": {
+      "href": "http://localhost:5050/api/v1/product-catalog-service/price-list/5924a1f7bf51d512677ae9c2"
+    }
+  }
+}

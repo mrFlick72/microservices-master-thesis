@@ -1,6 +1,9 @@
 spring:
   application:
     name: purchase-order-service
+  data:
+    cassandra:
+      keyspace-name: purchaseOrderEventKeyspace
 
 security:
   basic:

@@ -10,40 +10,46 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StreamUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
 @Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class PurchaseOrderServiceApplicationTests {
 
-	String goods = "{\n" +
-			"  \"goods\": {\n" +
-			"    \"id\": \"59307676c92d7229c2b8d8e2\",\n" +
-			"    \"barCode\": \"ASRE2345\",\n" +
-			"    \"name\": \"Penne Barilla\",\n" +
-			"    \"description\": \"\",\n" +
-			"    \"category\": \"food\",\n" +
-			"    \"version\": 0,\n" +
-			"    \"goodsAttribute\": {\n" +
-			"      \"weight\": \"5kg\",\n" +
-			"      \"expire-date\": \"5-10-2017\"\n" +
-			"    }\n" +
-			"  },\n" +
-			"  \"price\": 10.5,\n" +
-			"  \"_links\": {\n" +
-			"    \"self\": {\n" +
-			"      \"href\": \"http://localhost:5050/api/v1/product-catalog-service/price-list/5924a1f7bf51d512677ae9c2/goods/59307676c92d7229c2b8d8e2\"\n" +
-			"    },\n" +
-			"    \"price-list\": {\n" +
-			"      \"href\": \"http://localhost:5050/api/v1/product-catalog-service/price-list/5924a1f7bf51d512677ae9c2\"\n" +
-			"    }\n" +
-			"  }\n" +
-			"}";
+	@Autowired
+	ResourceLoader resourceLoader;
 
 	@Autowired
 	ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy productCatalogAntiCorruptationLayerServiceHalJsonStrategy;
 
+	String goods;
+
+	@Before
+	public void setUp(){
+		log.info("****************************");
+		log.info("****************************");
+		log.info("****************************");
+
+		try(InputStream goodsStream = resourceLoader.getResource("classpath:goodsInPriceListResponse.json").getInputStream()){
+			goods = StreamUtils.copyToString(goodsStream, Charset.defaultCharset());
+		} catch (IOException e) {
+			log.info("****************************");
+			log.error(e.getMessage());
+			log.info("****************************");
+		}
+
+		log.info("****************************");
+		log.info("****************************");
+		log.info("****************************");
+
+	}
 
 	@Test
 	public void contextLoads() {
