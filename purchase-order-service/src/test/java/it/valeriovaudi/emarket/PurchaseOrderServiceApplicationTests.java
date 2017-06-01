@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy;
 import it.valeriovaudi.emarket.model.Goods;
 import lombok.extern.slf4j.Slf4j;
