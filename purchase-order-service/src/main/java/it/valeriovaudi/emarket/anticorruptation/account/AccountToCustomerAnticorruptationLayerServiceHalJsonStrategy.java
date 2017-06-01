@@ -1,12 +1,11 @@
 package it.valeriovaudi.emarket.anticorruptation.account;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.valeriovaudi.emarket.anticorruptation.AnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAnticCorruptationLayerStrategy;
 import it.valeriovaudi.emarket.model.Customer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -15,21 +14,21 @@ import java.io.IOException;
  */
 
 @Slf4j
-public class AccountToCustomerAnticorruptationLayerServiceHalJsonStrategy implements AnticCorruptationLayerStrategy<Customer> {
+@Component
+public class AccountToCustomerAnticorruptationLayerServiceHalJsonStrategy extends AbstractAnticCorruptationLayerStrategy<Customer> {
 
     @Override
     public Customer traslate(String body) {
         Customer customer = null;
         try {
             customer  = new Customer();
-            ObjectNode node = (ObjectNode) new ObjectMapper().readTree(body);
-            JsonNode embedded = node.get("_embedded");
+            ObjectNode node = (ObjectNode) objectMapper.readTree(body);
 
-            customer.setFirstName(embedded.get("firstName").asText());
-            customer.setLastName(embedded.get("lastName").asText());
-            customer.setTaxCode(embedded.get("taxCode").asText());
+            customer.setFirstName(node.get("firstName").asText());
+            customer.setLastName(node.get("lastName").asText());
+            customer.setTaxCode(node.get("taxCode").asText());
         } catch (IOException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return customer;

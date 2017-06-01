@@ -1,8 +1,10 @@
 package it.valeriovaudi.emarket.anticorruptation.account;
 
+import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptationLayerService;
 import it.valeriovaudi.emarket.anticorruptation.AnticCorruptationLayerStrategy;
 import it.valeriovaudi.emarket.model.Customer;
 import it.valeriovaudi.emarket.model.CustomerContact;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +19,24 @@ import java.util.Optional;
 
 
 @Service
-public class AccountAnticorruptationLayerService {
+public class AccountAnticorruptationLayerService extends AbstractAntiCorruptationLayerService {
 
     private Map<String, AnticCorruptationLayerStrategy> customerAntiCorruptationRegistry;
     private Map<String, AnticCorruptationLayerStrategy> customerContactAnticorruptationRegistry;
 
+    @Autowired
+    private AccountToCustomerAnticorruptationLayerServiceHalJsonStrategy accountToCustomerAnticorruptationLayerServiceHalJsonStrategy;
+
+    @Autowired
+    private AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy;
+
     @PostConstruct
     public void init(){
         customerAntiCorruptationRegistry = new HashMap<>();
-        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, new AccountToCustomerAnticorruptationLayerServiceHalJsonStrategy());
+        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerAnticorruptationLayerServiceHalJsonStrategy);
 
         customerContactAnticorruptationRegistry = new HashMap<>();
-        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, new AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy());
+        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy);
     }
 
     public Customer newCustomer(String customer, String mediaType){
@@ -40,5 +48,6 @@ public class AccountAnticorruptationLayerService {
     public CustomerContact newCustomerContact(String gustomerContact, String mediaType){
         return (CustomerContact) Optional.ofNullable(customerContactAnticorruptationRegistry.get(mediaType))
                 .map(anticCorruptationLayerStrategy -> anticCorruptationLayerStrategy.traslate(gustomerContact))
-                .orElse(null);    }
+                .orElse(null);
+    }
 }

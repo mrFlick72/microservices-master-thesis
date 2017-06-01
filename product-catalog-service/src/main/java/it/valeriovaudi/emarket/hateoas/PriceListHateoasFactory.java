@@ -26,7 +26,7 @@ public class PriceListHateoasFactory {
         Link selfLink = linkTo(PriceListRestFullEndPoint.class).slash(priceList.getId())
                 .withSelfRel();
 
-        Link goodsInPriceListLink = linkTo(GoodsRestFullEndPoint.class).slash(priceList.getId())
+        Link goodsInPriceListLink = linkTo(PriceListRestFullEndPoint.class)
                 .slash(priceList.getId()).slash("goods")
                 .withRel("goods-list-in-price-list");
 

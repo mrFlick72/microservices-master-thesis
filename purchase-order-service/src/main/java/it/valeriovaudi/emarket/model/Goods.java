@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.Map;
  */
 
 @Data
+@ToString
 public class Goods implements Serializable {
 
     private String name;

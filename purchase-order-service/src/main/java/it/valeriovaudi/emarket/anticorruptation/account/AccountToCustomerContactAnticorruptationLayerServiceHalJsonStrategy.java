@@ -1,12 +1,11 @@
 package it.valeriovaudi.emarket.anticorruptation.account;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.valeriovaudi.emarket.anticorruptation.AnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAnticCorruptationLayerStrategy;
 import it.valeriovaudi.emarket.model.CustomerContact;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -15,24 +14,24 @@ import java.io.IOException;
  */
 
 @Slf4j
-public class AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy implements AnticCorruptationLayerStrategy<CustomerContact> {
+@Component
+public class AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy extends AbstractAnticCorruptationLayerStrategy<CustomerContact> {
 
     @Override
     public CustomerContact traslate(String body) {
         CustomerContact customerContact = null;
         try {
             customerContact  = new CustomerContact();
-            ObjectNode node = (ObjectNode) new ObjectMapper().readTree(body);
-            JsonNode embedded = node.get("_embedded");
+            ObjectNode node = (ObjectNode) objectMapper.readTree(body);
 
             customerContact.setTelephone(String.format("%s %s%s",
-                    embedded.get("countryPrefix").asText(),
-                    embedded.get("prefix").asText(),
-                    embedded.get("telephone").asText()));
+                    node.get("countryPrefix").asText(),
+                    node.get("prefix").asText(),
+                    node.get("telephone").asText()));
 
-            customerContact.setMail(embedded.get("mail").asText());
+            customerContact.setMail(node.get("mail").asText());
         } catch (IOException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return customerContact;

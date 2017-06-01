@@ -84,7 +84,7 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
 
         int index = goodsInPriceListAux.indexOf(goodsInPriceList);
 
-        if(index != -1){
+        if(index == -1){
             goodsInPriceListAux.add(goodsInPriceList);
         } else {
             goodsInPriceListAux.set(index, goodsInPriceList);

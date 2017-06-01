@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import it.valeriovaudi.emarket.hateoas.GoodsHateoasFactory;
 import it.valeriovaudi.emarket.model.Goods;
 import it.valeriovaudi.emarket.service.GoodsService;
 import lombok.Data;
@@ -28,20 +29,19 @@ public class GoodsRestFullEndPoint {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private GoodsHateoasFactory goodsHateoasFactory;
+
     @GetMapping
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity findAllGoods(@RequestParam String category){
-        List<Goods> goodsList = Optional.ofNullable(category)
-                .map(categoryAux -> goodsService.findGoodsList(categoryAux))
-                .orElse(goodsService.findGoodsList());
-
-        return ResponseEntity.ok(goodsList);
+    public ResponseEntity findAllGoods(){
+        return ResponseEntity.ok(goodsHateoasFactory.toResources(goodsService.findGoodsList()));
     }
 
     @GetMapping("/{idGoods}")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity findGoods(@PathVariable String idGoods){
-        return ResponseEntity.ok(goodsService.findGoods(idGoods));
+        return ResponseEntity.ok(goodsHateoasFactory.toResource(goodsService.findGoods(idGoods)));
     }
 
     @PostMapping
