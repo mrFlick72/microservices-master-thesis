@@ -1,11 +1,16 @@
 package it.valeriovaudi.emarket.service;
 
 import it.valeriovaudi.emarket.model.*;
+import java.util.List;
 
 /**
  * Created by mrflick72 on 30/05/17.
  */
 public interface PurchaseOrderService {
+
+    PurchaseOrder findPurchaseOrder(String userName, String orderNumber);
+    List<PurchaseOrder> findPurchaseOrderList();
+    List<PurchaseOrder> findPurchaseOrderList(String userName);
 
     PurchaseOrder createPurchaseOrder();
     PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder);

@@ -11,6 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +34,26 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     @Autowired
     private AccountIntegrationService accountIntegrationService;
 
+    @Override
+    public PurchaseOrder findPurchaseOrder(String userName, String orderNumber) {
+        try {
+            return purchaseOrderRepository.findByUserNameAndOrderNumber(userName, orderNumber).get(2*60, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            log.error(String.format("%s: %s", "error cause message", e.getCause().getMessage()));
+            log.error(String.format("%s: %s", "error message", e.getMessage()));
+        }
+        return null;
+    }
+
+    @Override
+    public List<PurchaseOrder> findPurchaseOrderList() {
+        return purchaseOrderRepository.findAll();
+    }
+
+    @Override
+    public List<PurchaseOrder> findPurchaseOrderList(String userName) {
+        return purchaseOrderRepository.findByUserName(userName).collect(Collectors.toList());
+    }
 
     @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
