@@ -22,7 +22,7 @@ import java.security.Principal;
 
 @Data
 @RestController
-@RequestMapping("/purchase-order/user-name/{userName}")
+@RequestMapping("/purchase-order")
 public class PurchaseOrderRestFullEndPoint {
 
 
@@ -37,20 +37,20 @@ public class PurchaseOrderRestFullEndPoint {
     }
 
     @GetMapping("/{orderNumber}")
-    @PreAuthorize("hasRole('ROLE_USER') and #contact.name == authentication.name")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity getPuchaseOrder(@PathVariable String orderNumber, Principal principal){
         return ResponseEntity.ok(purchaseOrderService.findPurchaseOrder(principal.getName(), orderNumber));
     }
 
-    @PostMapping
+    @PostMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity createPuchaseOrder(@PathVariable String orderNumber){
         return ResponseEntity.ok(purchaseOrderService.findPurchaseOrderList(orderNumber));
     }
 
-    @PatchMapping
+    @PatchMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity pathcPuchaseOrder(@PathVariable String orderNumber, @RequestBody PurchaseOrderStatusEnum purchaseOrderStatusEnum){
