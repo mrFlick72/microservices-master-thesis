@@ -3,7 +3,6 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.model.Delivery;
-import it.valeriovaudi.emarket.model.PurchaseOrder;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
 import it.valeriovaudi.emarket.model.Shipment;
 import it.valeriovaudi.emarket.service.PurchaseOrderService;
@@ -58,15 +57,15 @@ public class PurchaseOrderRestFullEndPoint {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/{orderNumber}/customer/{userName}")
+    @PatchMapping("/{orderNumber}/customer")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity customerDataPuchaseOrder(@PathVariable String orderNumber, @PathVariable String userName){
+    public ResponseEntity customerDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody String userName){
         purchaseOrderService.withCustomerAndCustomerContact(orderNumber, userName, null, null);
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/{orderNumber}/delivery")
+    @PutMapping("/{orderNumber}/delivery")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deliveryDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody Delivery delivery){
@@ -74,7 +73,7 @@ public class PurchaseOrderRestFullEndPoint {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/{orderNumber}/shipment")
+    @PutMapping("/{orderNumber}/shipment")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity shipmentDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody Shipment shipment){
@@ -82,11 +81,11 @@ public class PurchaseOrderRestFullEndPoint {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/{orderNumber}/price-list/{priceList}/goods/{goods}")
+    @PutMapping("/{orderNumber}/price-list/{priceList}/goods/{goods}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity saveGoodsDataInPuchaseOrder(@PathVariable String orderNumber, @PathVariable String priceList,
-                                                   @PathVariable String goods, @RequestBody Integer quantity){
+                                                      @PathVariable String goods, @RequestBody Integer quantity){
         purchaseOrderService.saveGoodsInPurchaseOrder(orderNumber, priceList, goods, quantity);
         return ResponseEntity.notFound().build();
     }
