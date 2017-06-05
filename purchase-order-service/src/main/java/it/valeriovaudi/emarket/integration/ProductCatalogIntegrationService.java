@@ -3,6 +3,7 @@ package it.valeriovaudi.emarket.integration;
 import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAnticorruptationLayerService;
 import it.valeriovaudi.emarket.model.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class ProductCatalogIntegrationService {
 
     @Autowired
     private OAuth2RestTemplate productCatalogIntegrationServiceRestTemplate;
+
+    @Value("external-service.base-uri-schema.product-catalog")
+    private String productCatalogServiceUriSchema;
 
     public List<Goods> getPriceListData(String priceListId){
 
