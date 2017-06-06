@@ -1,5 +1,6 @@
 package it.valeriovaudi.emarket.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import it.valeriovaudi.emarket.integration.AccountIntegrationService;
 import it.valeriovaudi.emarket.integration.ProductCatalogIntegrationService;
 import it.valeriovaudi.emarket.model.*;
@@ -35,6 +36,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     private AccountIntegrationService accountIntegrationService;
 
     @Override
+    @HystrixCommand
     public PurchaseOrder findPurchaseOrder(String userName, String orderNumber) {
         try {
             return purchaseOrderRepository.findByUserNameAndOrderNumber(userName, orderNumber).get(2*60, TimeUnit.SECONDS);
@@ -46,21 +48,25 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public List<PurchaseOrder> findPurchaseOrderList() {
         return purchaseOrderRepository.findAll();
     }
 
     @Override
+    @HystrixCommand
     public List<PurchaseOrder> findPurchaseOrderList(String userName) {
         return purchaseOrderRepository.findByUserName(userName).collect(Collectors.toList());
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
         return purchaseOrderRepository.save(purchaseOrder);
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder createPurchaseOrder() {
         String userName = getPrincipalUserName();
 
@@ -73,6 +79,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public void deletePurchaseOrder(String orderNumber) {
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         if(one != null){
@@ -81,6 +88,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder changeStatus(String orderNumber, PurchaseOrderStatusEnum purchaseOrderStatusEnum) {
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         return purchaseOrderRepository.save(Optional.ofNullable(one)
@@ -91,6 +99,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder withCustomer(String orderNumber, String userName, Customer customer) {
         Optional.ofNullable(customer).ifPresent(customerAux -> {
             throw new UnsupportedOperationException();
@@ -103,6 +112,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder withCustomerContact(String orderNumber, String userName, CustomerContact customerContact) {
         Optional.ofNullable(customerContact).ifPresent(customerAux -> {
             throw new UnsupportedOperationException();
@@ -116,6 +126,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder withCustomerAndCustomerContact(String orderNumber, String userName, Customer customer, CustomerContact customerContact) {
         if (Optional.ofNullable(customer).isPresent() || Optional.ofNullable(customerContact).isPresent()){
             throw new UnsupportedOperationException();
@@ -133,6 +144,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         Goods goodsInPriceListData = productCatalogIntegrationService.getGoodsInPriceListData(priceListId, goodsId);
@@ -147,6 +159,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber, String barCode) {
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>())
@@ -171,6 +184,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
+    @HystrixCommand
     public PurchaseOrder withDelivery(String orderNumber, Delivery delivery) {
         // find the purchase order
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findOne(orderNumber);

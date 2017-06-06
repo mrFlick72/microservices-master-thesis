@@ -1,11 +1,11 @@
 package it.valeriovaudi.emarket.integration;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import it.valeriovaudi.emarket.anticorruptation.account.AccountAnticorruptationLayerService;
 import it.valeriovaudi.emarket.model.Customer;
 import it.valeriovaudi.emarket.model.CustomerContact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.net.URI;
  */
 
 @Service
-public class AccountIntegrationService {
+public class AccountIntegrationService extends AbstractIntegrationService {
 
     @Autowired
     private AccountAnticorruptationLayerService accountAnticorruptationLayerService;
@@ -29,22 +29,23 @@ public class AccountIntegrationService {
     @Value("external-service.base-uri-schema.account")
     private String accountServiceUriSchema;
 
+    @HystrixCommand
     public Customer getCustomerFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomer(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().getType());
     }
 
+    @HystrixCommand
     public CustomerContact getCustomerContactFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomerContact(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().getType());
     }
 
-    private ResponseEntity<String> serviceCall(String userName){
-        URI uri = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s", accountServiceUriSchema, userName))
-                .build().toUri();
-        RequestEntity<Void> build = RequestEntity.get(uri).build();
-        return accountIntegrationServiceRestTemplate.exchange(build, String.class);
+    private ResponseEntity<String> serviceCall(String userName) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(accountServiceUriSchema).buildAndExpand(userName).toUri();
+        return accountIntegrationServiceRestTemplate.exchange(newRequestEntity(uri), String.class);
     }
+
 }
