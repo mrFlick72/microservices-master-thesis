@@ -17,7 +17,7 @@ import java.net.URI;
  */
 
 @Service
-public class ProductCatalogIntegrationService  extends AbstractIntegrationService {
+public class ProductCatalogIntegrationService extends AbstractIntegrationService {
 
     @Autowired
     private ProductCatalogAnticorruptationLayerService productCatalogAnticorruptationLayerService;
