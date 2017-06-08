@@ -96,9 +96,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     public void deletePurchaseOrder(String orderNumber) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
-
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
-        purchaseOrderRepository.delete(one);
+        purchaseOrderRepository.delete(orderNumber);
     }
 
     @Override
