@@ -5,8 +5,11 @@ import it.valeriovaudi.emarket.event.model.EventAuditData;
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
 import it.valeriovaudi.emarket.event.model.PurchaseOrderErrorEvent;
 import it.valeriovaudi.emarket.event.model.PurchaseOrderEvent;
+import it.valeriovaudi.emarket.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.security.Security;
 import java.util.Date;
 
 /**
@@ -15,6 +18,10 @@ import java.util.Date;
 
 @Component
 public class DomainEventFactory {
+
+
+    @Autowired
+    private SecurityUtils securityUtils;
 
     public PurchaseOrderEvent newPurchaseOrderEvent(String correlationId, String idPurchaseOrder,
                                                     String idProductCatalog, String idGoodsInPurchaseOrder,
@@ -54,7 +61,7 @@ public class DomainEventFactory {
         EventAuditData eventAuditData = new EventAuditData();
 
         eventAuditData.setCorrelationId(correlationId);
-        eventAuditData.setUserName("");
+        eventAuditData.setUserName(securityUtils.getPrincipalUserName());
         eventAuditData.setTimeStamp(new Date());
 
         return eventAuditData;

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class SaveGoodsInPurchaseOrderException extends RuntimeException {
+public class SaveGoodsInPurchaseOrderException extends AbstractException {
 
-    public static final String DEFAULT_MESSAGE = "goods in purchase order data save error";
+    public static final String DEFAULT_MESSAGE = "purchase order data save error";
 
     public SaveGoodsInPurchaseOrderException(String msg) {
         super( msg);
@@ -18,5 +18,10 @@ public class SaveGoodsInPurchaseOrderException extends RuntimeException {
 
     public SaveGoodsInPurchaseOrderException(String msg, Throwable cause) {
         super(msg, cause);
+    }
+
+    @Override
+    public String getDefaultMessage() {
+        return DEFAULT_MESSAGE;
     }
 }

@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class SaveShipmentException extends AbstractException {
+public class SaveCustomerAndOrCustomerContactException extends AbstractException {
 
-    public static final String DEFAULT_MESSAGE = "shipment data save error";
+    public static final String DEFAULT_MESSAGE = "customer and customer contact data save error";
 
-    public SaveShipmentException(String msg) {
+    public SaveCustomerAndOrCustomerContactException(String msg) {
         super( msg);
     }
 
-    public SaveShipmentException(String msg, Throwable cause) {
+    public SaveCustomerAndOrCustomerContactException(String msg, Throwable cause) {
         super(msg, cause);
     }
 

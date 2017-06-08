@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket.exception;
 
-import it.valeriovaudi.emarket.event.model.AbstractDomainEvent;
 import lombok.Getter;
 
 /**
@@ -9,15 +8,13 @@ import lombok.Getter;
 @Getter
 public abstract class AbstractException extends RuntimeException {
 
-    protected final AbstractDomainEvent event;
-
-    public AbstractException(AbstractDomainEvent event, String msg) {
+    public AbstractException(String msg) {
         super(msg);
-        this.event = event;
     }
 
-    public AbstractException(AbstractDomainEvent event, String msg, Throwable cause) {
+    public AbstractException(String msg, Throwable cause) {
         super(msg, cause);
-        this.event = event;
     }
+
+    public abstract String getDefaultMessage();
 }

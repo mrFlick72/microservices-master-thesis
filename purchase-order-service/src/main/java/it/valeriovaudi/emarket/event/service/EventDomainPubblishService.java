@@ -50,7 +50,7 @@ public class EventDomainPubblishService {
     public PurchaseOrderErrorEvent publishPurchaseOrderErrorEvent(String correlationId, String idPurchaseOrder,
                                                                   String idProductCatalogId, String idGoodsInPurchaseOrder,
                                                                   String customerUserName, EventTypeEnum type,
-                                                          String message, Class exceptionClassName){
+                                                                  String message, Class exceptionClassName){
         PurchaseOrderErrorEvent event = domainEventFactory.newPurchaseOrderErrorEvent(correlationId, idPurchaseOrder,
                 idProductCatalogId, idGoodsInPurchaseOrder,
                 customerUserName, type,message, exceptionClassName);

@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class SaveShipmentException extends AbstractException {
+public class SavePurchaseOrderException extends AbstractException {
 
-    public static final String DEFAULT_MESSAGE = "shipment data save error";
+    public static final String DEFAULT_MESSAGE = "purchase order didn't found";
 
-    public SaveShipmentException(String msg) {
-        super( msg);
+    public SavePurchaseOrderException(String msg) {
+        super(msg);
     }
 
-    public SaveShipmentException(String msg, Throwable cause) {
+    public SavePurchaseOrderException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
@@ -24,4 +24,5 @@ public class SaveShipmentException extends AbstractException {
     public String getDefaultMessage() {
         return DEFAULT_MESSAGE;
     }
+
 }
