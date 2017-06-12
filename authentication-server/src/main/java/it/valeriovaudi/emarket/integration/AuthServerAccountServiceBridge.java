@@ -1,6 +1,8 @@
 package it.valeriovaudi.emarket.integration;
 
+import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 /**
@@ -8,7 +10,10 @@ import org.springframework.messaging.SubscribableChannel;
  */
 public interface AuthServerAccountServiceBridge {
 
-    @Output("authServerAccountServiceBridgeChannel")
-    SubscribableChannel authServerAccountServiceBridgeChannelsu();
+    @Output("authServerAccountServiceBridgeInbounbdChannel")
+    DirectChannel authServerAccountServiceBridgeInbounbdChannel();
+
+    @Input("authServerAccountServiceBridgeOutboundChannel")
+    DirectChannel authServerAccountServiceBridgeOutboundChannel();
 
 }

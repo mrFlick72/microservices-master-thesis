@@ -1,20 +1,46 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>login</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.css}"/>
+
+
+    <link rel="icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+
+    <title>Social Document Library</title>
 </head>
 <body>
 <div class="container">
     <form role="form" action="login" method="post">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username"/>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-lg-6 col-md-offset-2 col-lg-offset-">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username"/>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password"/>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-lg-6 col-md-offset-2 col-lg-offset-2">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password"/>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="row">
+            <div class="col-md-offset-2 col-lg-offset-2 col-lg-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
     </form>
 </div>
+
+<script th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.js}" ></script>
 </body>
 </html>
