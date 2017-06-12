@@ -19,7 +19,6 @@ import java.util.Date;
 @Component
 public class DomainEventFactory {
 
-
     @Autowired
     private SecurityUtils securityUtils;
 
