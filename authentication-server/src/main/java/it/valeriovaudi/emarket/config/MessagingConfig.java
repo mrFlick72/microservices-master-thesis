@@ -14,8 +14,8 @@ import org.springframework.integration.dsl.channel.MessageChannels;
 @Configuration
 public class MessagingConfig {
 
-    @Bean("authServerAccountServiceBridgeInbounbdChannel")
-    public DirectChannel authServerAccountServiceBridgeInbounbdChannel(){
+    @Bean("authServerAccountServiceBridgeInboundChannel")
+    public DirectChannel authServerAccountServiceBridgeInboundChannel(){
         return MessageChannels.direct().get();
     }
 
@@ -24,9 +24,9 @@ public class MessagingConfig {
         return MessageChannels.direct().get();
     }
 
-    @Bean("authServerAccountServiceBridgeInbounbdQueue")
-    public Queue authServerAccountServiceBridgeInbounbdQueue(){
-        return new Queue("authServerAccountServiceBridgeInbounbdQueue", false);
+    @Bean("authServerAccountServiceBridgeInboundQueue")
+    public Queue authServerAccountServiceBridgeInboundQueue(){
+        return new Queue("authServerAccountServiceBridgeInboundQueue", false);
     }
 
     @Bean("authServerAccountServiceBridgeOutboundQueue")

@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,24 +21,15 @@ public class AuthServerAccountServiceBridgePipelineConfig {
 
 
     @Autowired
-    private ConnectionFactory rabbitConnectionFactory;
-
-
-    @Bean
-    public IntegrationFlow getUserDetailsIntegrationPipelineConfig(DirectChannel authServerAccountServiceBridgeInbounbdChannel,
-                                                                   Queue authServerAccountServiceBridgeInbounbdQueue){
-        return IntegrationFlows.from(authServerAccountServiceBridgeInbounbdChannel)
-                .gateway(IntegrationFlows.from(Amqp.inboundGateway(rabbitConnectionFactory,
-                        authServerAccountServiceBridgeInbounbdQueue)).get())
-                .get();
-    }
+    private RabbitTemplate rabbitTemplate;
 
     @Bean
-    public IntegrationFlow getUserDetailsIntegrationReturnPipelineConfig(DirectChannel authServerAccountServiceBridgeInbounbdChannel,
-                                                                   Queue authServerAccountServiceBridgeInbounbdQueue){
-        return IntegrationFlows.from(authServerAccountServiceBridgeInbounbdChannel)
-                .gateway(IntegrationFlows.from(Amqp.inboundGateway(rabbitConnectionFactory,
-                        authServerAccountServiceBridgeInbounbdQueue)).get())
+    public IntegrationFlow getUserDetailsIntegrationPipelineConfig(DirectChannel authServerAccountServiceBridgeInboundChannel,
+                                                                   DirectChannel authServerAccountServiceBridgeOutboundChannel) {
+        return IntegrationFlows.from(authServerAccountServiceBridgeInboundChannel)
+                .handle(Amqp.outboundGateway(rabbitTemplate)
+                        .routingKey("authServerAccountServiceBridgeInboundQueue")
+                        .returnChannel(authServerAccountServiceBridgeOutboundChannel))
                 .get();
     }
 }

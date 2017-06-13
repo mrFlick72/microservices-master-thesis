@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @MessagingGateway
 public interface LogInRequestGateway {
 
-    @Gateway(requestChannel = "authServerAccountServiceBridgeInbounbdChannel",
+    @Gateway(requestChannel = "authServerAccountServiceBridgeInboundChannel",
             replyChannel = "authServerAccountServiceBridgeOutboundChannel",
             replyTimeout = 60*1000)
     UserDetails getPrincipleByUSerName(String userName);
