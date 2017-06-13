@@ -28,7 +28,7 @@ public class UserDetailsProcessorChannelHandlrer {
         try {
             userDetails = accountUserDetailsService.loadUserByUsername(userName);
         } catch (Exception e){
-            log.error("utente non trovato");
+            log.error("user didn't found");
         }
         return userDetails;
     }
