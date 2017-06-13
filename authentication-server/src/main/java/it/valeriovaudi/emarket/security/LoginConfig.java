@@ -24,7 +24,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .formLogin().loginPage("/login").permitAll()
             .and()
-            .requestMatchers().antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
+            .requestMatchers().antMatchers("/account/userInfo","/login", "/oauth/authorize", "/oauth/confirm_access")
             .and()
             .authorizeRequests().anyRequest().authenticated();
     }

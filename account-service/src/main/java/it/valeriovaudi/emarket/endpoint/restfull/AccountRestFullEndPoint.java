@@ -67,10 +67,4 @@ public class AccountRestFullEndPoint {
         accountService.deleteAccount(userName);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/userInfo")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public Principal userInfo(Principal principal){
-        return principal;
-    }
 }

@@ -20,7 +20,6 @@ public class AccountUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        //todo send a message to account service for recive the user details
         return logInRequestGateway.getPrincipleByUSerName(userName);
         /*Optional.ofNullable(accountRepository.findOne(userName))
                 .map((account) -> new User(account.getUserName(), account.getPassword(),
