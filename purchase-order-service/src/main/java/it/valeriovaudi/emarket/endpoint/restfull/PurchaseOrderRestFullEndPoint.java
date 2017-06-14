@@ -2,12 +2,8 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import it.valeriovaudi.emarket.model.Delivery;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
-import it.valeriovaudi.emarket.model.Shipment;
-import it.valeriovaudi.emarket.service.PurchaseOrderService;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +18,7 @@ import java.security.Principal;
 @Data
 @RestController
 @RequestMapping("/purchase-order")
-public class PurchaseOrderRestFullEndPoint {
-
-
-    @Autowired
-    private PurchaseOrderService purchaseOrderService;
+public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPoint {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -54,47 +46,6 @@ public class PurchaseOrderRestFullEndPoint {
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity pathcPuchaseOrder(@PathVariable String orderNumber, @RequestBody PurchaseOrderStatusEnum purchaseOrderStatusEnum){
         purchaseOrderService.changeStatus(orderNumber, purchaseOrderStatusEnum);
-        return ResponseEntity.notFound().build();
-    }
-
-    @PatchMapping("/{orderNumber}/customer")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity customerDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody String userName){
-        purchaseOrderService.withCustomerAndCustomerContact(orderNumber, userName, null, null);
-        return ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{orderNumber}/delivery")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity deliveryDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody Delivery delivery){
-        purchaseOrderService.withDelivery(orderNumber, delivery);
-        return ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{orderNumber}/shipment")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity shipmentDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody Shipment shipment){
-        purchaseOrderService.withShipment(orderNumber, shipment);
-        return ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{orderNumber}/price-list/{priceList}/goods/{goods}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity saveGoodsDataInPuchaseOrder(@PathVariable String orderNumber, @PathVariable String priceList,
-                                                      @PathVariable String goods, @RequestBody Integer quantity){
-        purchaseOrderService.saveGoodsInPurchaseOrder(orderNumber, priceList, goods, quantity);
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{orderNumber}/goods-barcode/{goodsBarCode}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity removeGoodsDataInPuchaseOrder(@PathVariable String orderNumber, @PathVariable String goodsBarCode){
-        purchaseOrderService.removeGoodsInPurchaseOrder(orderNumber, goodsBarCode);
         return ResponseEntity.notFound().build();
     }
 

@@ -11,5 +11,4 @@ public interface EventMessageChannels {
     @Output("purchaseOrderEventOutboundChannel")
     SubscribableChannel purchaseOrderEventOutboundChannel();
 
-
 }

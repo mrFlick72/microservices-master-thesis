@@ -27,6 +27,12 @@ public class ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy extends A
             ObjectNode node = (ObjectNode) objectMapper.readTree(body);
             ObjectNode goodsNode = (ObjectNode) node.get("goods");
 
+            Map links = objectMapper.convertValue(node.get("_links"), Map.class);
+            String[] split = String.valueOf(links.get("price-list")).split("/");
+            String pirceListId = split[split.length-1].substring(0, split[split.length-1].length()-1);
+
+            goods.setPriceListId(pirceListId);
+            goods.setId(goodsNode.get("id").asText());
             goods.setBarCode(goodsNode.get("barCode").asText());
             goods.setName(goodsNode.get("name").asText());
             goods.setGoodsAttribute(objectMapper.convertValue(goodsNode.get("goodsAttribute"), Map.class));

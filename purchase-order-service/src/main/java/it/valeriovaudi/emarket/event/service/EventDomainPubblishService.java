@@ -33,7 +33,7 @@ public class EventDomainPubblishService {
     public PurchaseOrderErrorEventRepository purchaseOrderErrorEventRepository;
 
     @Autowired
-    private SubscribableChannel priceListEventOutboundChannel;
+    private SubscribableChannel purchaseOrderEventOutboundChannel;
 
     public PurchaseOrderEvent publishPurchaseOrderErrorEvent(String correlationId, String idPurchaseOrder,
                                                              String idProductCatalogId, String idGoodsInPurchaseOrder,
@@ -42,7 +42,7 @@ public class EventDomainPubblishService {
                                                             idProductCatalogId, idGoodsInPurchaseOrder,
                                                             customerUserName, type);
         purchaseOrderEventRepository.save(event);
-        priceListEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
+        purchaseOrderEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
 
         return event;
     }
@@ -56,7 +56,7 @@ public class EventDomainPubblishService {
                 customerUserName, type,message, exceptionClassName);
 
         purchaseOrderErrorEventRepository.save(event);
-        priceListEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
+        purchaseOrderEventOutboundChannel.send(MessageBuilder.withPayload(event).build());
 
         return event;
     }

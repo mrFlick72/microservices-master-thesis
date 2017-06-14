@@ -167,6 +167,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return doSavePurchaseOrderData(correlationId, one, SaveCustomerAndOrCustomerContactException.class);
     }
 
+    //todo fixme
     @Override
     @HystrixCommand
     public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
@@ -178,6 +179,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>());
 
         goodsInPriceListData.setQuantity(quantity);
+
         goods.add(goodsInPriceListData);
 
         one.setGoodsList(goods);
@@ -187,13 +189,13 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     @Override
     @HystrixCommand
-    public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber, String barCode) {
+    public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber,String priceListId, String goodsId) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
-        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>())
-                .stream().filter(goodsAux -> !goodsAux.getBarCode().equals(barCode))
+        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>()).stream()
+                .filter(goodsAux -> !checkGoods(priceListId,goodsId,goodsAux))
                 .collect(Collectors.toList());
 
         one.setGoodsList(goods);
@@ -266,4 +268,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return purchaseOrderAux;
     }
 
+    private boolean checkGoods(String priceListId, String goodsId, Goods goods){
+        return goods.getId().equals(goodsId) && goods.getPriceListId().equals(priceListId);
+    }
 }

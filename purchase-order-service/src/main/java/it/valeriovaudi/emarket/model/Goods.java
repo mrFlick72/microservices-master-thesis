@@ -15,6 +15,8 @@ import java.util.Map;
 @ToString
 public class Goods implements Serializable {
 
+    private String id;
+    private String priceListId;
     private String name;
     private String barCode;
     private BigDecimal price;
