@@ -9,6 +9,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
@@ -19,8 +20,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 public class CustomerHateoasFactory {
 
-    public static final String PURCHASE_ORDER_LINK_KEY = "purchase-order";
-
     @Autowired
     private PurchaseOrderHateoasFactory purchaseOrderHateoasFactory;
 
@@ -29,14 +28,16 @@ public class CustomerHateoasFactory {
 
         Resource<CustomerDataResponseDTO> resource = new Resource<>(customerDataResponseDTO);
 
-        Link link = linkTo(ControllerLinkBuilder.methodOn(CustomerRestFullEndPoint.class)
-                .getCustomerDataPuchaseOrder(orderNumber))
-                .withSelfRel();
-
-        resource.add(link);
-        resource.add(purchaseOrderHateoasFactory.gertPurchaseOrderLink(orderNumber).withRel(PURCHASE_ORDER_LINK_KEY));
+        resource.add(getCustomerSelfLink(orderNumber));
+        resource.add(purchaseOrderHateoasFactory.gertPurchaseOrderSelfLink(orderNumber).withRel(PURCHASE_ORDER_LINK_KEY));
 
         return resource;
+    }
+
+    public Link getCustomerSelfLink(String orderNumber){
+        return  linkTo(ControllerLinkBuilder.methodOn(CustomerRestFullEndPoint.class)
+                .getCustomerDataPuchaseOrder(orderNumber))
+                .withSelfRel();
     }
 
 }

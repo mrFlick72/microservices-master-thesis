@@ -2,9 +2,11 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import it.valeriovaudi.emarket.hateoas.ShipmentHateoasFactory;
 import it.valeriovaudi.emarket.model.PurchaseOrder;
 import it.valeriovaudi.emarket.model.Shipment;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/purchase-order")
 public class ShipmentRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPoint {
 
+    @Autowired
+    private ShipmentHateoasFactory shipmentHateoasFactory;
 
     @GetMapping("/{orderNumber}/shipment")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -25,7 +29,7 @@ public class ShipmentRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPo
     public ResponseEntity getShipmentDataPuchaseOrder(@PathVariable String orderNumber){
         PurchaseOrder purchaseOrder =
                 purchaseOrderService.findPurchaseOrder(securityUtils.getPrincipalUserName(), orderNumber);
-        return ResponseEntity.ok(purchaseOrder.getShipment());
+        return ResponseEntity.ok(shipmentHateoasFactory.toResource(orderNumber, purchaseOrder.getShipment()));
     }
     @PutMapping("/{orderNumber}/shipment")
     @PreAuthorize("hasRole('ROLE_USER')")
