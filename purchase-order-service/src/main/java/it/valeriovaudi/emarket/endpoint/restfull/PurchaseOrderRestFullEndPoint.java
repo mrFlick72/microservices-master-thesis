@@ -3,12 +3,15 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
+import it.valeriovaudi.emarket.security.SecurityUtils;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.security.Security;
 
 /**
  * Created by mrflick72 on 30/05/17.
@@ -20,6 +23,9 @@ import java.security.Principal;
 @RequestMapping("/purchase-order")
 public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPoint {
 
+    @Autowired
+    private SecurityUtils securityUtils;
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
@@ -30,8 +36,8 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @GetMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity getPuchaseOrder(@PathVariable String orderNumber, Principal principal){
-        return ResponseEntity.ok(purchaseOrderService.findPurchaseOrder(principal.getName(), orderNumber));
+    public ResponseEntity getPuchaseOrder(@PathVariable String orderNumber){
+        return ResponseEntity.ok(purchaseOrderService.findPurchaseOrder(securityUtils.getPrincipalUserName(), orderNumber));
     }
 
     @PostMapping("/{orderNumber}")

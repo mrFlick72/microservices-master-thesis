@@ -15,7 +15,6 @@ import org.springframework.integration.dsl.amqp.Amqp;
  * Created by vvaudi on 12/06/17.
  */
 
-// todo fixme
 @Configuration
 public class AuthServerAccountServiceBridgePipelineConfig {
 
