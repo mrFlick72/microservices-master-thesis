@@ -2,6 +2,7 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import it.valeriovaudi.emarket.hateoas.PurchaseOrderHateoasFactory;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
 import it.valeriovaudi.emarket.security.SecurityUtils;
 import lombok.Data;
@@ -26,18 +27,21 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @Autowired
     private SecurityUtils securityUtils;
 
+    @Autowired
+    private PurchaseOrderHateoasFactory purchaseOrderHateoasFactory;
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity getPuchaseOrderList(){
-        return ResponseEntity.ok(purchaseOrderService.findPurchaseOrderList());
+        return ResponseEntity.ok(purchaseOrderHateoasFactory.toResources(purchaseOrderService.findPurchaseOrderList()));
     }
 
     @GetMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity getPuchaseOrder(@PathVariable String orderNumber){
-        return ResponseEntity.ok(purchaseOrderService.findPurchaseOrder(securityUtils.getPrincipalUserName(), orderNumber));
+        return ResponseEntity.ok(purchaseOrderHateoasFactory.toResource(purchaseOrderService.findPurchaseOrder(securityUtils.getPrincipalUserName(), orderNumber)));
     }
 
     @PostMapping("/{orderNumber}")
