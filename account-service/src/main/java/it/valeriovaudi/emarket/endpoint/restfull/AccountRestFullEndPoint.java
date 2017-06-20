@@ -12,8 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.security.Principal;
-
 /**
  * Created by mrflick72 on 03/05/17.
  */

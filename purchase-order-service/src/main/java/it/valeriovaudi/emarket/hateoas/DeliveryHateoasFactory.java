@@ -1,6 +1,5 @@
 package it.valeriovaudi.emarket.hateoas;
 
-import it.valeriovaudi.emarket.endpoint.response.CustomerDataResponseDTO;
 import it.valeriovaudi.emarket.endpoint.restfull.CustomerRestFullEndPoint;
 import it.valeriovaudi.emarket.model.Delivery;
 import org.springframework.beans.factory.annotation.Autowired;

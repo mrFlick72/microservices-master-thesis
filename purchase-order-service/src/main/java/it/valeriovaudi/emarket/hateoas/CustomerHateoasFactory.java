@@ -9,7 +9,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.*;
+import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.PURCHASE_ORDER_LINK_KEY;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**

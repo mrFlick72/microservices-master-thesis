@@ -1,7 +1,6 @@
 package it.valeriovaudi.emarket.hateoas;
 
 import it.valeriovaudi.emarket.endpoint.restfull.GoodsInPurchaseOrderRestFullEndPoint;
-import it.valeriovaudi.emarket.endpoint.restfull.PurchaseOrderRestFullEndPoint;
 import it.valeriovaudi.emarket.model.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.*;
+import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.GOODS_IN_PURCHASE_ORDER_LINK_KEY;
+import static it.valeriovaudi.emarket.hateoas.AbstractHateoasFactoryConstants.PURCHASE_ORDER_LINK_KEY;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**

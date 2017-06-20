@@ -1,7 +1,5 @@
 package it.valeriovaudi.emarket.hateoas;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * Created by mrflick72 on 15/06/17.
  */

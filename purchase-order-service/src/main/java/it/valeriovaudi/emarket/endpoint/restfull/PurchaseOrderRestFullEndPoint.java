@@ -11,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.security.Security;
-
 /**
  * Created by mrflick72 on 30/05/17.
  */
