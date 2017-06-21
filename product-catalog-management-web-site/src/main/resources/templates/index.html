@@ -1,28 +1,25 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>login</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.css}"/>
+
+
+    <link rel="icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+
+    <title>Goods Management Web Site</title>
 </head>
 <body>
-<div>
-    Hello world from account management web app!!!
-
-    <div id="text-area"></div>
+<div class="container">
+    content
 </div>
-<script th:src="@{/webjars/jquery/3.2.0/jquery.js}"></script>
 
-<script>
-    $.get("/site/api/account-service/account.json").then(function (data) {
-        console.log("data from proxed gateway: " + data);
-        console.log(data['_embedded']);
-        $("#text-area").append(JSON.stringify(data['_embedded']));
-    });
-    $.get("/site/api/product-catalog-service/price-list.json").then(function (data) {
-        console.log("data from proxed gateway: " + data);
-        console.log(data['_embedded']);
-        $("#text-area").append(JSON.stringify(data['_embedded']));
-    });
-</script>
-
+<script th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.js}" ></script>
+<script th:src="@{/webjars/angularjs/1.6.4/angular.js}" ></script>
 </body>
 </html>

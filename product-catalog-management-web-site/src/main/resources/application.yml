@@ -9,15 +9,17 @@ server:
 security:
   oauth2:
     client:
-     clientId: employee-trusted-client
+     clientId: my-trusted-client
      clientSecret:
-     accessTokenUri: http://localhost:3030/oauth/token
-     userAuthorizationUri: http://localhost:3030/oauth/authorize
+     accessTokenUri: http://localhost:9090/oauth/token
+     userAuthorizationUri: http://localhost:9090/oauth/authorize
      auto-approve-scopes: '.*'
-     registered-redirect-uri: http://localhost:3030/login
+     registered-redirect-uri: http://localhost:9090/login
+     clientAuthenticationScheme: form
     resource:
      id: oauth2-resource
-     userInfoUri: http://localhost:5050/api/v1/account-service/account/userInfo.json
+     user-info-uri: http://localhost:9090/account/userInfo.json
+     preferTokenInfo: false
 
 management:
   security:
