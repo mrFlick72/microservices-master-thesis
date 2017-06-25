@@ -1,14 +1,24 @@
 "use strict"
 
 angular.module("product-catalog-management-app")
-    .controller("goodsCtrl",["$scope","$http", function($scope, $http){
+    .controller("goodsCtrl",["$scope","goodsService", function($scope, goodsService){
 
         console.log("before");
-        $http.get('/site/api/v1/product-catalog-service/goods')
-            .then(function(data) {
-                console.log("data");
-                console.log(data);
-            });
+        goodsService.findAll().then(function(data) {$scope.goodsList = data});
         console.log("after");
 
+        $scope.goodsDetails = function (goodsId) {
+            goodsService.find(goodsId);
+        };
+
+        $scope.goodsEdit = function (goodsId) {
+            goodsService.find(goodsId);
+        };
+
+        $scope.goodsRemove = function (goodsId) {
+            goodsService.delete(goodsId).then(function () {
+                goodsService.findAll().then(function(data) {$scope.goodsList = data});
+            });
+
+        };
     }]);

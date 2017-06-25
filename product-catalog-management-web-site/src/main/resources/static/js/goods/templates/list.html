@@ -1,1 +1,44 @@
-list
+<div class="panel panel-default" ng-cloak="ngClock">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-book"/> {{messages.headelLabel}}
+    </div>
+    <div class="panel-body">
+        <table class="table" >
+            <thead>
+            <tr class="text-center">
+                <th>name</th>
+                <th>barCode</th>
+                <th>description</th>
+                <th>category</th>
+                <th>operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="goods in goodsList" class="row-group">
+                <td>{{goods.name}}</td>
+                <td>{{goods.barCode}}</td>
+                <td>{{goods.description}}</td>
+                <td>{{goods.category}}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="goodsDetails(goods.id)"
+                            data-toggle="tooltip" data-placement="top" title="deatils">
+                        <span class="glyphicon glyphicon-file"/>
+                    </button>
+
+                    <button type="button" class="btn btn-default" ng-click="goodsEdit(goods.id)"
+                            data-toggle="tooltip" data-placement="top" title="edit">
+                    <span class="glyphicon glyphicon-pencil"/>
+                    </button>
+
+                    <button type="button" class="btn btn-default" ng-click="goodsRemove(goods.id)"
+                            data-toggle="tooltip" data-placement="top" title="delete">
+                    <span class="glyphicon glyphicon-trash"/>
+                    </button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
