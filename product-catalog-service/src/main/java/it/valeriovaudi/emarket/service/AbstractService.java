@@ -52,6 +52,7 @@ public abstract class AbstractService {
         try{
             goodsAux = goodsRepository.save(goods);
         } catch (Exception e){
+            e.printStackTrace();
             goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), goods.getName(),goods.getBarCode(),
                     goods.getCategory(), EventTypeEnum.SAVE, SaveGoodsException.DEFAULT_MESSAGE, SaveGoodsException.class);
             throw  new SaveGoodsException(goodsErrorEvent, SaveGoodsException.DEFAULT_MESSAGE);

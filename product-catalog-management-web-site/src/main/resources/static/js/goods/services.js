@@ -31,13 +31,15 @@ angular.module("product-catalog-management-app")
             },
             "find":function (goodsId) {
                 return baseRestExec('GET', [goodsBasePath,goodsId].join('/'),null
-                    ,goodsListExtractor,null);
+                    ,function (data) {return data.data;},null);
             },
             "create":function (goodsData) {
                 return baseRestExec('POST', goodsBasePath, goodsData, goodsListExtractor,null);
             },
             "edit":function (goodsId, goodsData) {
-                return baseRestExec('PUT', [goodsBasePath, goodsId].join('/'), goodsData, goodsListExtractor,null);
+                return baseRestExec('PUT', [goodsBasePath, goodsId].join('/'), goodsData, goodsListExtractor,function (data) {
+                    console.log(data)
+                });
             },
             "delete":function (goodsId) {
                 var extractor = function() {return true;};

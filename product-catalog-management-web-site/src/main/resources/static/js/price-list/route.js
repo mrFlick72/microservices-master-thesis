@@ -24,7 +24,7 @@ angular.module("product-catalog-management-app")
             .state('price-list.create', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/goods/templates/create.html',
+                        templateUrl: 'js/goods/templates/edit.html',
                         controller : 'goodsCtrl'
                     }
                 }

@@ -21,11 +21,20 @@ angular.module("product-catalog-management-app")
                     }
                 }
             })
+            .state('goods.edit', {
+                url: '/{goodsId}',
+                views: {
+                    'container@': {
+                        templateUrl: 'js/goods/templates/edit.html',
+                        controller : 'editGoodsCtrl'
+                    }
+                }
+            })
             .state('goods.create', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/goods/templates/create.html',
-                        controller : 'goodsCtrl'
+                        templateUrl: 'js/goods/templates/edit.html',
+                        controller : 'editGoodsCtrl'
                     }
                 }
             });

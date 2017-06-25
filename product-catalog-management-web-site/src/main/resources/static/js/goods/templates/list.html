@@ -21,14 +21,11 @@
                 <td>{{goods.category}}</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" ng-click="goodsDetails(goods.id)"
-                            data-toggle="tooltip" data-placement="top" title="deatils">
-                        <span class="glyphicon glyphicon-file"/>
-                    </button>
 
-                    <button type="button" class="btn btn-default" ng-click="goodsEdit(goods.id)"
+                    <button type="button" class="btn btn-default"
+                            ui-sref="goods.edit({'goodsId': '{{goods.id}}'})"
                             data-toggle="tooltip" data-placement="top" title="edit">
-                    <span class="glyphicon glyphicon-pencil"/>
+                        <span class="glyphicon glyphicon-pencil"/>
                     </button>
 
                     <button type="button" class="btn btn-default" ng-click="goodsRemove(goods.id)"
