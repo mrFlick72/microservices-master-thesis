@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -253,12 +254,11 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     protected PurchaseOrder doSavePurchaseOrderData(String correlationId, PurchaseOrder purchaseOrder, Class<? extends AbstractException> exception) {
         PurchaseOrder purchaseOrderAux;
-        PurchaseOrderErrorEvent purchaseOrderErrorEvent;
         AbstractException abstractException = null;
         try{
-            abstractException = (AbstractException) exception.getConstructors()[0].newInstance();
             purchaseOrderAux = purchaseOrderRepository.save(purchaseOrder);
         } catch (Exception e){
+            abstractException = newAbstractException(exception, e);
             eventDomainPubblishService.publishPurchaseOrderErrorEvent(correlationId, purchaseOrder.getOrderNumber(),
                     null,null, purchaseOrder.getUserName(), EventTypeEnum.SAVE, abstractException.getMessage(), exception);
             throw  abstractException;
@@ -269,5 +269,14 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     private boolean checkGoods(String priceListId, String goodsId, Goods goods){
         return goods.getId().equals(goodsId) && goods.getPriceListId().equals(priceListId);
+    }
+
+    public AbstractException newAbstractException(Class<? extends AbstractException> exception, Exception e){
+        try {
+            return (AbstractException) exception.getConstructors()[0].newInstance(e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

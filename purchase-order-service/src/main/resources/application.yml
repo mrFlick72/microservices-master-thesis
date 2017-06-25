@@ -6,15 +6,15 @@ spring:
       keyspace-name: purchaseOrderEventKeyspace
 
 security:
-  basic:
-    enabled: false
   oauth2:
     client:
      clientId: my-trusted-client
      clientSecret:
-     accessTokenUri: http://localhost:9090/oauth/access_token
+     accessTokenUri: http://localhost:9090/oauth/token
      userAuthorizationUri: http://localhost:9090/oauth/authorize
+     auto-approve-scopes: '.*'
+     registered-redirect-uri: http://localhost:9090/login
      clientAuthenticationScheme: form
     resource:
-     userInfoUri: http://localhost:9090/account/userInfo
-     preferTokenInfo: false
+     id: oauth2-resource
+     user-info-uri: http://localhost:9090/account/userInfo.json

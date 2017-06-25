@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.config;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,7 +22,9 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("EMPLOYEE");
+                .antMatchers("/**").hasRole("EMPLOYEE")
+                .and().logout().logoutUrl("/site/logout").logoutSuccessUrl("/").permitAll()
+        ;
     }
 
 }

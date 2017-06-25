@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * Created by mrflick72 on 30/05/17.
  */
@@ -41,11 +43,11 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
         return ResponseEntity.ok(purchaseOrderHateoasFactory.toResource(purchaseOrderService.findPurchaseOrder(securityUtils.getPrincipalUserName(), orderNumber)));
     }
 
-    @PostMapping("/{orderNumber}")
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity createPuchaseOrder(@PathVariable String orderNumber){
-        return ResponseEntity.ok(purchaseOrderService.findPurchaseOrderList(orderNumber));
+    public ResponseEntity createPuchaseOrder(){
+        return ResponseEntity.ok(purchaseOrderService.createPurchaseOrder());
     }
 
     @PatchMapping("/{orderNumber}")

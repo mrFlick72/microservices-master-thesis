@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -17,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 
 @EnableHystrix
+@EnableZuulProxy
 @EnableEurekaClient
 @SpringBootApplication
 public class ProductCatalogManagementWebSiteApplication {
@@ -34,10 +37,21 @@ class AccountServiceProxy {
 
 	@HystrixCommand(commandProperties = {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE")})
-	@GetMapping("/api/account-service/account")
+	@GetMapping("/api-server-side/v1/product-catalog-service/goods")
 	public ResponseEntity accountProxy() throws MalformedURLException {
-		URI uri = URI.create("http://api-gateway-server/api/v1/account-service/account");
-		RequestEntity<Void> build = RequestEntity.get(uri).build();
+		URI uri = URI.create("http://product-catalog-service/goods");
+		RequestEntity<String> build = RequestEntity.post(uri)
+				.contentType(MediaType.APPLICATION_JSON).body("{\n" +
+						"    \"barCode\": \"ASRE2345\",\n" +
+						"    \"name\": \"Penne Barilla\",\n" +
+						"    \"description\": \"\",\n" +
+						"    \"category\": \"food\",\n" +
+						"    \"version\": 0,\n" +
+						"    \"goodsAttribute\": {\n" +
+						"        \"weight\": \"5kg\",\n" +
+						"        \"expire-date\": \"5-10-2017\"\n" +
+						"    }\n" +
+						"}");
 		ResponseEntity<String> exchange = oAuth2RestTemplate.exchange(build, String.class);
 		return ResponseEntity.ok(exchange.getBody());
 	}

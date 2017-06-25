@@ -1,6 +1,8 @@
 spring:
   application:
     name: product-catalog-management-web-site
+  messages:
+    basename: messages/messages
 
 server:
   use-forward-headers: true
@@ -24,3 +26,12 @@ security:
 management:
   security:
     enabled: false
+
+zuul:
+  prefix: /api
+  sensitiveHeaders:
+  ignoredServices: '*'
+  ignoreSecurityHeaders: false
+  addHostHeader: true
+  routes:
+    product-catalog-service: /v1/product-catalog-service/**

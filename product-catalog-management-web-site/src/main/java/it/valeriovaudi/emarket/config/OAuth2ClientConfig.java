@@ -22,7 +22,6 @@ public class OAuth2ClientConfig {
     @LoadBalanced
 //    @ConfigurationProperties("security.oauth2.client")
     public OAuth2RestTemplate oAuth2RestTemplate(OAuth2ProtectedResourceDetails authorizationCodeResourceDetails){
-        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(authorizationCodeResourceDetails, context);
-        return oAuth2RestTemplate;
+        return new OAuth2RestTemplate(authorizationCodeResourceDetails, context);
     }
 }
