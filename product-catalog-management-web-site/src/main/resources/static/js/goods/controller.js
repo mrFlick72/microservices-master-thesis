@@ -19,23 +19,30 @@ angular.module("product-catalog-management-app")
         };
     }])
     .controller("editGoodsCtrl",["$stateParams", "$scope","goodsService", function($stateParams, $scope, goodsService){
-        goodsService.find($stateParams.goodsId)
-            .then(function (data) {
-                var goodsMaster = data;
-                console.log(goodsMaster)
-                $scope.goods = {
-                    id: goodsMaster.id || null,
-                    name: goodsMaster.name || "",
-                    version: goodsMaster.version || "0",
-                    barCode: goodsMaster.barCode || "",
-                    description: goodsMaster.description || "",
-                    category: goodsMaster.category || "",
-                    itemList:  Object.keys(goodsMaster.goodsAttribute)
-                        .map(function (key) { return {"key":key, "value":goodsMaster.goodsAttribute[key]}})
-                };
+        if($stateParams.goodsId){
+            goodsService.find($stateParams.goodsId)
+                .then(function (data) {
+                    var goodsMaster = data;
+                    $scope.goods = {
+                        id: goodsMaster.id || null,
+                        name: goodsMaster.name || "",
+                        version: goodsMaster.version || "0",
+                        barCode: goodsMaster.barCode || "",
+                        description: goodsMaster.description || "",
+                        category: goodsMaster.category || "",
+                        itemList:  Object.keys(goodsMaster.goodsAttribute)
+                            .map(function (key) { return {"key":key, "value":goodsMaster.goodsAttribute[key]}})
+                    };
+                });
+            } else {
+            $scope.goods = {
+                itemList: []
+            }
+        }
 
-                console.log($scope.goods)
-            });
+        $scope.removeItem = function (index) {
+            $scope.goods.itemList.splice(index,1);
+        };
 
         $scope.addAttribute = function(){
             $scope.goods.itemList.push({key:"",value:""});
