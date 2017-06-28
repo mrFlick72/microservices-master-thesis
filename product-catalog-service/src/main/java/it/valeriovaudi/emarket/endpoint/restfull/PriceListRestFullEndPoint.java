@@ -36,8 +36,8 @@ public class PriceListRestFullEndPoint {
 
     @GetMapping
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity findPriceLists(){
-        return ResponseEntity.ok(priceListHateoasFactory.toResources(priceListService.findPriceLists()));
+    public ResponseEntity findPriceLists(@RequestParam(name = "withoutGoodsInPriceList", defaultValue = "false") boolean withoutGoodsInPriceList){
+        return ResponseEntity.ok(priceListHateoasFactory.toResources(priceListService.findPriceLists(withoutGoodsInPriceList)));
     }
 
     @GetMapping("/{idPriceList}")

@@ -33,8 +33,8 @@ public class PriceListServiceImpl extends AbstractService implements PriceListSe
     }
 
     @Override
-    public List<PriceList> findPriceLists() {
-        return priceListRepository.findAll();
+    public List<PriceList> findPriceLists(boolean withoutGoodsInPriceList) {
+        return withoutGoodsInPriceList ? priceListRepository.findAllWithoutGoodsInPriceList() : priceListRepository.findAll();
     }
 
     @Override

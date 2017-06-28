@@ -24,6 +24,15 @@ angular.module("product-catalog-management-app")
 
             return result;
         };
+        var goodsExtractor = function(data) {
+            var result = null;
+            if(data){
+                var locationAux = data.headers('Location').split("/");
+                result = locationAux[locationAux.length - 1]
+            }
+
+            return result;
+        };
 
         return {
             "findAll":function () {
@@ -34,7 +43,7 @@ angular.module("product-catalog-management-app")
                     ,function (data) {return data.data;},null);
             },
             "create":function (goodsData) {
-                return baseRestExec('POST', goodsBasePath, goodsData, goodsListExtractor,null);
+                return baseRestExec('POST', goodsBasePath, goodsData, goodsExtractor,null);
             },
             "edit":function (goodsId, goodsData) {
                 return baseRestExec('PUT', [goodsBasePath, goodsId].join('/'), goodsData, goodsListExtractor,function (data) {
@@ -46,7 +55,7 @@ angular.module("product-catalog-management-app")
                 var errorExtractor = function() {return false;};
 
                 return baseRestExec('DELETE', [goodsBasePath,goodsId].join('/'),
-                    goodsListExtractor,errorExtractor);
+                    extractor,errorExtractor);
             }
         }
     }]);

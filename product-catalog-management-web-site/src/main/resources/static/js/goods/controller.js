@@ -3,9 +3,7 @@
 angular.module("product-catalog-management-app")
     .controller("goodsCtrl",["$scope","goodsService", function($scope, goodsService){
 
-        console.log("before");
         goodsService.findAll().then(function(data) {$scope.goodsList = data});
-        console.log("after");
 
         $scope.goodsDetails = function (goodsId) {
             goodsService.find(goodsId);
@@ -15,7 +13,6 @@ angular.module("product-catalog-management-app")
             goodsService.delete(goodsId).then(function () {
                 goodsService.findAll().then(function(data) {$scope.goodsList = data});
             });
-
         };
     }])
     .controller("editGoodsCtrl",["$stateParams", "$scope","goodsService", function($stateParams, $scope, goodsService){
@@ -64,14 +61,14 @@ angular.module("product-catalog-management-app")
                 goodsAttribute:  goodsAttributeAux
             };
 
-            console.log(aux);
-
             if(goods.id){
                 goodsService.edit(goods.id, aux).then(function (data) {
                     $scope.goods.version++;
                 });
             } else {
-                goodsService.create(aux);
+                goodsService.create(aux).then(function (data) {
+                    $scope.goods.id = data;
+                });
             }
         };
 

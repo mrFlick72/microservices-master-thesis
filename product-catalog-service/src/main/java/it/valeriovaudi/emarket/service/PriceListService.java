@@ -14,7 +14,7 @@ import java.util.List;
 public interface PriceListService {
     PriceList createPriceList(PriceList priceList);
 
-    List<PriceList> findPriceLists();
+    List<PriceList> findPriceLists(boolean withoutGoodsInPriceList);
 
     PriceList findPriceList(String idPriceList);
 

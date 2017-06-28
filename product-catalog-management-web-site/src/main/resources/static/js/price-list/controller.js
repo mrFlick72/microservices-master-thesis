@@ -1,14 +1,28 @@
 "use strict"
 
 angular.module("product-catalog-management-app")
-    .controller("goodsCtrl",["$scope","$http", function($window, $scope, $http){
-        $scope.createGoods = function () {
-            $http.post('/logout', {}).finally(function() {
-                $window.location="/site/index";
+    .controller("priceListCtrl",["$scope","priceListService", function($scope, priceListService){
+        priceListService.findAll().then(function(data) {$scope.priceListList = data});
+
+        $scope.priceListRemove = function (priceListId) {
+            priceListService.delete(priceListId).then(function () {
+                priceListService.findAll().then(function(data) {$scope.priceListList = data});
+            });
+        }
+    }])
+    .controller("editPriceListCtrl",["$scope","$stateParams", "priceListService", function($scope, $stateParams, priceListService){
+        priceListService.find($stateParams.priceListId)
+            .then(function (data) {
+                var priceListMaster = data;
+                $scope.priceList = {
+                    id: priceListMaster.id || null,
+                    name: priceListMaster.name || "",
+                    version: priceListMaster.version || "0",
+                    barCode: priceListMaster.goodsInPriceList || []
+                };
             });
 
-            $http.post('/site/logout', {}).finally(function() {
-                $window.location="/site/index";
-            });
+        $scope.save = function () {
+            priceListService.create($scope.priceList);
         }
     }]);

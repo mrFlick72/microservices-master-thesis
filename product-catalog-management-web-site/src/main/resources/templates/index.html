@@ -40,7 +40,7 @@
                         <div id="collaspeMenuBody">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="goods" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{menu.goods.label}]]</a></li>
-                                <li class="text"><a href="#" th:inline="text" th:href="@{/bookSearch}">[[#{menu.price-list.label}]]</a></li>
+                                <li><a ui-sref="price-list" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{menu.price-list.label}]]</a></li>
                                 <li ng-click="logout()"><a href="#" th:inline="text"> <span class="glyphicon glyphicon-off"></span></a></li>
                             </ul>
                         </div>
@@ -74,6 +74,10 @@
 <script th:src="@{/js/goods/services.js}"></script>
 <script th:src="@{/js/goods/controller.js}"></script>
 <script th:src="@{/js/goods/route.js}"></script>
+
+<script th:src="@{/js/price-list/services.js}"></script>
+<script th:src="@{/js/price-list/controller.js}"></script>
+<script th:src="@{/js/price-list/route.js}"></script>
 
 
 </body>
