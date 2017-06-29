@@ -2,7 +2,8 @@
 
 angular.module("product-catalog-management-app")
     .value("priceListBasePath","/site/api/v1/product-catalog-service/price-list")
-    .service("priceListService", ["priceListBasePath","$q", "$http", function (priceListBasePath, $q, $http) {
+    .service("priceListService", ["commonService", "priceListBasePath","$q", "$http",
+        function (commonService, priceListBasePath, $q, $http) {
 
         function baseRestExec(method, path, priceListData, successExtractorDataFn, errorExtractorDataFn) {
             var defer = $q.defer();
@@ -40,7 +41,7 @@ angular.module("product-catalog-management-app")
                     ,function (data) {return data.data;},null);
             },
             "create":function (priceListData) {
-                return baseRestExec('POST', priceListBasePath, priceListData, priceListListExtractor,null);
+                return baseRestExec('POST', priceListBasePath, priceListData, commonService.idExtractorFromResponse, null);
             },
             "edit":function (priceListId, priceListData) {
                 return baseRestExec('PUT', [priceListBasePath, priceListId].join('/'), priceListData, priceListListExtractor,logger);

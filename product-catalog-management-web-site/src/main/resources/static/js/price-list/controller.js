@@ -31,14 +31,13 @@ angular.module("product-catalog-management-app")
             priceListService.removeGoodsInPriceList($scope.priceListId, goodsId);
         };
 
-
         $scope.save = function () {
             if($scope.priceList.id){
-                priceListService.edit(goods.id, aux).then(function (data) {
-                    $scope.priceList.version++;
+                $scope.priceList.goodsInPriceList.forEach(function (item) {
+                    priceListService.saveGoodsInPriceList($scope.priceListId, item.goods.id, item.price);
                 });
             } else {
-                priceListService.create(aux).then(function (data) {
+                priceListService.create($scope.priceList).then(function (data) {
                     $scope.priceListId = data;
                 });
             }
