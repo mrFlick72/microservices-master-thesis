@@ -46,28 +46,28 @@ angular.module("product-catalog-management-app")
         };
 
         $scope.save = function(){
-            var goods = $scope.goods;
             var goodsAttributeAux = {};
-            goods.itemList.forEach(function (item) {
+            $scope.goods.itemList.forEach(function (item) {
                 goodsAttributeAux[item.key] = item.value;
             });
 
             var aux = {
-                name: goods.name || "",
-                barCode: goods.barCode || "",
-                description: goods.description || "",
-                version: goods.version || "0",
-                category: goods.category || "",
+                name: $scope.goods.name || "",
+                barCode: $scope.goods.barCode || "",
+                description: $scope.goods.description || "",
+                version: $scope.goods.version || "0",
+                category: $scope.goods.category || "",
                 goodsAttribute:  goodsAttributeAux
             };
 
-            if(goods.id){
-                goodsService.edit(goods.id, aux).then(function (data) {
+            if($scope.goods.id){
+                goodsService.edit($scope.goods.id, aux).then(function (data) {
                     $scope.goods.version++;
                 });
             } else {
                 goodsService.create(aux).then(function (data) {
                     $scope.goods.id = data;
+                    $scope.goods.version = 0;
                 });
             }
         };

@@ -24,8 +24,6 @@ angular.module("product-catalog-management-app")
             });
 
         $scope.updateGoodsInPriceList = function (goodsId, price) {
-            console.log("goodsId: " + goodsId);
-            console.log("price: " + price);
             priceListService.saveGoodsInPriceList($scope.priceListId, goodsId, new String(price));
         };
 
@@ -35,7 +33,15 @@ angular.module("product-catalog-management-app")
 
 
         $scope.save = function () {
-            priceListService.create($scope.priceList);
+            if($scope.priceList.id){
+                priceListService.edit(goods.id, aux).then(function (data) {
+                    $scope.priceList.version++;
+                });
+            } else {
+                priceListService.create(aux).then(function (data) {
+                    $scope.priceListId = data;
+                });
+            }
         }
     }])
     .controller("addGoodsInPriceListCtrl",["$scope","$stateParams", "goodsService", "priceListService",

@@ -2,7 +2,8 @@
 
 angular.module("product-catalog-management-app")
     .value("goodsBasePath","/site/api/v1/product-catalog-service/goods")
-    .service("goodsService", ["goodsBasePath","$q", "$http", function (goodsBasePath, $q, $http) {
+    .service("goodsService", ["commonService", "goodsBasePath","$q", "$http",
+        function (commonService, goodsBasePath, $q, $http) {
 
         function baseRestExec(method, path, goodsData, successExtractorDataFn, errorExtractorDataFn) {
             var defer = $q.defer();
@@ -24,7 +25,7 @@ angular.module("product-catalog-management-app")
 
             return result;
         };
-        var goodsExtractor = function(data) {
+/*        var goodsExtractor = function(data) {
             var result = null;
             if(data){
                 var locationAux = data.headers('Location').split("/");
@@ -32,7 +33,7 @@ angular.module("product-catalog-management-app")
             }
 
             return result;
-        };
+        };*/
 
         return {
             "findAll":function () {
@@ -43,7 +44,7 @@ angular.module("product-catalog-management-app")
                     ,function (data) {return data.data;},null);
             },
             "create":function (goodsData) {
-                return baseRestExec('POST', goodsBasePath, goodsData, goodsExtractor,null);
+                return baseRestExec('POST', goodsBasePath, goodsData, commonService.idExtractorFromResponse, null);
             },
             "edit":function (goodsId, goodsData) {
                 return baseRestExec('PUT', [goodsBasePath, goodsId].join('/'), goodsData, goodsListExtractor,function (data) {
