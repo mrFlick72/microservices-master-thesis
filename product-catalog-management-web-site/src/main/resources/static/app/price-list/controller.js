@@ -11,24 +11,30 @@ angular.module("product-catalog-management-app")
         }
     }])
     .controller("editPriceListCtrl",["$scope","$stateParams", "priceListService", function($scope, $stateParams, priceListService){
+        var reloadPriceListDataFN = function () {
+            priceListService.find($stateParams.priceListId)
+                .then(function (data) {
+                    var priceListMaster = data;
+                    $scope.priceList = {
+                        id: priceListMaster.id || null,
+                        name: priceListMaster.name || "",
+                        version: priceListMaster.version || "0",
+                        goodsInPriceList: priceListMaster.goodsInPriceList || []
+                    };
+                });
+        };
+
         $scope.priceListId = $stateParams.priceListId;
-        priceListService.find($stateParams.priceListId)
-            .then(function (data) {
-                var priceListMaster = data;
-                $scope.priceList = {
-                    id: priceListMaster.id || null,
-                    name: priceListMaster.name || "",
-                    version: priceListMaster.version || "0",
-                    goodsInPriceList: priceListMaster.goodsInPriceList || []
-                };
-            });
+        reloadPriceListDataFN();
 
         $scope.updateGoodsInPriceList = function (goodsId, price) {
-            priceListService.saveGoodsInPriceList($scope.priceListId, goodsId, new String(price));
+            priceListService.saveGoodsInPriceList($scope.priceListId, goodsId, price)
+                .then(reloadPriceListDataFN);
         };
 
         $scope.removeGoodsInPriceList = function (goodsId) {
-            priceListService.removeGoodsInPriceList($scope.priceListId, goodsId);
+            priceListService.removeGoodsInPriceList($scope.priceListId, goodsId)
+                .then(reloadPriceListDataFN);
         };
 
         $scope.save = function () {

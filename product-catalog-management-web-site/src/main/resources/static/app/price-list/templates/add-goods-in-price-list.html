@@ -11,23 +11,22 @@
                            <div class="table-responsive">
                                <table class="table table-striped table-hover">
                                    <thead>
-                                   <tr class="text-center">
-                                       <th>Name</th>
-                                       <th>Bar Code</th>
-                                       <th>Description</th>
-                                       <th>Category</th>
-                                       <th>Add/Remove In Price List</th>
-                                   </tr>
+                                       <tr>
+                                           <th class="text-center">Name</th>
+                                           <th class="text-center">Bar Code</th>
+                                           <th class="text-center">Description</th>
+                                           <th class="text-center">Category</th>
+                                           <th class="text-center">Add In Price List</th>
+                                       </tr>
                                    </thead>
                                    <tbody>
-                                   <tr ng-repeat="goods in goodsList" class="row-group">
+                                   <tr ng-repeat="goods in goodsList" class="text-center">
                                        <td>{{goods.name}}</td>
                                        <td>{{goods.barCode}}</td>
                                        <td>{{goods.description}}</td>
                                        <td>{{goods.category}}</td>
                                        <td class="text-center">
                                            <span class="glyphicon glyphicon-plus-sign" ng-click="addGoodsInPriceList(goods.id)"/>
-                                           <span class="glyphicon glyphicon-minus-sign" ng-click="removeGoodsInPriceList(goods.id)"/>
                                        </td>
                                    </tr>
                                    </tbody>

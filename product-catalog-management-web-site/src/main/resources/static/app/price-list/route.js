@@ -16,7 +16,7 @@ angular.module("product-catalog-management-app")
             .state('price-list.list', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/price-list/templates/list.html',
+                        templateUrl: 'app/price-list/templates/list.html',
                         controller : 'priceListCtrl'
                     }
                 }
@@ -24,7 +24,7 @@ angular.module("product-catalog-management-app")
             .state('price-list.create', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/price-list/templates/edit.html',
+                        templateUrl: 'app/price-list/templates/edit.html',
                         controller : 'editPriceListCtrl'
                     }
                 }
@@ -33,7 +33,7 @@ angular.module("product-catalog-management-app")
                 url: '/edit/{priceListId}',
                 views: {
                     'container@': {
-                        templateUrl: 'js/price-list/templates/edit.html',
+                        templateUrl: 'app/price-list/templates/edit.html',
                         controller : 'editPriceListCtrl'
                     }
                 }
@@ -42,7 +42,7 @@ angular.module("product-catalog-management-app")
                 url: '/goods-list/{priceListId}',
                 views: {
                     'container@': {
-                        templateUrl: 'js/price-list/templates/add-goods-in-price-list.html',
+                        templateUrl: 'app/price-list/templates/add-goods-in-price-list.html',
                         controller : 'addGoodsInPriceListCtrl'
                     }
                 }

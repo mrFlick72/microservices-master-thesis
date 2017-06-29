@@ -16,7 +16,7 @@ angular.module("product-catalog-management-app")
             .state('goods.list', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/goods/templates/list.html',
+                        templateUrl: 'app/goods/templates/list.html',
                         controller : 'goodsCtrl'
                     }
                 }
@@ -25,7 +25,7 @@ angular.module("product-catalog-management-app")
                 url: '/{goodsId}',
                 views: {
                     'container@': {
-                        templateUrl: 'js/goods/templates/edit.html',
+                        templateUrl: 'app/goods/templates/edit.html',
                         controller : 'editGoodsCtrl'
                     }
                 }
@@ -33,7 +33,7 @@ angular.module("product-catalog-management-app")
             .state('goods.create', {
                 views: {
                     'container@': {
-                        templateUrl: 'js/goods/templates/edit.html',
+                        templateUrl: 'app/goods/templates/edit.html',
                         controller : 'editGoodsCtrl'
                     }
                 }
