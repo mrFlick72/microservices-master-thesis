@@ -18,13 +18,17 @@ angular.module("product-catalog-management-app")
 
         var priceListListExtractor = function(data) {
             var result = [];
-            console.log(data)
+            console.log(data);
             if(data){
                 result = data.data["_embedded"] || [];
                 result = result.priceListList || [];
             }
 
             return result;
+        };
+
+        var logger = function (data) {
+            console.log(data)
         };
 
         return {
@@ -39,9 +43,13 @@ angular.module("product-catalog-management-app")
                 return baseRestExec('POST', priceListBasePath, priceListData, priceListListExtractor,null);
             },
             "edit":function (priceListId, priceListData) {
-                return baseRestExec('PUT', [priceListBasePath, priceListId].join('/'), priceListData, priceListListExtractor,function (data) {
-                    console.log(data)
-                });
+                return baseRestExec('PUT', [priceListBasePath, priceListId].join('/'), priceListData, priceListListExtractor,logger);
+            },
+            "saveGoodsInPriceList": function (priceListId, goodsId, price) {
+                return baseRestExec('PATCH', [priceListBasePath, priceListId,"goods",goodsId].join('/'), price, logger,logger);
+            },
+            "removeGoodsInPriceList": function (priceListId, goodsId, price) {
+                return baseRestExec('DELETE', [priceListBasePath, priceListId,"goods",goodsId].join('/'), null, logger,logger);
             },
             "delete":function (priceListId) {
                 var extractor = function() {return true;};

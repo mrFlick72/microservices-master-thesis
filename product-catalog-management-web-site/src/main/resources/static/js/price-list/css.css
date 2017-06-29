@@ -1,0 +1,20 @@
+.add-goods-in-price-list {
+    background:cornflowerblue;
+    border: 1px solid;
+
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -o-border-radius: 20px;
+    -ms-border-radius: 20px;
+
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 3px;
+}
+
+.add-goods-in-price-list:hover {
+
+    background: rgba(100, 149, 237, 0.4);
+
+}
