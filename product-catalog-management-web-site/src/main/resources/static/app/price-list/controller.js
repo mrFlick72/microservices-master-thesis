@@ -39,9 +39,19 @@ angular.module("product-catalog-management-app")
 
         $scope.save = function () {
             if($scope.priceList.id){
-                $scope.priceList.goodsInPriceList.forEach(function (item) {
-                    priceListService.saveGoodsInPriceList($scope.priceListId, item.goods.id, item.price);
+                var index = 0;
+                priceListService.saveGoodsInPriceList($scope.priceListId,
+                    $scope.priceList.goodsInPriceList[index].goods.id,
+                    $scope.priceList.goodsInPriceList[index].price).then(function (data) {
+                        index++;
+                        if(index < $scope.priceList.goodsInPriceList.length){
+                            priceListService.saveGoodsInPriceList($scope.priceListId,
+                                $scope.priceList.goodsInPriceList[index].goods.id,
+                                $scope.priceList.goodsInPriceList[index].price)
+                        }
                 });
+
+
             } else {
                 priceListService.create($scope.priceList).then(function (data) {
                     $scope.priceListId = data;
