@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" ng-app="pubblic-e-market-app">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="public-e-market-app">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -39,7 +39,7 @@
                     <div class="collapse navbar-collapse">
                         <div id="collaspeMenuBody">
                             <ul class="nav navbar-nav">
-                                <li><a class="dropdown-toggle" data-toggle="dropdown" th:href="@{/public/signup}" th:inline="text">[[#{menu.sing-up.label}]] <span class="glyphicon glyphicon-plus"/> <span class="glyphicon glyphicon-user"/> </a></li>
+                                <li><a ui-sref="signup" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{menu.sing-up.label}]] <span class="glyphicon glyphicon-plus"/> <span class="glyphicon glyphicon-user"/> </a></li>
                                 <li><a class="dropdown-toggle" data-toggle="dropdown" th:href="@{/private/index}" th:inline="text">[[#{menu.login.label}]] <span class="glyphicon glyphicon-user"/>  </a></li>
                             </ul>
                         </div>
@@ -65,7 +65,8 @@
 
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.js}"></script>
 
-<script th:src="@{/app/common/index.js}"></script>
-<script th:src="@{/app/common/services.js}"></script>
+<script th:src="@{/app/public/index.js}"></script>
+<script th:src="@{/app/public/services.js}"></script>
+<script th:src="@{/app/public/route.js}"></script>
 </body>
 </html>
