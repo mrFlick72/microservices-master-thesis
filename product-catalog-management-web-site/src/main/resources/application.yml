@@ -35,3 +35,6 @@ zuul:
   addHostHeader: true
   routes:
     product-catalog-service: /v1/product-catalog-service/**
+    auth-server:
+      path: /auth-server/**
+      url: http://localhost:9090

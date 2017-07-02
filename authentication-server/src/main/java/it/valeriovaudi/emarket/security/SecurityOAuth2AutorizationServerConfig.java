@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -12,6 +13,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by mrflick72 on 03/05/17.
@@ -37,15 +44,15 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
 //                .tokenStore(tokenStore())
                 .userDetailsService(accountUserDetailsService);
     }
-
- /*   @Bean
+/*
+    @Bean
     public RedisTokenStore tokenStore(){
         JdkSerializationStrategy jdkSerializationStrategy = new JdkSerializationStrategy();
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
         redisTokenStore.setSerializationStrategy(jdkSerializationStrategy);
         return redisTokenStore;
-    }
-*/
+    }*/
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()")

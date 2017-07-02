@@ -14,7 +14,7 @@
     <title th:inline="text">[[#{title}]]</title>
 </head>
 <body>
-<div class="container" ng-controller="baseCtrl">
+<div class="container">
     <header>
         <div class="container-fluid">
             <div class="row">
@@ -41,7 +41,6 @@
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="goods" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{menu.goods.label}]]</a></li>
                                 <li><a ui-sref="price-list" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{menu.price-list.label}]]</a></li>
-                                <li ng-click="logout()"><a href="#" th:inline="text"> <span class="glyphicon glyphicon-off"></span></a></li>
                             </ul>
                         </div>
                     </div><!--/.nav-collapse -->
@@ -69,7 +68,6 @@
 <script th:src="@{/app/common/index.js}"></script>
 
 <script th:src="@{/app/common/services.js}"></script>
-<script th:src="@{/app/common/controller.js}"></script>
 <script th:src="@{/app/common/route.js}"></script>
 
 <script th:src="@{/app/goods/services.js}"></script>
