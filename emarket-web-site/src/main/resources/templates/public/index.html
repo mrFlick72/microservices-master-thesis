@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org" ng-app="pubblic-e-market-app">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.css}"/>
+    <link rel="stylesheet" th:href="@{/app/price-list/css.css}"/>
+
+    <link rel="icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/img/favicon.jpeg}" type="image/x-icon"/>
+
+    <title th:inline="text">Public [[#{title}]]</title>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12"></div>
+            </div>
+        </div>
+    </header>
+    <nav class="container-fluid library-background"
+         th:fragment="menu" >
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a th:inline="text" class="navbar-brand" th:href="@{/public/index}">[[#{menu.home.label}]]</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <div id="collaspeMenuBody">
+                            <ul class="nav navbar-nav">
+                                <li><a class="dropdown-toggle" data-toggle="dropdown" th:href="@{/public/signup}" th:inline="text">[[#{menu.sing-up.label}]] <span class="glyphicon glyphicon-plus"/> <span class="glyphicon glyphicon-user"/> </a></li>
+                                <li><a class="dropdown-toggle" data-toggle="dropdown" th:href="@{/private/index}" th:inline="text">[[#{menu.login.label}]] <span class="glyphicon glyphicon-user"/>  </a></li>
+                            </ul>
+                        </div>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" ui-view="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="center-block img-responsive" th:src="@{/images/loading.gif}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+
+<script th:src="@{/webjars/angularjs/1.6.4/angular.js}"></script>
+<script th:src="@{/webjars/angular-ui-router/1.0.3/angular-ui-router.js}"></script>
+
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.js}"></script>
+
+<script th:src="@{/app/common/index.js}"></script>
+<script th:src="@{/app/common/services.js}"></script>
+</body>
+</html>

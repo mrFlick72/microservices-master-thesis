@@ -21,7 +21,8 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("USER");
+                .antMatchers("/public/**").permitAll()
+                .antMatchers("/private/**").hasRole("USER");
     }
 
 }

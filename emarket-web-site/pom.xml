@@ -29,6 +29,26 @@
 	</properties>
 
 	<dependencies>
+		<!-- start web-asset dependencies -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angular-ui-router</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<!-- end web-asset dependencies -->
+
 		<!-- start web dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,17 +77,6 @@
 			<artifactId>jolokia-core</artifactId>
 		</dependency>
 		<!-- end generic dependencies -->
-
-		<!-- start cache dependencies -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<!-- end cache dependencies -->
 
 		<!-- start cloud dependencies -->
 		<dependency>
@@ -132,13 +141,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- end test dependencies -->
-
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>3.2.0</version>
-		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

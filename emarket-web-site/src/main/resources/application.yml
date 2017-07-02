@@ -1,10 +1,13 @@
 spring:
   application:
     name: emarcket-web-site
+  messages:
+    basename: messages/messages
 
 server:
   use-forward-headers: true
   context-path: /site
+  port: 2000
 
 security:
   oauth2:
@@ -21,7 +24,17 @@ security:
      user-info-uri: http://localhost:9090/account/userInfo.json
      preferTokenInfo: false
 
-
 management:
   security:
     enabled: false
+
+zuul:
+  prefix: /api
+  sensitiveHeaders:
+  ignoredServices: '*'
+  ignoreSecurityHeaders: false
+  addHostHeader: true
+  routes:
+    product-catalog-service: /v1/product-catalog-service/**
+    account-service: /v1/account-service/**
+    purchase-order-service: /v1/purchase-order-service/**

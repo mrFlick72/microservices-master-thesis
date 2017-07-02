@@ -12,7 +12,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/login").setViewName("index");
+        registry.addViewController("/public/index").setViewName("public/index");
+        registry.addViewController("/private/index").setViewName("private/index");
     }
 }
