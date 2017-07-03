@@ -8,15 +8,16 @@ angular.module("public-e-market-app")
                 url: '/',
                 views: {
                     'container@': {
-                        templateUrl: 'app/public/templates/product-catalog.html',
+                        templateUrl: '../app/public/templates/product-catalog.html',
                         controller : 'productCatalogCtrl'
                     }
                 }
             })
             .state('signup', {
+                url: '/signup',
                 views: {
                     'container@': {
-                        templateUrl: 'app/public/templates/singup.html',
+                        templateUrl: '../app/public/templates/singup.html',
                         controller : 'singupCtrl'
                     }
                 }

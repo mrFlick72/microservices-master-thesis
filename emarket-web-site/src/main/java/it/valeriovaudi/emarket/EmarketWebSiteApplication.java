@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -17,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 
 @EnableHystrix
+@EnableZuulProxy
 @EnableEurekaClient
 @SpringBootApplication
 public class EmarketWebSiteApplication {

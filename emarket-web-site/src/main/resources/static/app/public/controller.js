@@ -1,12 +1,19 @@
 "use strict"
 
 angular.module("public-e-market-app")
-    .controller("singupCtrl", ["$windows", "publicSectionService",
-        function ($windows, publicSectionService) {
-        $rootScope.singup = function (data) {
+    .controller("singupCtrl", ["$window", "$scope", "publicSectionService",
+        function ($window, $scope, publicSectionService) {
+        $scope.singup = function (data) {
             publicSectionService.createAccount(data)
                 .then(function (data) {
-                    $windows.location= "/private/index";
+                    $window.location= "/site/private/index";
                 })
         }
+    }]).controller("productCatalogCtrl", ["$scope", "publicSectionService",
+        function ($scope, publicSectionService) {
+            publicSectionService.getProductCatalog()
+                .then(function (data) {
+                    console.log("data: " + JSON.stringify(data))
+                    $scope.priceListList = data;
+                });
     }]);

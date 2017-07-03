@@ -1,10 +1,10 @@
 "use strict"
 
-angular.module("product-catalog-management-app")
-    .value("accountBaseUrl","/v1/account-service")
-    .value("productCatalogBaseUrl","/v1/product-catalog-service")
-    .service("publicSectionService", ["$http", "accountBaseUrl", "productCatalogBaseUrl",
-        function ($http, accountBaseUrl, productCatalogBaseUrl) {
+angular.module("public-e-market-app")
+    .value("accountBaseUrl","/site/api/v1/account-service")
+    .value("productCatalogBaseUrl","/site/api/v1/product-catalog-service")
+    .service("publicSectionService", ["$http", "$q", "accountBaseUrl", "productCatalogBaseUrl",
+        function ($http, $q, accountBaseUrl, productCatalogBaseUrl) {
             function baseRestExec(method, path, data, successExtractorDataFn, errorExtractorDataFn) {
                 var defer = $q.defer();
                 var request = {method: method,url: path};
@@ -19,7 +19,6 @@ angular.module("product-catalog-management-app")
 
             var priceListListExtractor = function(data) {
                 var result = [];
-                console.log(data);
                 if(data){
                     result = data.data["_embedded"] || [];
                     result = result.priceListList || [];
@@ -37,12 +36,17 @@ angular.module("product-catalog-management-app")
                 return result;
             };
 
+            var logger = function (data) {
+                console.log(data);
+            };
+
             return {
             "createAccount":function (account) {
-                return baseRestExec("POST", [accountBaseUrl,"account"].join("/"),account, idExtractorFromResponse, null);
+                account.role="ROLE_USER";
+                return baseRestExec("POST", [accountBaseUrl,"account"].join("/"),account, idExtractorFromResponse, logger);
             },
             "getProductCatalog":function () {
-                return baseRestExec("GET", [productCatalogBaseUrl,"account"].join("/"),account, idExtractorFromResponse, null);
+                return baseRestExec("GET", [productCatalogBaseUrl,"price-list"].join("/"),null, priceListListExtractor, logger);
             }
         }
     }]);

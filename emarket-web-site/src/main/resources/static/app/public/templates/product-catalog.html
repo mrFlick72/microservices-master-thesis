@@ -1,0 +1,49 @@
+<div class="row" ng-repeat="priceList in priceListList">
+    <div ng-repeat="goodsInPriceList in priceList.goodsInPriceList" class="col-sx-4 col-sm-4 col-md-6 col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Goods Name: </b><span class="pull-right">{{goodsInPriceList.goods.name}}</span></div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Goods Bar Code</th>
+                            <th>Goods Category</th>
+                            <th>Goods Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{goodsInPriceList.goods.barCode}}</td>
+                            <td>{{goodsInPriceList.goods.category}}</td>
+                            <td>{{goodsInPriceList.price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <b>Description</b>
+                <hr/>
+                <span>{{goodsInPriceList.goods.description}}</span>
+                <hr/>
+
+                <b>Goods Property</b>
+                <hr/>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Goods Property Name</th>
+                            <th>Goods Property Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(key,value) in goodsInPriceList.goods.goodsAttribute">
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
