@@ -5,7 +5,13 @@ angular.module("public-e-market-app")
         $urlRouterProvider.otherwise("/");
         $stateProvider
             .state('main', {
-                url: '/'
+                url: '/',
+                views: {
+                    'container@': {
+                        templateUrl: 'app/public/templates/product-catalog.html',
+                        controller : 'productCatalogCtrl'
+                    }
+                }
             })
             .state('signup', {
                 views: {
