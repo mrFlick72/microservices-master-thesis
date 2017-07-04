@@ -19,9 +19,10 @@ services:
     environment:
       - server.port=8888
       - eureka.instance.preferIpAddress=true
-      - spring.cloud.config.server.git.username=${GIT_USER}
-      - spring.cloud.config.server.git.password=${GIT_PASS}
+      - spring.cloud.config.server.git.uri=file://usr/local/configuration-server/config
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    volumes:
+      - "${GIT_LOCAL_REPO}:/usr/local/configuration-server/config"
     networks:
       - discovery
 
