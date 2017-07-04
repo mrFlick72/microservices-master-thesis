@@ -3,6 +3,7 @@ package it.valeriovaudi.emarket.endpoint.restfull;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.hateoas.PurchaseOrderHateoasFactory;
+import it.valeriovaudi.emarket.model.PurchaseOrder;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
 import it.valeriovaudi.emarket.security.SecurityUtils;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.util.UUID;
 
@@ -47,7 +49,9 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity createPuchaseOrder(){
-        return ResponseEntity.ok(purchaseOrderService.createPurchaseOrder());
+        PurchaseOrder purchaseOrder = purchaseOrderService.createPurchaseOrder();
+        return ResponseEntity.created(MvcUriComponentsBuilder.fromMethodName(PurchaseOrderRestFullEndPoint.class,
+                "getPuchaseOrder",purchaseOrder.getOrderNumber()).build().toUri()).build();
     }
 
     @PatchMapping("/{orderNumber}")

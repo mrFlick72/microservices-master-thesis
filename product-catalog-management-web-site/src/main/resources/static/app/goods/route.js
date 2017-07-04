@@ -5,13 +5,7 @@ angular.module("product-catalog-management-app")
         $stateProvider
             .state('goods', {
                 url: '/goods',
-                views: {
-                    'container@': {
-                        controller : function ($state) {
-                            $state.go("goods.list")
-                        }
-                    }
-                }
+                redirectTo: 'goods.list'
             })
             .state('goods.list', {
                 views: {
