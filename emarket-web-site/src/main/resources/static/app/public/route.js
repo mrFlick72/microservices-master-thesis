@@ -21,5 +21,11 @@ angular.module("public-e-market-app")
                         controller : 'singupCtrl'
                     }
                 }
+            }).state('private-area', {
+                views: {
+                    'container@': {
+                        controller : 'privateAreaCtrl'
+                    }
+                }
             })
     }]);

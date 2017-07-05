@@ -16,4 +16,7 @@ angular.module("public-e-market-app")
                     console.log("data: " + JSON.stringify(data))
                     $scope.priceListList = data;
                 });
-    }]);
+    }]).controller("privateAreaCtrl", ["$window",
+        function ($window) {
+            $window.location= "/site/private/index";
+        }]);
