@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.security.Principal;
 import java.util.UUID;
 
 /**
@@ -48,8 +49,10 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity createPuchaseOrder(){
+    public ResponseEntity createPuchaseOrder(Principal principal){
         PurchaseOrder purchaseOrder = purchaseOrderService.createPurchaseOrder();
+        purchaseOrderService.withCustomerAndCustomerContact(purchaseOrder.getOrderNumber(), principal.getName(), null, null);
+
         return ResponseEntity.created(MvcUriComponentsBuilder.fromMethodName(PurchaseOrderRestFullEndPoint.class,
                 "getPuchaseOrder",purchaseOrder.getOrderNumber()).build().toUri()).build();
     }
@@ -59,7 +62,7 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity pathcPuchaseOrder(@PathVariable String orderNumber, @RequestBody PurchaseOrderStatusEnum purchaseOrderStatusEnum){
         purchaseOrderService.changeStatus(orderNumber, purchaseOrderStatusEnum);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{orderNumber")
@@ -67,6 +70,6 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deletePuchaseOrder(@PathVariable String orderNumber){
         purchaseOrderService.deletePurchaseOrder(orderNumber);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 }

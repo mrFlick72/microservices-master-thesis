@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
 import it.valeriovaudi.emarket.event.model.PurchaseOrderErrorEvent;
 import it.valeriovaudi.emarket.event.service.EventDomainPubblishService;
@@ -48,7 +49,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     private SecurityUtils securityUtils;
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder findPurchaseOrder(String userName, String orderNumber) {
         try {
             return purchaseOrderRepository.findByUserNameAndOrderNumber(userName, orderNumber).get(2*60, TimeUnit.SECONDS);
@@ -60,25 +61,28 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+
     public List<PurchaseOrder> findPurchaseOrderList() {
         return purchaseOrderRepository.findAll();
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+
     public List<PurchaseOrder> findPurchaseOrderList(String userName) {
         return purchaseOrderRepository.findByUserName(userName).collect(Collectors.toList());
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+
     public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
         return purchaseOrderRepository.save(purchaseOrder);
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder createPurchaseOrder() {
         String correlationId = UUID.randomUUID().toString();
         String userName = securityUtils.getPrincipalUserName();
@@ -92,7 +96,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public void deletePurchaseOrder(String orderNumber) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -100,7 +104,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder changeStatus(String orderNumber, PurchaseOrderStatusEnum purchaseOrderStatusEnum) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -114,7 +118,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomer(String orderNumber, String userName, Customer customer) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -130,7 +134,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomerContact(String orderNumber, String userName, CustomerContact customerContact) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -147,7 +151,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomerAndCustomerContact(String orderNumber, String userName, Customer customer, CustomerContact customerContact) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -169,7 +173,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     //todo fixme
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -188,7 +192,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber,String priceListId, String goodsId) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
@@ -219,7 +223,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withDelivery(String orderNumber, Delivery delivery) {
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);

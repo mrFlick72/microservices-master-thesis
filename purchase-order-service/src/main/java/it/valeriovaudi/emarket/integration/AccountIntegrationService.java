@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.integration;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import it.valeriovaudi.emarket.anticorruptation.account.AccountAnticorruptationLayerService;
 import it.valeriovaudi.emarket.model.Customer;
 import it.valeriovaudi.emarket.model.CustomerContact;
@@ -26,17 +27,17 @@ public class AccountIntegrationService extends AbstractIntegrationService {
     @Autowired
     private OAuth2RestTemplate accountIntegrationServiceRestTemplate;
 
-    @Value("external-service.base-uri-schema.account")
+    @Value("${external-service.base-uri-schema.account}")
     private String accountServiceUriSchema;
 
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public Customer getCustomerFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomer(serviceCall.getBody(),
-                serviceCall.getHeaders().getContentType().getType());
+                serviceCall.getHeaders().getContentType().toString());
     }
 
-    @HystrixCommand
+    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public CustomerContact getCustomerContactFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomerContact(serviceCall.getBody(),

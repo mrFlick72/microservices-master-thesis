@@ -28,6 +28,7 @@ public class ProductCatalogAnticorruptationLayerService extends AbstractAntiCorr
     public void init(){
         productCatalogAntiCorruptationRegistry = new HashMap<>();
         productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE,productCatalogAntiCorruptationLayerServiceHalJsonStrategy);
+        productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE,productCatalogAntiCorruptationLayerServiceHalJsonStrategy);
     }
 
     public Goods newGoods(String goods, String mediaType){

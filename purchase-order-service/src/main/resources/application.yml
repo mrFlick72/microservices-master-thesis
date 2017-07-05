@@ -5,6 +5,11 @@ spring:
     cassandra:
       keyspace-name: purchaseOrderEventKeyspace
 
+external-service:
+  base-uri-schema:
+    goods-in-product-catalog: http://product-catalog-service/price-list/%s/goods/%s
+    account: http://account-service/account/{userName}
+
 security:
   oauth2:
     client:

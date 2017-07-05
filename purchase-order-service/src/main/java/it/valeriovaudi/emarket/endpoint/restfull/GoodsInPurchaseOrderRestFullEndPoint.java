@@ -31,22 +31,22 @@ public class GoodsInPurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderR
         return ResponseEntity.ok(goodsInPriceListHateoasFactory.toResources(orderNumber, purchaseOrder.getGoodsList()));
     }
 
-    @PutMapping("/{orderNumber}/goods/{goods}/price-list/{priceList}")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/{orderNumber}/goods/{goods}/price-list/{priceList}")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity saveGoodsDataInPuchaseOrder(@PathVariable String orderNumber, @PathVariable String priceList,
                                                       @PathVariable String goods, @RequestBody Integer quantity){
         purchaseOrderService.saveGoodsInPurchaseOrder(orderNumber, priceList, goods, quantity);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{orderNumber}/goods/{goods}/price-list/{priceList}")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/{orderNumber}/goods/{goods}/price-list/{priceList}")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity removeGoodsDataInPuchaseOrder(@PathVariable String orderNumber, @PathVariable String priceList,
                                                         @PathVariable String goods){
         purchaseOrderService.removeGoodsInPurchaseOrder(orderNumber, priceList,goods);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

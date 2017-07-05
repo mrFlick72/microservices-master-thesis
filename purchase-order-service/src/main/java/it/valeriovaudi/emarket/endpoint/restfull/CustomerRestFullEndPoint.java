@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 /**
  * Created by mrflick72 on 13/06/17.
  */
@@ -40,9 +42,9 @@ public class CustomerRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPo
     @PatchMapping("/{orderNumber}/customer")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity customerDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody String userName){
-        purchaseOrderService.withCustomerAndCustomerContact(orderNumber, userName, null, null);
-        return ResponseEntity.notFound().build();
+    public ResponseEntity customerDataPuchaseOrder(@PathVariable String orderNumber, Principal principal){
+        purchaseOrderService.withCustomerAndCustomerContact(orderNumber, principal.getName(), null, null);
+        return ResponseEntity.noContent().build();
     }
 
 }

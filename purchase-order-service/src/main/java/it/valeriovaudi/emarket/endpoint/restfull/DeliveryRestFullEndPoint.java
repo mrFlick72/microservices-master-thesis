@@ -37,7 +37,7 @@ public class DeliveryRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPo
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deliveryDataPuchaseOrder(@PathVariable String orderNumber, @RequestBody Delivery delivery){
         purchaseOrderService.withDelivery(orderNumber, delivery);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

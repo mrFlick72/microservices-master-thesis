@@ -46,6 +46,9 @@ angular.module("private-e-market-app")
             "createNewPurchaseOrder":function () {
                 return baseRestExec("POST", [purchaseOrderBaseUrl,"purchase-order"].join("/"),null, idExtractorFromResponse, logger);
             },
+            "addGoodsInPurchaseOrder":function (orderNumber, priceListId, goodsId, quantity) {
+                return baseRestExec("PATCH", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"goods",goodsId,"price-list",priceListId].join("/"),quantity, logger, logger);
+            },
             "getProductCatalog":function () {
                 return baseRestExec("GET", [productCatalogBaseUrl,"price-list"].join("/"),null, priceListListExtractor, logger);
             }

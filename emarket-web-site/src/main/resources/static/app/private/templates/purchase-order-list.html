@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Status</th>
+                <th>Choice</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="purchaseOrder in purchaseOrderList">
+                    <td>{{purchaseOrder.orderNumber}}</td>
+                    <td>{{purchaseOrder.status}}</td>
+                    <td><a class="btn btn-success" ng-click="choose(purchaseOrder.orderNumber)">Choose</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -34,9 +34,11 @@ public class AccountAnticorruptationLayerService extends AbstractAntiCorruptatio
     public void init(){
         customerAntiCorruptationRegistry = new HashMap<>();
         customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerAnticorruptationLayerServiceHalJsonStrategy);
+        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerAnticorruptationLayerServiceHalJsonStrategy);
 
         customerContactAnticorruptationRegistry = new HashMap<>();
         customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy);
+        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy);
     }
 
     public Customer newCustomer(String customer, String mediaType){
