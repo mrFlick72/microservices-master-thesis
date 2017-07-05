@@ -22,8 +22,7 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/private/**").permitAll();
-//                .antMatchers("/private/**").hasRole("USER");
+                .antMatchers("/private/**").hasRole("USER");
     }
 
 }
