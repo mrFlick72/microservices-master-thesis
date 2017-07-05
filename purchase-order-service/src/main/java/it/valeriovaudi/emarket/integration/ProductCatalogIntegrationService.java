@@ -36,11 +36,11 @@ public class ProductCatalogIntegrationService extends AbstractIntegrationService
 
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public Goods getGoodsInPriceListData(String priceListId, String goodsId){
-        String uriString = String.format(goodsInProductCatalogServiceUriSchema,priceListId, goodsId);
-        ResponseEntity<String> serviceCall =
-                productCatalogIntegrationServiceRestTemplate.exchange(uriString, HttpMethod.GET,
-                        RequestEntity.EMPTY, String.class);
+        URI uri = UriComponentsBuilder.fromHttpUrl(goodsInProductCatalogServiceUriSchema)
+                .buildAndExpand(priceListId, goodsId).toUri();
 
+        ResponseEntity<String> serviceCall =
+                productCatalogIntegrationServiceRestTemplate.exchange(newRequestEntity(uri), String.class);
 
         return productCatalogAnticorruptationLayerService.newGoods(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().toString());

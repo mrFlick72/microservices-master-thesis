@@ -7,7 +7,7 @@ spring:
 
 external-service:
   base-uri-schema:
-    goods-in-product-catalog: http://product-catalog-service/price-list/%s/goods/%s
+    goods-in-product-catalog: http://product-catalog-service/price-list/{priceListId}/goods/{goodsId}
     account: http://account-service/account/{userName}
 
 security:
