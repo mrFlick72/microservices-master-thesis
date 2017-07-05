@@ -38,7 +38,7 @@ public class GoodsInPurchaseOrderHateoasFactory {
 
     public Link getGoodsInPurchaseOrderLink(String orderNumber) {
         UriTemplate uriTemplate = new UriTemplate(String.format("%s/%s/goods/{goods}/price-list/{priceList}",
-                linkTo(GoodsInPurchaseOrderRestFullEndPoint.class, orderNumber).toString()));
+                linkTo(GoodsInPurchaseOrderRestFullEndPoint.class), orderNumber));
         return new Link(uriTemplate, GOODS_IN_PURCHASE_ORDER_LINK_KEY);
     }
 

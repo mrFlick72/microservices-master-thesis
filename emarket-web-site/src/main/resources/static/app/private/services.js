@@ -46,11 +46,18 @@ angular.module("private-e-market-app")
             "createNewPurchaseOrder":function () {
                 return baseRestExec("POST", [purchaseOrderBaseUrl,"purchase-order"].join("/"),null, idExtractorFromResponse, logger);
             },
+            "withShipmentData":function (orderNumber, shipment) {
+                shipment.shipmentDate = new Date();
+                return baseRestExec("PUT", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"shipment"].join("/"), shipment, logger, logger);
+            },
             "addGoodsInPurchaseOrder":function (orderNumber, priceListId, goodsId, quantity) {
                 return baseRestExec("PATCH", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"goods",goodsId,"price-list",priceListId].join("/"),quantity, logger, logger);
             },
             "getProductCatalog":function () {
                 return baseRestExec("GET", [productCatalogBaseUrl,"price-list"].join("/"),null, priceListListExtractor, logger);
+            },
+            "getPurchaseOrder":function (orderNumber) {
+                return baseRestExec("GET", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, logger, logger);
             }
         }
     }]);

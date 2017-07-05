@@ -32,13 +32,25 @@ angular.module("private-e-market-app")
                     $scope.priceListList = data;
                 });
         }])
-    .controller("shipmentDataInNewPurchaseOrderCtrl", ["$scope", "$stateParams", "privateSectionService",
-        function ($scope, $stateParams, privateSectionService) {
+    .controller("shipmentDataInNewPurchaseOrderCtrl", ["$scope", "$state", "$stateParams", "privateSectionService",
+        function ($scope, $state, $stateParams, privateSectionService) {
             $scope.purchaseOrderId = $stateParams.purchaseOrderId;
+            $scope.next = function () {
+                privateSectionService.withShipmentData($stateParams.purchaseOrderId, $scope.shipment)
+                    .then(function (data) {
+                        $state.go("create-new-purchase-order.resume-purchase-order",{'purchaseOrderId': $scope.purchaseOrderId})
+                    });
+            };
         }])
     .controller("resumeDataInNewPurchaseOrderCtrl", ["$scope",  "$state", "$stateParams", "privateSectionService",
         function ($scope, $state, $stateParams, privateSectionService) {
             $scope.purchaseOrderId = $stateParams.purchaseOrderId;
+            console.log("$scope.purchaseOrderId: " + $scope.purchaseOrderId);
+            privateSectionService.getPurchaseOrder($scope.purchaseOrderId)
+                .then(function (data) {
+                    console.log("data: " + data);
+                });
+
             $scope.savePurchaseOrder = function () {
                 $state.go("main");
             };

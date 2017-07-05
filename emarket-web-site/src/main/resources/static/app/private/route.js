@@ -35,7 +35,7 @@ angular.module("private-e-market-app")
                 }
             })
             .state('create-new-purchase-order.add-goods-in-purchase-order', {
-                url: '/new-purchase-order/{purchaseOrderId}',
+                url: '/{purchaseOrderId}',
                 views: {
                     'container@': {
                         templateUrl: '../app/private/templates/product-catalog.html',
@@ -44,7 +44,7 @@ angular.module("private-e-market-app")
                 }
             })
            .state('create-new-purchase-order.add-shipment-data-in-purchase-order', {
-               url: '/new-purchase-order/{purchaseOrderId}/shipment',
+               url: '/{purchaseOrderId}/shipment',
                views: {
                     'container@': {
                         templateUrl: '../app/private/templates/purchase-order-shipment-data.html',
@@ -53,7 +53,7 @@ angular.module("private-e-market-app")
                 }
             })
             .state('create-new-purchase-order.resume-purchase-order', {
-                url: '/new-purchase-order/{purchaseOrderId}/resume',
+                url: '/{purchaseOrderId}/resume',
                 views: {
                     'container@': {
                         templateUrl: '../app/private/templates/purchase-order-resume.html',
