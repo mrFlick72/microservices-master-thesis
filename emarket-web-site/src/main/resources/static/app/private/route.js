@@ -1,8 +1,7 @@
 "use strict"
 
 angular.module("private-e-market-app")
-    .config(["$stateProvider",  "$urlRouterProvider",
-        function($stateProvider, $urlRouterProvider){
+    .config(["$stateProvider",  "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
         $urlRouterProvider.otherwise("/");
         $stateProvider
             .state('main', {
@@ -27,11 +26,15 @@ angular.module("private-e-market-app")
                     }
                 }
             })
-            .state('create-new-purcase-order', {
+            .state('create-new-purchase-order', {
                 url: '/new-purchase-order',
-                controller: 'createNewPurchaseOrderCtrl'
+                views: {
+                    'container@': {
+                        controller: 'createNewPurchaseOrderCtrl'
+                    }
+                }
             })
-            .state('create-new-purcase-order.add-goods-in-purchase-order', {
+            .state('create-new-purchase-order.add-goods-in-purchase-order', {
                 url: '/new-purchase-order/{purchaseOrderId}',
                 views: {
                     'container@': {
@@ -40,19 +43,28 @@ angular.module("private-e-market-app")
                     }
                 }
             })
-            .state('create-new-purcase-order.add-shipment-data-in-purchase-order', {
-                views: {
+           .state('create-new-purchase-order.add-shipment-data-in-purchase-order', {
+               url: '/new-purchase-order/{purchaseOrderId}/shipment',
+               views: {
                     'container@': {
                         templateUrl: '../app/private/templates/purchase-order-shipment-data.html',
-                        controller : 'newPurchaseOrderCtrl'
+                        controller : 'shipmentDataInNewPurchaseOrderCtrl'
                     }
                 }
             })
-            .state('create-new-purcase-order.resume-purchase-order', {
+            .state('create-new-purchase-order.resume-purchase-order', {
+                url: '/new-purchase-order/{purchaseOrderId}/resume',
                 views: {
                     'container@': {
                         templateUrl: '../app/private/templates/purchase-order-resume.html',
-                        controller : 'newPurchaseOrderCtrl'
+                        controller : 'resumeDataInNewPurchaseOrderCtrl'
+                    }
+                }
+            })
+            .state('to-public-area', {
+                views: {
+                    'container@': {
+                        controller : 'toPublicAreaCtrl'
                     }
                 }
             })

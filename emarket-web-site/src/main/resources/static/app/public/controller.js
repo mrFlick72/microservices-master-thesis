@@ -13,7 +13,6 @@ angular.module("public-e-market-app")
         function ($scope, publicSectionService) {
             publicSectionService.getProductCatalog()
                 .then(function (data) {
-                    console.log("data: " + JSON.stringify(data))
                     $scope.priceListList = data;
                 });
     }]).controller("privateAreaCtrl", ["$window",
