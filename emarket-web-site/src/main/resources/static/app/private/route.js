@@ -18,7 +18,7 @@ angular.module("private-e-market-app")
                 }
             })
             .state('purchase-order-list.details', {
-                url: '/{purchaseOrderId}',
+                url: '/purchase-order/{purchaseOrderId}',
                 views: {
                     'container@': {
                         templateUrl: '../app/private/templates/purchase-order-details.html',
