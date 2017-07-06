@@ -101,7 +101,7 @@
 		</dependency>
 		<!-- end cloud dependencies -->
 
-		<!-- start cloud security dependencies -->
+		<!-- start  security dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-security</artifactId>
@@ -111,7 +111,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
-		<!-- end cloud security dependencies -->
+		<!-- end  security dependencies -->
 
 		<!-- start distributed tracing dependencies -->
 		<dependency>
@@ -175,7 +175,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.0.0</version>
 				<configuration>
-					<imageName>master-thesis/purchase-order-service-server:lastest</imageName>
+					<imageName>master-thesis/${project.build.finalName}:lastest</imageName>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>

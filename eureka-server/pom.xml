@@ -69,7 +69,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.0.0</version>
 				<configuration>
-					<imageName>master-thesis/eureka-server:lastest</imageName>
+					<imageName>master-thesis/${project.build.finalName}:lastest</imageName>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>

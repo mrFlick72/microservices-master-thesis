@@ -123,12 +123,14 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         String correlationId = UUID.randomUUID().toString();
         doCheckPurchaseOrderExist(correlationId, orderNumber);
 
-        Optional.ofNullable(customer).ifPresent(customerAux -> {
-            throw new UnsupportedOperationException();
-        });
+        Optional.ofNullable(customer).ifPresent(customerAux -> { throw new UnsupportedOperationException(); });
+
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         Customer customerFormAccountData = accountIntegrationService.getCustomerFormAccountData(userName);
+        CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
+
         one.setCustomer(customerFormAccountData);
+        one.setCustomerContact(customerContactFormAccountData);
 
         return  doSavePurchaseOrderData(correlationId, one, SaveCustomerException.class);
     }
