@@ -27,7 +27,7 @@ public class PurchaseOrder implements Serializable {
     @Version
     private Long version;
 
-    private PurchaseOrderStatusEnum purchaseOrderStatusEnum;
+    private PurchaseOrderStatusEnum status;
 
     private Customer customer;
     private CustomerContact customerContact;

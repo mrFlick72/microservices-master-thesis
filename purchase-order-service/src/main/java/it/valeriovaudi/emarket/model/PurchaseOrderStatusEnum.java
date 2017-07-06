@@ -8,5 +8,6 @@ import lombok.ToString;
 @ToString
 public enum PurchaseOrderStatusEnum {
     DRAFT,
-    COMPLEATE
+    COMPLETE,
+    DELIVERED
 }

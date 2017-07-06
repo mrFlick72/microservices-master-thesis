@@ -5,14 +5,15 @@
             <tr>
                 <th>Order Number</th>
                 <th>Status</th>
-                <th>Choice</th>
+                <th colspan="2">Operation</th>
             </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="purchaseOrder in purchaseOrderList">
                     <td>{{purchaseOrder.orderNumber}}</td>
                     <td>{{purchaseOrder.status}}</td>
-                    <td><a class="btn btn-success" ng-click="choose(purchaseOrder.orderNumber)">Choose</a></td>
+                    <td><a class="btn btn-success" ng-click="choose(purchaseOrder.orderNumber,purchaseOrder.status)">Choose</a></td>
+                    <td><a class="btn btn-danger" ng-click="delete(purchaseOrder.orderNumber)">Delete</a></td>
                 </tr>
             </tbody>
         </table>

@@ -10,8 +10,8 @@ import java.util.List;
 public interface PurchaseOrderService {
 
     PurchaseOrder findPurchaseOrder(String userName, String orderNumber);
-    List<PurchaseOrder> findPurchaseOrderList();
-    List<PurchaseOrder> findPurchaseOrderList(String userName);
+    List<PurchaseOrder> findPurchaseOrderList(boolean withOnlyOrderId);
+    List<PurchaseOrder> findPurchaseOrderList(String userName, boolean withOnlyOrderId);
 
     PurchaseOrder createPurchaseOrder();
     PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder);

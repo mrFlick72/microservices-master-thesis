@@ -8,6 +8,11 @@ server:
   use-forward-headers: true
   context-path: /site
 
+eureka:
+  instance:
+    statusPageUrlPath: ${server.context-path}/info
+    healthCheckUrlPath: ${server.context-path}/health
+
 security:
   oauth2:
     client:

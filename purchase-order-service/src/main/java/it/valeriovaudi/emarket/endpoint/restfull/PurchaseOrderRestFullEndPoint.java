@@ -10,11 +10,13 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.security.Principal;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by mrflick72 on 30/05/17.
@@ -35,8 +37,17 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity getPuchaseOrderList(){
-        return ResponseEntity.ok(purchaseOrderHateoasFactory.toResources(purchaseOrderService.findPurchaseOrderList()));
+    public ResponseEntity getPuchaseOrderList(@RequestParam(value = "withOnlyOrderId", defaultValue = "false") boolean withOnlyOrderId){
+
+        Boolean role_user = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .map(authentication -> authentication.getAuthorities().contains("ROLE_USER"))
+                .orElse(false);
+
+        List<PurchaseOrder> purchaseOrders = role_user ?
+                purchaseOrderService.findPurchaseOrderList(securityUtils.getPrincipalUserName(), withOnlyOrderId) :
+                purchaseOrderService.findPurchaseOrderList(withOnlyOrderId);
+
+        return ResponseEntity.ok(purchaseOrderHateoasFactory.toResources(purchaseOrders));
     }
 
     @GetMapping("/{orderNumber}")
@@ -60,12 +71,12 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @PatchMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-    public ResponseEntity pathcPuchaseOrder(@PathVariable String orderNumber, @RequestBody PurchaseOrderStatusEnum purchaseOrderStatusEnum){
-        purchaseOrderService.changeStatus(orderNumber, purchaseOrderStatusEnum);
+    public ResponseEntity pathcPuchaseOrder(@PathVariable String orderNumber, @RequestBody String purchaseOrderStatusEnum){
+        purchaseOrderService.changeStatus(orderNumber, PurchaseOrderStatusEnum.valueOf(purchaseOrderStatusEnum.toUpperCase()));
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{orderNumber")
+    @DeleteMapping("/{orderNumber}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity deletePuchaseOrder(@PathVariable String orderNumber){

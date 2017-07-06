@@ -27,6 +27,16 @@ angular.module("private-e-market-app")
 
                 return result;
             };
+             var purchaseOrderListExtractor = function(data) {
+                var result = [];
+                if(data){
+                    result = data.data["_embedded"] || [];
+                    result = result.purchaseOrderList || [];
+                }
+
+                return result;
+            };
+
             var idExtractorFromResponse = function (data) {
                 var result = null;
                 console.log("idExtractorFromResponse: " + data)
@@ -58,6 +68,15 @@ angular.module("private-e-market-app")
             },
             "getPurchaseOrder":function (orderNumber) {
                 return baseRestExec("GET", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, logger, logger);
+            },
+            "deletePurchaseOrder":function (orderNumber) {
+                return baseRestExec("DELETE", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, logger, logger);
+            },
+            "getPurchaseOrderList":function () {
+                return baseRestExec("GET", [purchaseOrderBaseUrl,"purchase-order"].join("/")+"?withOnlyOrderId=true",null, purchaseOrderListExtractor, logger);
+            },
+            "completePurchaseOrderList":function (orderNumber) {
+                return baseRestExec("PATCH", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),"COMPLETE", logger, logger);
             }
         }
     }]);
