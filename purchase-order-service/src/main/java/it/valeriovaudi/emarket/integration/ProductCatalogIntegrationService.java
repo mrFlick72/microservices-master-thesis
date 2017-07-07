@@ -34,7 +34,7 @@ public class ProductCatalogIntegrationService extends AbstractIntegrationService
     @Value("${external-service.base-uri-schema.goods-in-product-catalog}")
     private String goodsInProductCatalogServiceUriSchema;
 
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+    @HystrixCommand(fallbackMethod = "fallback", commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public Goods getGoodsInPriceListData(String priceListId, String goodsId){
         URI uri = UriComponentsBuilder.fromHttpUrl(goodsInProductCatalogServiceUriSchema)
                 .buildAndExpand(priceListId, goodsId).toUri();
@@ -46,4 +46,10 @@ public class ProductCatalogIntegrationService extends AbstractIntegrationService
                 serviceCall.getHeaders().getContentType().toString());
     }
 
+    /**
+     * fallback
+     * */
+    public Goods fallback(String priceListId, String goodsId) {
+        return null;
+    }
 }

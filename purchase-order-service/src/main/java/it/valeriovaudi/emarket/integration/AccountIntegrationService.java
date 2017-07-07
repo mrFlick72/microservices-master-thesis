@@ -30,14 +30,16 @@ public class AccountIntegrationService extends AbstractIntegrationService {
     @Value("${external-service.base-uri-schema.account}")
     private String accountServiceUriSchema;
 
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+    @HystrixCommand(fallbackMethod = "getCustomerFormAccountDataFallback",
+            commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public Customer getCustomerFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomer(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().toString());
     }
 
-    @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+    @HystrixCommand(fallbackMethod = "getCustomerContactFormAccountDataFallback",
+            commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public CustomerContact getCustomerContactFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomerContact(serviceCall.getBody(),
@@ -49,4 +51,14 @@ public class AccountIntegrationService extends AbstractIntegrationService {
         return accountIntegrationServiceRestTemplate.exchange(newRequestEntity(uri), String.class);
     }
 
+    /**
+     * fallback
+     * */
+    public CustomerContact getCustomerContactFormAccountDataFallback(String userName) {
+        return null;
+    }
+
+    public Customer getCustomerFormAccountDataFallback(String userName) {
+        return null;
+    }
 }
