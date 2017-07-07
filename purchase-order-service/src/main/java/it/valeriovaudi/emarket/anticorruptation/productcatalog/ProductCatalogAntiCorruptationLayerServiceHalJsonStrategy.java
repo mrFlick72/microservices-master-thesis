@@ -37,7 +37,7 @@ public class ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy extends A
             goods.setName(goodsNode.get("name").asText());
             goods.setGoodsAttribute(objectMapper.convertValue(goodsNode.get("goodsAttribute"), Map.class));
 
-            goods.setPrice(new BigDecimal(node.get("price").asDouble()).setScale(2));
+            goods.setPrice(new BigDecimal(node.get("price").asDouble()).setScale(2, BigDecimal.ROUND_HALF_DOWN));
         } catch (IOException e) {
             log.error(e.getMessage());
         }

@@ -1,6 +1,14 @@
 <div class="row" ng-repeat="priceList in priceListList">
     <div class="col-lg-12">
-        <span class="pull-left badge">Price List Name:</span> <span class="pull-right badge">{{priceList.name}}</span>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="name">Price List Name:</label>
+                    <input type="text" readonly="readonly" class="form-control" id="name" placeholder="Name" value="{{priceList.name}}">
+                </div>
+            </div>
+        </div>
+        <!--<span class="pull-left badge">Price List Name:</span> <span class="pull-right badge">{{priceList.name}}</span>-->
     </div>
 
     <div class="col-lg-12">
