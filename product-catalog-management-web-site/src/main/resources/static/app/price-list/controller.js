@@ -10,7 +10,7 @@ angular.module("product-catalog-management-app")
             });
         }
     }])
-    .controller("editPriceListCtrl",["$scope","$stateParams", "priceListService", function($scope, $stateParams, priceListService){
+    .controller("editPriceListCtrl",["$rootScope","$scope","$stateParams", "priceListService", function($rootScope, $scope, $stateParams, priceListService){
         var reloadPriceListDataFN = function () {
             priceListService.find($stateParams.priceListId)
                 .then(function (data) {
@@ -38,20 +38,27 @@ angular.module("product-catalog-management-app")
         };
 
         $scope.save = function () {
-            if($scope.priceList.id){
-                var index = 0;
+
+
+            $scope.$on("saveGoodsInPriceList",function(event,args){
+                var index = args.index;
+                doSave(index);
+            });
+
+
+            var doSave = function (index) {
                 priceListService.saveGoodsInPriceList($scope.priceListId,
                     $scope.priceList.goodsInPriceList[index].goods.id,
                     $scope.priceList.goodsInPriceList[index].price).then(function (data) {
-                        index++;
-                        if(index < $scope.priceList.goodsInPriceList.length){
-                            priceListService.saveGoodsInPriceList($scope.priceListId,
-                                $scope.priceList.goodsInPriceList[index].goods.id,
-                                $scope.priceList.goodsInPriceList[index].price)
-                        }
+                    index++;
+                    if(index < $scope.priceList.goodsInPriceList.length){
+                        $rootScope.$broadcast("saveGoodsInPriceList",{index:index})
+                    }
                 });
+            };
 
-
+            if($scope.priceList.id){
+                doSave(0);
             } else {
                 priceListService.create($scope.priceList).then(function (data) {
                     $scope.priceListId = data;
