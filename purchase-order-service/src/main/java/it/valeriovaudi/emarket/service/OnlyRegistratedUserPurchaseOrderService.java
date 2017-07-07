@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -195,6 +196,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         }
 
         purchaseOrder.setGoodsList(goods);
+        updateTotal(purchaseOrder);
 
         return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveGoodsInPurchaseOrderException.class);
     }
@@ -210,6 +212,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
                 .collect(Collectors.toList());
 
         purchaseOrder.setGoodsList(goods);
+        updateTotal(purchaseOrder);
 
         return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveGoodsInPurchaseOrderException.class);
     }
@@ -278,6 +281,14 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return goods.getId().equals(goodsId) && goods.getPriceListId().equals(priceListId);
     }
 
+    private void updateTotal(PurchaseOrder purchaseOrder){
+        BigDecimal total = purchaseOrder.getGoodsList().stream()
+                .map(goods -> goods.getPrice().multiply(new BigDecimal(goods.getQuantity()))
+                        .setScale(2, BigDecimal.ROUND_HALF_DOWN))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        purchaseOrder.setTotal(total);
+    }
 
     private boolean canDoOperaion(String correlationId, EventTypeEnum eventTypeEnum,Class<? extends Exception> exception, String exceptionMessage, PurchaseOrder purchaseOrder, PurchaseOrderStatusEnum status){
         if(status.equals(purchaseOrder.getStatus())){

@@ -1,6 +1,146 @@
-RESUME DATA
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Personal Data</h3>
+    </div>
+    <div class="col-lg-12">
+        <hr/>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="firstName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">First Name</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="firstName" readonly="readonly" placeholder="First Name" ng-model="purchaseOrder.customer.firstName"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Last Name</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="lastName" readonly="readonly" placeholder="Last Name" ng-model="purchaseOrder.customer.lastName"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Tax Code</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="taxCode" readonly="readonly" placeholder="Tax Code" ng-model="purchaseOrder.customer.taxCode"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mail" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Mail</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="mail" readonly="readonly" placeholder="Mail" ng-model="purchaseOrder.customerContact.mail"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="telephone" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Telephone</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="telephone" readonly="readonly" placeholder="Telephone" ng-model="purchaseOrder.customerContact.telephone"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Shipment Data</h3>
+    </div>
+
+    <div class="col-lg-12">
+        <hr/>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="streetAddress" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Street Address</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="streetAddress" readonly="readonly" placeholder="Street Address" ng-model="purchaseOrder.shipment.streetAddress"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="streetNumber" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Street Number</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="streetNumber" readonly="readonly" placeholder="Street Number" ng-model="purchaseOrder.shipment.streetNumber"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="zip" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Zip</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="zip" readonly="readonly" placeholder="Zip" ng-model="purchaseOrder.shipment.zip"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="shipmentDate" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Shipment Date</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="shipmentDate" readonly="readonly" placeholder="Shipment Date" ng-model="purchaseOrder.shipment.shipmentDate"/>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 <div class="row">
-    <a class="btn btn-success" ng-click="savePurchaseOrder()">Next</a>
+
+    <div class="col-lg-12">
+        <h3>Goods In Purchase Order Data</h3>
+    </div>
+
+    <div class="col-lg-12">
+        <hr/>
+    </div>
+
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Goods Name</th>
+                <th>Goods Bar Code</th>
+                <th>Goods Price</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+                <th/>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="goods in purchaseOrder.goodsList">
+                <td>{{goods.name}}</td>
+                <td>{{goods.barCode}}</td>
+                <td>{{goods.price}}</td>
+                <td>{{goods.quantity}}</td>
+                <td><a ng-click="removeGoodsInPurchaseOrder($index)"><span class="glyphicon glyphicon-remove-sign"/></a></td>
+                <td/>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"><b>Totale:</b></td>
+                <td>{{purchaseOrder.total}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <a class="btn btn-success pull-left" ui-sref="create-new-purchase-order.add-shipment-data-in-purchase-order({'purchaseOrderId': '{{purchaseOrderId}}'})"><span class="glyphicon glyphicon-arrow-left"/> Back</a>
+    <a class="btn btn-success pull-right" ng-click="savePurchaseOrder()">Complete</a>
 </div>

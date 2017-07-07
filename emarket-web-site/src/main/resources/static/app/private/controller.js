@@ -35,7 +35,8 @@ angular.module("private-e-market-app")
                                                         function ($scope, $state, $stateParams, privateSectionService) {
         $scope.purchaseOrderId = $stateParams.purchaseOrderId;
         $scope.next = function () {
-            privateSectionService.withShipmentData($stateParams.purchaseOrderId, $scope.shipment)
+            var shipment = $scope.shipment || {};
+            privateSectionService.withShipmentData($stateParams.purchaseOrderId, shipment)
                 .then(function (data) {
                     $state.go("create-new-purchase-order.resume-purchase-order",{'purchaseOrderId': $scope.purchaseOrderId})
                 });
@@ -45,16 +46,23 @@ angular.module("private-e-market-app")
                                                         function ($scope, $state, $stateParams, privateSectionService) {
         $scope.purchaseOrderId = $stateParams.purchaseOrderId;
         console.log("$scope.purchaseOrderId: " + $scope.purchaseOrderId);
-        privateSectionService.getPurchaseOrder($scope.purchaseOrderId)
+        privateSectionService.getPurchaseOrder($stateParams.purchaseOrderId)
             .then(function (data) {
-                console.log(data);
-                $scope.purchaseOrderDetails = data.data;
+                $scope.purchaseOrder = data;
             });
 
         $scope.savePurchaseOrder = function () {
             privateSectionService.completePurchaseOrderList($scope.purchaseOrderId)
                 .then(function (data) {
                     $state.go("main");
+                });
+        };
+
+        $scope.removeGoodsInPurchaseOrder = function (index) {
+            var goods = $scope.purchaseOrder.goodsList[index];
+            privateSectionService.removeGoodsInPurchaseOrder($scope.purchaseOrderId,goods.priceListId,goods.id)
+                .then(function (data) {
+                    $scope.purchaseOrder.goodsList.splice(index,1);
                 });
         };
     }]);
@@ -88,9 +96,12 @@ angular.module("private-e-market-app")
             }
         };
     }])
-    .controller("purchaseOrderDetailsCtrl", ["$scope",
-        function ($scope) {
-            $scope.purchaseOrder = {};
+    .controller("purchaseOrderDetailsCtrl", ["$scope", "$stateParams", "privateSectionService",
+        function ($scope, $stateParams, privateSectionService) {
+            privateSectionService.getPurchaseOrder($stateParams.purchaseOrderId)
+                .then(function (data) {
+                    $scope.purchaseOrder = data;
+                });
 
     }]);
 

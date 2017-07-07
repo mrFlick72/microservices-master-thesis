@@ -63,11 +63,16 @@ angular.module("private-e-market-app")
             "addGoodsInPurchaseOrder":function (orderNumber, priceListId, goodsId, quantity) {
                 return baseRestExec("PATCH", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"goods",goodsId,"price-list",priceListId].join("/"),quantity, logger, logger);
             },
+            "removeGoodsInPurchaseOrder":function (orderNumber, priceListId, goodsId) {
+                return baseRestExec("DELETE", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"goods",goodsId,"price-list",priceListId].join("/"),null, logger, logger);
+            },
             "getProductCatalog":function () {
                 return baseRestExec("GET", [productCatalogBaseUrl,"price-list"].join("/"),null, priceListListExtractor, logger);
             },
             "getPurchaseOrder":function (orderNumber) {
-                return baseRestExec("GET", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, logger, logger);
+                return baseRestExec("GET", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, function (data) {
+                    return data.data;
+                }, logger);
             },
             "deletePurchaseOrder":function (orderNumber) {
                 return baseRestExec("DELETE", [purchaseOrderBaseUrl,"purchase-order",orderNumber].join("/"),null, logger, logger);
