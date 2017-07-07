@@ -11,19 +11,19 @@ angular.module("private-e-market-app")
                     });
             });
     }])
-    .controller("addGoodsInNewPurchaseOrderCtrl", ["$scope", "$stateParams", "privateSectionService",
-                                                                function ($scope, $stateParams, privateSectionService) {
+    .controller("addGoodsInNewPurchaseOrderCtrl", ["$scope", "$state", "$stateParams", "privateSectionService",
+                                                                function ($scope, $state, $stateParams, privateSectionService) {
         $scope.purchaseOrderId = $stateParams.purchaseOrderId;
 
-        $scope.addGoods = function(goodsId,priceListId,quantity){
-            console.log("goodsId: " + goodsId);
-            console.log("priceListId: " + priceListId);
-            console.log("quantity: " + quantity);
+        $scope.addGoods = function(goodsId, priceListId, quantity){
+            privateSectionService.addGoodsInPurchaseOrder($scope.purchaseOrderId, priceListId, goodsId, quantity);
+        };
 
-            privateSectionService.addGoodsInPurchaseOrder($scope.purchaseOrderId, priceListId, goodsId, quantity)
+        $scope.abortOrder = function () {
+            privateSectionService.deletePurchaseOrder($scope.purchaseOrderId)
                 .then(function (data) {
-                    console.log("data: " + data);
-                });
+                    $state.go("purchase-order-list");
+                })
         };
 
         privateSectionService.getProductCatalog()
@@ -35,7 +35,7 @@ angular.module("private-e-market-app")
                                                         function ($scope, $state, $stateParams, privateSectionService) {
         $scope.purchaseOrderId = $stateParams.purchaseOrderId;
         $scope.next = function () {
-            var shipment = $scope.shipment || {};
+            var shipment = $scope.shipment;
             privateSectionService.withShipmentData($stateParams.purchaseOrderId, shipment)
                 .then(function (data) {
                     $state.go("create-new-purchase-order.resume-purchase-order",{'purchaseOrderId': $scope.purchaseOrderId})
@@ -57,6 +57,14 @@ angular.module("private-e-market-app")
                     $state.go("main");
                 });
         };
+
+        $scope.abortOrder = function () {
+            privateSectionService.deletePurchaseOrder($scope.purchaseOrderId)
+                .then(function (data) {
+                    $state.go("purchase-order-list");
+                })
+        };
+
 
         $scope.removeGoodsInPurchaseOrder = function (index) {
             var goods = $scope.purchaseOrder.goodsList[index];

@@ -1,6 +1,6 @@
 <div class="row" ng-repeat="priceList in priceListList">
     <div class="col-lg-12">
-        <span class="badge">Price   List Name{{priceList.name}}</span>
+        <span class="pull-left badge">Price List Name:</span> <span class="pull-right badge">{{priceList.name}}</span>
     </div>
 
     <div class="col-lg-12">
@@ -34,5 +34,12 @@
 </div>
 
 <div class="row">
-    <a class="btn btn-info" ui-sref="create-new-purchase-order.add-shipment-data-in-purchase-order({'purchaseOrderId': '{{purchaseOrderId}}'})">Next</a>
+    <div class="col-lg-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <a class="pull-left btn btn-danger" ng-click="abortOrder()">Abort</a>
+    <a class="pull-right btn btn-info" ui-sref="create-new-purchase-order.add-shipment-data-in-purchase-order({'purchaseOrderId': '{{purchaseOrderId}}'})">Next</a>
 </div>

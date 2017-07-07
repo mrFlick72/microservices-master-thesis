@@ -43,13 +43,13 @@ public class AccountAnticorruptationLayerService extends AbstractAntiCorruptatio
 
     public Customer newCustomer(String customer, String mediaType){
         return (Customer) Optional.ofNullable(customerAntiCorruptationRegistry.get(mediaType))
-                .map(anticCorruptationLayerStrategy -> anticCorruptationLayerStrategy.traslate(customer))
+                .map(antiCorruptationLayerStrategy -> antiCorruptationLayerStrategy.traslate(customer))
         .orElse(null);
     }
 
     public CustomerContact newCustomerContact(String gustomerContact, String mediaType){
         return (CustomerContact) Optional.ofNullable(customerContactAnticorruptationRegistry.get(mediaType))
-                .map(anticCorruptationLayerStrategy -> anticCorruptationLayerStrategy.traslate(gustomerContact))
+                .map(antiCorruptationLayerStrategy -> antiCorruptationLayerStrategy.traslate(gustomerContact))
                 .orElse(null);
     }
 }

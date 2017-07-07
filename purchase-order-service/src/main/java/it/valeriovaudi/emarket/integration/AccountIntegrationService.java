@@ -41,7 +41,7 @@ public class AccountIntegrationService extends AbstractIntegrationService {
     public CustomerContact getCustomerContactFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
         return accountAnticorruptationLayerService.newCustomerContact(serviceCall.getBody(),
-                serviceCall.getHeaders().getContentType().getType());
+                serviceCall.getHeaders().getContentType().toString());
     }
 
     private ResponseEntity<String> serviceCall(String userName) {

@@ -57,8 +57,15 @@ angular.module("private-e-market-app")
                 return baseRestExec("POST", [purchaseOrderBaseUrl,"purchase-order"].join("/"),null, idExtractorFromResponse, logger);
             },
             "withShipmentData":function (orderNumber, shipment) {
-                shipment.shipmentDate = new Date();
-                return baseRestExec("PUT", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"shipment"].join("/"), shipment, logger, logger);
+                var promise;
+                if(shipment){
+                    promise = baseRestExec("PUT", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"shipment"].join("/"), shipment, logger, logger);
+                } else {
+                    var defer = $q.defer();
+                    defer.resolve(logger);
+                    promise = defer.promise;
+                }
+                return promise;
             },
             "addGoodsInPurchaseOrder":function (orderNumber, priceListId, goodsId, quantity) {
                 return baseRestExec("PATCH", [purchaseOrderBaseUrl,"purchase-order",orderNumber,"goods",goodsId,"price-list",priceListId].join("/"),quantity, logger, logger);
