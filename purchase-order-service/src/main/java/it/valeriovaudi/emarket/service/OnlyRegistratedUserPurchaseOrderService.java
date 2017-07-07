@@ -182,7 +182,6 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return doSavePurchaseOrderData(correlationId, one, SaveCustomerAndOrCustomerContactException.class);
     }
 
-    //todo fixme
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
@@ -191,11 +190,16 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
         PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         Goods goodsInPriceListData = productCatalogIntegrationService.getGoodsInPriceListData(priceListId, goodsId);
-        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>());
-
         goodsInPriceListData.setQuantity(quantity);
 
-        goods.add(goodsInPriceListData);
+        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>());
+        int indexOf = goods.indexOf(goodsInPriceListData);
+
+        if(indexOf == -1){
+            goods.add(goodsInPriceListData);
+        } else {
+            goods.set(indexOf, goodsInPriceListData);
+        }
 
         one.setGoodsList(goods);
 
@@ -284,6 +288,17 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     private boolean checkGoods(String priceListId, String goodsId, Goods goods){
         return goods.getId().equals(goodsId) && goods.getPriceListId().equals(priceListId);
+    }
+
+
+    private boolean canDoOperaion(String correlationId, EventTypeEnum eventTypeEnum,Class<? extends Exception> exception, String exceptionMessage, PurchaseOrder purchaseOrder, PurchaseOrderStatusEnum status){
+        if(status.equals(purchaseOrder.getStatus())){
+            return true;
+        } else {
+            eventDomainPubblishService.publishPurchaseOrderErrorEvent(correlationId, purchaseOrder.getOrderNumber(),
+                    null, null, null, eventTypeEnum, exceptionMessage, exception);
+            throw new PurchaseOrderInvalidOperatioOnStatusException(exceptionMessage);
+        }
     }
 
     private AbstractException newAbstractException(Class<? extends AbstractException> exception, Exception e){

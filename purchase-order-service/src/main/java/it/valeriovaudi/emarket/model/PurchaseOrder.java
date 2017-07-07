@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -34,4 +35,5 @@ public class PurchaseOrder implements Serializable {
     private List<Goods> goodsList;
     private Shipment shipment;
     private Delivery delivery;
+    private BigDecimal total;
 }

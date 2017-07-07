@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Personal Data</h3>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="firstName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">First Name</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="firstName" readonly="readonly" placeholder="First Name" ng-model="customer.firstName"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Last Name</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="lastName" readonly="readonly" placeholder="Last Name" ng-model="customer.lastName"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Tax Code</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="taxCode" readonly="readonly" placeholder="Tax Code" ng-model="customer.taxCode"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mail" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Mail</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="mail" readonly="readonly" placeholder="Mail" ng-model="customerContact.mail"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="telephone" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Telephone</label>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <input type="text" class="form-control" id="telephone" readonly="readonly" placeholder="Telephone" ng-model="customerContact.telephone"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        </hr>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <h3>Shipment Data</h3>
+</div>
+
+<div class="col-lg-12">
+    <div class="form-group">
+        <label for="streetAddress" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Street Address</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <input type="text" class="form-control" id="streetAddress" readonly="readonly" placeholder="Street Address" ng-model="shipment.streetAddress"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="streetNumber" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Street Number</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <input type="text" class="form-control" id="streetNumber" readonly="readonly" placeholder="Street Number" ng-model="shipment.streetNumber"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="zip" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Zip</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <input type="text" class="form-control" id="zip" readonly="readonly" placeholder="Zip" ng-model="shipment.zip"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="shipmentDate" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Shipment Date</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <input type="text" class="form-control" id="shipmentDate" readonly="readonly" placeholder="Shipment Date" ng-model="shipment.shipmentDate"/>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        </hr>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <h3>Goods In Purchase Order Data</h3>
+</div>
+
+<div class="col-lg-12">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Goods Name</th>
+            <th>Goods Bar Code</th>
+            <th>Goods Price</th>
+            <th>Quantity</th>
+            <th>Totale</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="goods in goodsList">
+            <td>{{goods.name}}</td>
+            <td>{{goods.barCode}}</td>
+            <td>{{goods.price}}</td>
+            <td><input readonly="readonly" value="{{goods[$index].quantity}}"/></td>
+            <td/>
+        </tr>
+        <tr>
+            <td/>
+            <td/>
+            <td/>
+            <td/>
+            <td><input readonly="readonly" value="{{total}}"/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        </hr>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"/> Back</button>
+    </div>
+</div>

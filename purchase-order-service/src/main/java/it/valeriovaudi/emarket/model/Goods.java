@@ -1,6 +1,7 @@
 package it.valeriovaudi.emarket.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Data
 @ToString
+@EqualsAndHashCode(of = {"id","priceListId"})
 public class Goods implements Serializable {
 
     private String id;
