@@ -99,8 +99,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public void deletePurchaseOrder(String orderNumber) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findOne(orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         if(PurchaseOrderStatusEnum.DRAFT.equals(purchaseOrder.getStatus()) || purchaseOrder.getStatus()==null){
             purchaseOrderRepository.delete(orderNumber);
@@ -116,13 +115,12 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder changeStatus(String orderNumber, PurchaseOrderStatusEnum purchaseOrderStatusEnum) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
-        return purchaseOrderRepository.save(Optional.ofNullable(one)
-                .map(purchaseOrder -> {
-                    purchaseOrder.setStatus(purchaseOrderStatusEnum);
-                    return purchaseOrder;
+        return purchaseOrderRepository.save(Optional.ofNullable(purchaseOrder)
+                .map(purchaseOrderAux -> {
+                    purchaseOrderAux.setStatus(purchaseOrderStatusEnum);
+                    return purchaseOrderAux;
                 }).orElseThrow(RuntimeException::new));
     }
 
@@ -130,69 +128,64 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomer(String orderNumber, String userName, Customer customer) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         Optional.ofNullable(customer).ifPresent(customerAux -> { throw new UnsupportedOperationException(); });
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         Customer customerFormAccountData = accountIntegrationService.getCustomerFormAccountData(userName);
         CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
 
-        one.setCustomer(customerFormAccountData);
-        one.setCustomerContact(customerContactFormAccountData);
+        purchaseOrder.setCustomer(customerFormAccountData);
+        purchaseOrder.setCustomerContact(customerContactFormAccountData);
 
-        return  doSavePurchaseOrderData(correlationId, one, SaveCustomerException.class);
+        return  doSavePurchaseOrderData(correlationId, purchaseOrder, SaveCustomerException.class);
     }
 
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomerContact(String orderNumber, String userName, CustomerContact customerContact) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         Optional.ofNullable(customerContact).ifPresent(customerAux -> {
             throw new UnsupportedOperationException();
         });
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
-        one.setCustomerContact(customerContactFormAccountData);
+        purchaseOrder.setCustomerContact(customerContactFormAccountData);
 
-        return  doSavePurchaseOrderData(correlationId, one, SaveCustomerContactException.class);
+        return  doSavePurchaseOrderData(correlationId, purchaseOrder, SaveCustomerContactException.class);
     }
 
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withCustomerAndCustomerContact(String orderNumber, String userName, Customer customer, CustomerContact customerContact) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         if (Optional.ofNullable(customer).isPresent() || Optional.ofNullable(customerContact).isPresent()){
             throw new UnsupportedOperationException();
         }
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
-
         Customer customerFormAccountData = accountIntegrationService.getCustomerFormAccountData(userName);
-        one.setCustomer(customerFormAccountData);
+        purchaseOrder.setCustomer(customerFormAccountData);
 
         CustomerContact customerContactFormAccountData = accountIntegrationService.getCustomerContactFormAccountData(userName);
-        one.setCustomerContact(customerContactFormAccountData);
+        purchaseOrder.setCustomerContact(customerContactFormAccountData);
 
-        return doSavePurchaseOrderData(correlationId, one, SaveCustomerAndOrCustomerContactException.class);
+        return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveCustomerAndOrCustomerContactException.class);
     }
 
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder saveGoodsInPurchaseOrder(String orderNumber, String priceListId, String goodsId, int quantity) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
         Goods goodsInPriceListData = productCatalogIntegrationService.getGoodsInPriceListData(priceListId, goodsId);
         goodsInPriceListData.setQuantity(quantity);
 
-        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>());
+        List<Goods> goods = Optional.ofNullable(purchaseOrder.getGoodsList()).orElse(new ArrayList<>());
         int indexOf = goods.indexOf(goodsInPriceListData);
 
         if(indexOf == -1){
@@ -201,34 +194,30 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
             goods.set(indexOf, goodsInPriceListData);
         }
 
-        one.setGoodsList(goods);
+        purchaseOrder.setGoodsList(goods);
 
-        return doSavePurchaseOrderData(correlationId, one, SaveGoodsInPurchaseOrderException.class);
+        return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveGoodsInPurchaseOrderException.class);
     }
 
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder removeGoodsInPurchaseOrder(String orderNumber,String priceListId, String goodsId) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
-        PurchaseOrder one = purchaseOrderRepository.findOne(orderNumber);
-        List<Goods> goods = Optional.ofNullable(one.getGoodsList()).orElse(new ArrayList<>()).stream()
+        List<Goods> goods = Optional.ofNullable(purchaseOrder.getGoodsList()).orElse(new ArrayList<>()).stream()
                 .filter(goodsAux -> !checkGoods(priceListId,goodsId,goodsAux))
                 .collect(Collectors.toList());
 
-        one.setGoodsList(goods);
+        purchaseOrder.setGoodsList(goods);
 
-        return doSavePurchaseOrderData(correlationId, one, SaveGoodsInPurchaseOrderException.class);
+        return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveGoodsInPurchaseOrderException.class);
     }
 
     @Override
     public PurchaseOrder withShipment(String orderNumber, Shipment shipment) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
-
-        // find the purchase order
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findOne(orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         // apply modification
         purchaseOrder.setShipment(shipment);
@@ -241,10 +230,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public PurchaseOrder withDelivery(String orderNumber, Delivery delivery) {
         String correlationId = UUID.randomUUID().toString();
-        doCheckPurchaseOrderExist(correlationId, orderNumber);
-
-        // find the purchase order
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findOne(orderNumber);
+        PurchaseOrder purchaseOrder = doCheckPurchaseOrderExist(correlationId, orderNumber);
 
         // apply modification
         purchaseOrder.setDelivery(delivery);
@@ -253,7 +239,7 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         return doSavePurchaseOrderData(correlationId, purchaseOrder, SaveDeliveryException.class);
     }
 
-    private void doCheckPurchaseOrderExist(String correlationId, String purchaseOrderId) {
+    private PurchaseOrder doCheckPurchaseOrderExist(String correlationId, String purchaseOrderId) {
         PurchaseOrder purchaseOrder;
         Function<String, PurchaseOrderNotFoundException> f = userNameAux -> {
             eventDomainPubblishService.publishPurchaseOrderErrorEvent(correlationId, purchaseOrderId,
@@ -269,11 +255,13 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         } catch (Exception e){
             throw f.apply(correlationId);
         }
+
+        return purchaseOrder;
     }
 
     private PurchaseOrder doSavePurchaseOrderData(String correlationId, PurchaseOrder purchaseOrder, Class<? extends AbstractException> exception) {
         PurchaseOrder purchaseOrderAux;
-        AbstractException abstractException = null;
+        AbstractException abstractException;
         try{
             purchaseOrderAux = purchaseOrderRepository.save(purchaseOrder);
         } catch (Exception e){
