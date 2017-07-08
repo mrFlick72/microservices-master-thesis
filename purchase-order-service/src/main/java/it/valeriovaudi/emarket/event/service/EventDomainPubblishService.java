@@ -34,7 +34,7 @@ public class EventDomainPubblishService {
     @Autowired
     private SubscribableChannel purchaseOrderEventOutboundChannel;
 
-    public PurchaseOrderEvent publishPurchaseOrderErrorEvent(String correlationId, String idPurchaseOrder,
+    public PurchaseOrderEvent publishPurchaseOrderEvent(String correlationId, String idPurchaseOrder,
                                                              String idProductCatalogId, String idGoodsInPurchaseOrder,
                                                              String customerUserName, EventTypeEnum type){
         PurchaseOrderEvent event = domainEventFactory.newPurchaseOrderEvent(correlationId, idPurchaseOrder,

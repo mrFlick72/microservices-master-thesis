@@ -28,7 +28,7 @@ class CassandraConfiguration extends CassandraDataAutoConfiguration {
     }
 
     @Bean
-    public CassandraMappingContext cassandraMapping(Cluster cluster, CassandraProperties properties) throws ClassNotFoundException {
+    public CassandraMappingContext cassandraMapping(BeanFactory beanFactory, Cluster cluster, CassandraProperties properties) throws ClassNotFoundException {
         BasicCassandraMappingContext context = new BasicCassandraMappingContext();
         context.setInitialEntitySet(CassandraEntityClassScanner.scan("it.valeriovaudi.emarket.event"));
         context.setUserTypeResolver(new SimpleUserTypeResolver(cluster,

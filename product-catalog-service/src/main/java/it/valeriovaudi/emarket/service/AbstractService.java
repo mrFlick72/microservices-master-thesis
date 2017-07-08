@@ -51,6 +51,9 @@ public abstract class AbstractService {
         GoodsErrorEvent goodsErrorEvent;
         try{
             goodsAux = goodsRepository.save(goods);
+
+            eventDomainPubblishService.publishGoodsEvent(correlationId,goods.getId(),
+                    goods.getName(),goods.getBarCode(),goods.getCategory(),EventTypeEnum.SAVE);
         } catch (Exception e){
             e.printStackTrace();
             goodsErrorEvent = eventDomainPubblishService.publishGoodsErrorEvent(correlationId, goods.getId(), goods.getName(),goods.getBarCode(),
@@ -66,6 +69,9 @@ public abstract class AbstractService {
         PriceListErrorEvent priceListErrorEvent ;
         try{
             priceListAux = priceListRepository.save(priceList);
+
+            eventDomainPubblishService.publishPriceListEvent(correlationId,priceList.getId(),
+                    priceList.getName(),EventTypeEnum.SAVE);
         } catch (Exception e){
             priceListErrorEvent = eventDomainPubblishService.publishPriceListErrorEvent(correlationId, priceList.getId(), priceList.getName(),EventTypeEnum.SAVE, SavePriceListException.DEFAULT_MESSAGE, SavePriceListException.class);
             throw  new SavePriceListException(priceListErrorEvent, SavePriceListException.DEFAULT_MESSAGE);

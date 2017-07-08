@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.event.factory;
 
 import com.datastax.driver.core.utils.UUIDs;
-import it.valeriovaudi.emarket.event.model.EventAuditData;
+import it.valeriovaudi.emarket.event.model.AbstractDomainEvent;
 import it.valeriovaudi.emarket.event.model.EventTypeEnum;
 import it.valeriovaudi.emarket.event.model.PurchaseOrderErrorEvent;
 import it.valeriovaudi.emarket.event.model.PurchaseOrderEvent;
@@ -32,7 +32,7 @@ public class DomainEventFactory {
         event.setIdGoodsInPurchaseOrder(idGoodsInPurchaseOrder);
         event.setType(type);
 
-        event.setAuditData(newEventAuditData(correlationId));
+        newEventAuditData(event,correlationId);
         return event;
     }
 
@@ -48,20 +48,17 @@ public class DomainEventFactory {
         event.setIdGoodsInPurchaseOrder(idGoodsInPurchaseOrder);
 
         event.setType(type);
-        event.setAuditData(newEventAuditData(correlationId));
+        newEventAuditData(event,correlationId);
         event.setExceptionClassName(exceptionClassName.getName());
         event.setMessage(message);
         return event;
     }
 
 
-    private EventAuditData newEventAuditData(String correlationId){
-        EventAuditData eventAuditData = new EventAuditData();
+    private void newEventAuditData(AbstractDomainEvent eventAuditData, String correlationId) {
 
         eventAuditData.setCorrelationId(correlationId);
         eventAuditData.setUserName(securityUtils.getPrincipalUserName());
         eventAuditData.setTimeStamp(new Date());
-
-        return eventAuditData;
     }
 }
