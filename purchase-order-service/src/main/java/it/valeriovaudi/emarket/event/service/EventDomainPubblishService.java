@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 @Data
 @Service
-@EnableBinding(EventMessageChannels.class)
 public class EventDomainPubblishService {
 
     @Autowired

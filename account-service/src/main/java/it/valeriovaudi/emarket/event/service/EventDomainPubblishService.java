@@ -19,7 +19,6 @@ import java.util.Map;
 
 @Data
 @Service
-@EnableBinding(EventMessageChannels.class)
 public class EventDomainPubblishService {
 
     @Autowired
