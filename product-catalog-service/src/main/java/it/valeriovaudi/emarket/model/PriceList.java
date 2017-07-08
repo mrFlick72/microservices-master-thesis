@@ -5,10 +5,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.hateoas.core.Relation;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 

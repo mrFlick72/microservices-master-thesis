@@ -1,8 +1,6 @@
 package it.valeriovaudi.emarket.repository;
 
-import it.valeriovaudi.emarket.model.GoodsInPriceList;
 import it.valeriovaudi.emarket.model.PriceList;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

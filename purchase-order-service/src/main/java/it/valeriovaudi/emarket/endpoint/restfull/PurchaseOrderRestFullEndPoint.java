@@ -7,16 +7,17 @@ import it.valeriovaudi.emarket.model.PurchaseOrder;
 import it.valeriovaudi.emarket.model.PurchaseOrderStatusEnum;
 import it.valeriovaudi.emarket.security.SecurityUtils;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by mrflick72 on 30/05/17.
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 
 @Data
+@Slf4j
 @RestController
 @RequestMapping("/purchase-order")
 public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFullEndPoint {
@@ -39,9 +41,8 @@ public class PurchaseOrderRestFullEndPoint extends AbstractPurchaseOrderRestFull
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public ResponseEntity getPuchaseOrderList(@RequestParam(value = "withOnlyOrderId", defaultValue = "false") boolean withOnlyOrderId){
 
-        Boolean role_user = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-                .map(authentication -> authentication.getAuthorities().contains("ROLE_USER"))
-                .orElse(false);
+        Boolean role_user = SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"));
 
         List<PurchaseOrder> purchaseOrders = role_user ?
                 purchaseOrderService.findPurchaseOrderList(securityUtils.getPrincipalUserName(), withOnlyOrderId) :

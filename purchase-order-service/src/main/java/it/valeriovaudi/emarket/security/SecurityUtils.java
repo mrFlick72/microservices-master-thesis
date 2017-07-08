@@ -15,6 +15,7 @@ public class SecurityUtils {
         String userName = "";
         try{
             userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            log.info("userName: in SecurityUtils: " + userName);
         } catch (Throwable t){
             // ignore it
             log.error("session without an authenticated user");
