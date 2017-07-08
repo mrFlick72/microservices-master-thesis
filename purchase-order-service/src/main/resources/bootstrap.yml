@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product-catalog-service
+    name: purchase-order-service
   cloud:
     config:
       discovery:

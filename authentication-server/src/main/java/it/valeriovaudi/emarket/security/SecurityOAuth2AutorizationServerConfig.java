@@ -41,17 +41,17 @@ public class SecurityOAuth2AutorizationServerConfig extends AuthorizationServerC
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .approvalStoreDisabled()
-//                .tokenStore(tokenStore())
+                .tokenStore(tokenStore())
                 .userDetailsService(accountUserDetailsService);
     }
-/*
+
     @Bean
     public RedisTokenStore tokenStore(){
         JdkSerializationStrategy jdkSerializationStrategy = new JdkSerializationStrategy();
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
         redisTokenStore.setSerializationStrategy(jdkSerializationStrategy);
         return redisTokenStore;
-    }*/
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {

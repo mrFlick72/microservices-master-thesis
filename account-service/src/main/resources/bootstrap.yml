@@ -5,22 +5,3 @@ spring:
     config:
       discovery:
         enabled: true
-
-management:
-  security:
-    enabled: false
-
-
-security:
-  oauth2:
-    client:
-     clientId: my-trusted-client
-     clientSecret:
-     accessTokenUri: http://localhost:9090/oauth/token
-     userAuthorizationUri: http://localhost:9090/oauth/authorize
-     auto-approve-scopes: '.*'
-     registered-redirect-uri: http://localhost:9090/login
-     clientAuthenticationScheme: form
-    resource:
-     id: oauth2-resource
-     user-info-uri: http://localhost:9090/account/userInfo.json

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product-catalog-service
+    name: emarket-web-site
   cloud:
     config:
       discovery:

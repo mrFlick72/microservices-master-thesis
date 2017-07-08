@@ -5,7 +5,3 @@ spring:
     config:
       discovery:
         enabled: true
-
-management:
-  security:
-    enabled: false
