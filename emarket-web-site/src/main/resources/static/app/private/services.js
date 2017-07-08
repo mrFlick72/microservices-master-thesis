@@ -39,7 +39,6 @@ angular.module("private-e-market-app")
 
             var idExtractorFromResponse = function (data) {
                 var result = null;
-                console.log("idExtractorFromResponse: " + data)
                 if(data){
                     var locationAux = data.headers('Location').split("/");
                     result = locationAux[locationAux.length - 1]
