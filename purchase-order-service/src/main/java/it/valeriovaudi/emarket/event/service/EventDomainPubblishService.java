@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 @Data
 @Service
-@EnableBinding(EventMessageChannels.class)
 public class EventDomainPubblishService {
 
     @Autowired
@@ -35,7 +34,7 @@ public class EventDomainPubblishService {
     @Autowired
     private SubscribableChannel purchaseOrderEventOutboundChannel;
 
-    public PurchaseOrderEvent publishPurchaseOrderErrorEvent(String correlationId, String idPurchaseOrder,
+    public PurchaseOrderEvent publishPurchaseOrderEvent(String correlationId, String idPurchaseOrder,
                                                              String idProductCatalogId, String idGoodsInPurchaseOrder,
                                                              String customerUserName, EventTypeEnum type){
         PurchaseOrderEvent event = domainEventFactory.newPurchaseOrderEvent(correlationId, idPurchaseOrder,

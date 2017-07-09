@@ -75,9 +75,11 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
     @Override
     @HystrixCommand(commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
-
     public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
+        String correlationId = UUID.randomUUID().toString();
         purchaseOrder.setStatus(PurchaseOrderStatusEnum.DRAFT);
+        eventDomainPubblishService.publishPurchaseOrderEvent(correlationId,purchaseOrder.getOrderNumber(),
+                null,null,purchaseOrder.getUserName(),EventTypeEnum.CREATE);
         return purchaseOrderRepository.save(purchaseOrder);
     }
 
@@ -104,6 +106,8 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
 
         if(PurchaseOrderStatusEnum.DRAFT.equals(purchaseOrder.getStatus()) || purchaseOrder.getStatus()==null){
             purchaseOrderRepository.delete(orderNumber);
+            eventDomainPubblishService.publishPurchaseOrderEvent(correlationId,purchaseOrder.getOrderNumber(),
+                    null,null,purchaseOrder.getUserName(),EventTypeEnum.DELETE);
         } else {
             eventDomainPubblishService.publishPurchaseOrderErrorEvent(correlationId, orderNumber,
                     null, null, null, EventTypeEnum.DELETE, PurchaseOrderInvalidOperatioOnStatusException.DEFAULT_MESSAGE, PurchaseOrderInvalidOperatioOnStatusException.class);
@@ -267,6 +271,8 @@ public class OnlyRegistratedUserPurchaseOrderService implements PurchaseOrderSer
         AbstractException abstractException;
         try{
             purchaseOrderAux = purchaseOrderRepository.save(purchaseOrder);
+            eventDomainPubblishService.publishPurchaseOrderEvent(correlationId,purchaseOrder.getOrderNumber(),
+                    null,null,purchaseOrder.getUserName(),EventTypeEnum.SAVE);
         } catch (Exception e){
             abstractException = newAbstractException(exception, e);
             eventDomainPubblishService.publishPurchaseOrderErrorEvent(correlationId, purchaseOrder.getOrderNumber(),

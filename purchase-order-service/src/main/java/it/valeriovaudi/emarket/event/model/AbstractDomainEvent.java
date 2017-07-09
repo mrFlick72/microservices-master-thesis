@@ -8,6 +8,7 @@ import org.springframework.data.cassandra.mapping.CassandraType;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -22,6 +23,7 @@ public abstract class AbstractDomainEvent implements Serializable {
     @PrimaryKey
     protected UUID id;
 
-    @CassandraType(type = DataType.Name.UDT, userTypeName = "eventAuditData")
-    protected EventAuditData auditData;
+    private String correlationId;
+    private String userName;
+    private Date timeStamp;
 }
