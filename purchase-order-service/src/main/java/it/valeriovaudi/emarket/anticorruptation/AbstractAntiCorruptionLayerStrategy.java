@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 
 @Data
-public abstract class AbstractAntiCorruptationLayerService {
+public abstract class AbstractAntiCorruptionLayerStrategy<T> implements AntiCorruptionLayerStrategy<T>{
 
     @Autowired
     protected ObjectMapper objectMapper;

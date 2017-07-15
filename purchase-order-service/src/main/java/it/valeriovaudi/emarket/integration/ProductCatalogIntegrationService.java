@@ -2,7 +2,7 @@ package it.valeriovaudi.emarket.integration;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAnticorruptationLayerService;
+import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAntiCorruptionLayerService;
 import it.valeriovaudi.emarket.model.Goods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.net.URI;
 public class ProductCatalogIntegrationService extends AbstractIntegrationService {
 
     @Autowired
-    private ProductCatalogAnticorruptationLayerService productCatalogAnticorruptationLayerService;
+    private ProductCatalogAntiCorruptionLayerService productCatalogAntiCorruptionLayerService;
 
     @Autowired
     private OAuth2RestTemplate productCatalogIntegrationServiceRestTemplate;
@@ -39,7 +39,7 @@ public class ProductCatalogIntegrationService extends AbstractIntegrationService
         ResponseEntity<String> serviceCall =
                 productCatalogIntegrationServiceRestTemplate.exchange(newRequestEntity(uri), String.class);
 
-        return productCatalogAnticorruptationLayerService.newGoods(serviceCall.getBody(),
+        return productCatalogAntiCorruptionLayerService.newGoods(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().toString());
     }
 

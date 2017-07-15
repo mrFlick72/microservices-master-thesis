@@ -2,7 +2,7 @@ package it.valeriovaudi.emarket.anticorruptation.productcatalog;
 
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.valeriovaudi.emarket.anticorruptation.AbstractAnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptionLayerStrategy;
 import it.valeriovaudi.emarket.model.Goods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy extends AbstractAnticCorruptationLayerStrategy<Goods> {
+public class ProductCatalogAntiCorruptionLayerServiceHalJsonStrategy extends AbstractAntiCorruptionLayerStrategy<Goods> {
 
     @Override
     public Goods traslate(String body) {

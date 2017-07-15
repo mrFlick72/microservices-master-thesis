@@ -2,7 +2,7 @@ package it.valeriovaudi.emarket.integration;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import it.valeriovaudi.emarket.anticorruptation.account.AccountAnticorruptationLayerService;
+import it.valeriovaudi.emarket.anticorruptation.account.AccountAntiCorruptionLayerService;
 import it.valeriovaudi.emarket.model.Customer;
 import it.valeriovaudi.emarket.model.CustomerContact;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.net.URLEncoder;
 public class AccountIntegrationService extends AbstractIntegrationService {
 
     @Autowired
-    private AccountAnticorruptationLayerService accountAnticorruptationLayerService;
+    private AccountAntiCorruptionLayerService accountAntiCorruptionLayerService;
 
     @Autowired
     private OAuth2RestTemplate accountIntegrationServiceRestTemplate;
@@ -37,7 +37,7 @@ public class AccountIntegrationService extends AbstractIntegrationService {
             commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public Customer getCustomerFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
-        return accountAnticorruptationLayerService.newCustomer(serviceCall.getBody(),
+        return accountAntiCorruptionLayerService.newCustomer(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().toString());
     }
 
@@ -45,7 +45,7 @@ public class AccountIntegrationService extends AbstractIntegrationService {
             commandProperties = {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
     public CustomerContact getCustomerContactFormAccountData(String userName){
         ResponseEntity<String> serviceCall = serviceCall(userName);
-        return accountAnticorruptationLayerService.newCustomerContact(serviceCall.getBody(),
+        return accountAntiCorruptionLayerService.newCustomerContact(serviceCall.getBody(),
                 serviceCall.getHeaders().getContentType().toString());
     }
 

@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.anticorruptation.productcatalog;
 
-import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptationLayerService;
-import it.valeriovaudi.emarket.anticorruptation.AnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptionLayerService;
+import it.valeriovaudi.emarket.anticorruptation.AntiCorruptionLayerStrategy;
 import it.valeriovaudi.emarket.model.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,18 +17,18 @@ import java.util.Optional;
  */
 
 @Service
-public class ProductCatalogAnticorruptationLayerService extends AbstractAntiCorruptationLayerService {
+public class ProductCatalogAntiCorruptionLayerService extends AbstractAntiCorruptionLayerService {
 
-    private Map<String, AnticCorruptationLayerStrategy> productCatalogAntiCorruptationRegistry;
+    private Map<String, AntiCorruptionLayerStrategy> productCatalogAntiCorruptationRegistry;
 
     @Autowired
-    private ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy productCatalogAntiCorruptationLayerServiceHalJsonStrategy;
+    private ProductCatalogAntiCorruptionLayerServiceHalJsonStrategy productCatalogAntiCorruptionLayerServiceHalJsonStrategy;
 
     @PostConstruct
     public void init(){
         productCatalogAntiCorruptationRegistry = new HashMap<>();
-        productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE,productCatalogAntiCorruptationLayerServiceHalJsonStrategy);
-        productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE,productCatalogAntiCorruptationLayerServiceHalJsonStrategy);
+        productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE,productCatalogAntiCorruptionLayerServiceHalJsonStrategy);
+        productCatalogAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE,productCatalogAntiCorruptionLayerServiceHalJsonStrategy);
     }
 
     public Goods newGoods(String goods, String mediaType){

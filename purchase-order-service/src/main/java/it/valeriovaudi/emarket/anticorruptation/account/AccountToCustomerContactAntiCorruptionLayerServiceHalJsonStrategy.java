@@ -2,7 +2,7 @@ package it.valeriovaudi.emarket.anticorruptation.account;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.valeriovaudi.emarket.anticorruptation.AbstractAnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptionLayerStrategy;
 import it.valeriovaudi.emarket.model.CustomerContact;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
 
 @Slf4j
 @Component
-public class AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy extends AbstractAnticCorruptationLayerStrategy<CustomerContact> {
+public class AccountToCustomerContactAntiCorruptionLayerServiceHalJsonStrategy extends AbstractAntiCorruptionLayerStrategy<CustomerContact> {
 
     @Override
     public CustomerContact traslate(String body) {

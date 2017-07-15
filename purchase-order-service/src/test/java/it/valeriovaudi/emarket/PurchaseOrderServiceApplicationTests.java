@@ -1,6 +1,6 @@
 package it.valeriovaudi.emarket;
 
-import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy;
+import it.valeriovaudi.emarket.anticorruptation.productcatalog.ProductCatalogAntiCorruptionLayerServiceHalJsonStrategy;
 import it.valeriovaudi.emarket.model.Goods;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -26,7 +26,7 @@ public class PurchaseOrderServiceApplicationTests {
 	ResourceLoader resourceLoader;
 
 	@Autowired
-	ProductCatalogAntiCorruptationLayerServiceHalJsonStrategy productCatalogAntiCorruptationLayerServiceHalJsonStrategy;
+	ProductCatalogAntiCorruptionLayerServiceHalJsonStrategy productCatalogAntiCorruptationLayerServiceHalJsonStrategy;
 
 	String goods;
 

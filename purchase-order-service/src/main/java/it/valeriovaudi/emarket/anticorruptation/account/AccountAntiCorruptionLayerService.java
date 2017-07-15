@@ -1,7 +1,7 @@
 package it.valeriovaudi.emarket.anticorruptation.account;
 
-import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptationLayerService;
-import it.valeriovaudi.emarket.anticorruptation.AnticCorruptationLayerStrategy;
+import it.valeriovaudi.emarket.anticorruptation.AbstractAntiCorruptionLayerService;
+import it.valeriovaudi.emarket.anticorruptation.AntiCorruptionLayerStrategy;
 import it.valeriovaudi.emarket.model.Customer;
 import it.valeriovaudi.emarket.model.CustomerContact;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +19,26 @@ import java.util.Optional;
 
 
 @Service
-public class AccountAnticorruptationLayerService extends AbstractAntiCorruptationLayerService {
+public class AccountAntiCorruptionLayerService extends AbstractAntiCorruptionLayerService {
 
-    private Map<String, AnticCorruptationLayerStrategy> customerAntiCorruptationRegistry;
-    private Map<String, AnticCorruptationLayerStrategy> customerContactAnticorruptationRegistry;
-
-    @Autowired
-    private AccountToCustomerAnticorruptationLayerServiceHalJsonStrategy accountToCustomerAnticorruptationLayerServiceHalJsonStrategy;
+    private Map<String, AntiCorruptionLayerStrategy> customerAntiCorruptationRegistry;
+    private Map<String, AntiCorruptionLayerStrategy> customerContactAnticorruptationRegistry;
 
     @Autowired
-    private AccountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy;
+    private AccountToCustomerAntiCorruptionLayerServiceHalJsonStrategy accountToCustomerAntiCorruptionLayerServiceHalJsonStrategy;
+
+    @Autowired
+    private AccountToCustomerContactAntiCorruptionLayerServiceHalJsonStrategy accountToCustomerContactAntiCorruptionLayerServiceHalJsonStrategy;
 
     @PostConstruct
     public void init(){
         customerAntiCorruptationRegistry = new HashMap<>();
-        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerAnticorruptationLayerServiceHalJsonStrategy);
-        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerAnticorruptationLayerServiceHalJsonStrategy);
+        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerAntiCorruptionLayerServiceHalJsonStrategy);
+        customerAntiCorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerAntiCorruptionLayerServiceHalJsonStrategy);
 
         customerContactAnticorruptationRegistry = new HashMap<>();
-        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy);
-        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerContactAnticorruptationLayerServiceHalJsonStrategy);
+        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_VALUE, accountToCustomerContactAntiCorruptionLayerServiceHalJsonStrategy);
+        customerContactAnticorruptationRegistry.put(MediaType.APPLICATION_JSON_UTF8_VALUE, accountToCustomerContactAntiCorruptionLayerServiceHalJsonStrategy);
     }
 
     public Customer newCustomer(String customer, String mediaType){
