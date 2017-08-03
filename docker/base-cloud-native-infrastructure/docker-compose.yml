@@ -18,11 +18,12 @@ services:
       - "8888:8888"
     environment:
       - server.port=8888
+      - spring.profiles.active=native
       - eureka.instance.preferIpAddress=true
-      - spring.cloud.config.server.git.uri=file://usr/local/configuration-server/config
+      - spring.cloud.config.server.native.searchLocations=file:///usr/local/configuration-server/config
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
     volumes:
-      - "${GIT_LOCAL_REPO}:/usr/local/configuration-server/config"
+      - "${LOCAL_REPO}:/usr/local/configuration-server/config"
     networks:
       - discovery
 

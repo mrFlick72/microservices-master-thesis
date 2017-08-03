@@ -1,14 +1,11 @@
 spring:
   application:
     name: authentacation-server
-
-server:
-  port: 9090
-  use-forward-headers: true
+  cloud:
+    config:
+      discovery:
+        enabled: true
 
 management:
   security:
-    enabled: false
-security:
-  basic:
     enabled: false

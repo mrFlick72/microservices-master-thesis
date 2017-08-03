@@ -1,32 +1,14 @@
 version: "2.1"
 
 services:
-  account-service-replicas-1:
+  account-service:
     image: master-thesis/account-service-server:lastest
-    ports:
-      - "1011:1011"
     environment:
-      - server.port=1011
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
     networks:
-      - basecloudnativeinfrastructure_discovery
-      - baseinfrastructure_messaging
-      - baseinfrastructure_cassandra
-      - baseinfrastructure_memcache
-      - baseinfrastructure_database
-
-  account-service-replicas-2:
-    image: master-thesis/account-service-server:lastest
-    ports:
-      - "1012:1012"
-    environment:
-      - server.port=1012
-      - spring.profiles.active=docker
-      - eureka.instance.preferIpAddress=true
-      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
-    networks:
+      - cloudnativeinfrastructure_security
       - basecloudnativeinfrastructure_discovery
       - baseinfrastructure_messaging
       - baseinfrastructure_cassandra
@@ -34,32 +16,28 @@ services:
       - baseinfrastructure_database
 
 
-  product-catalog-service-replicas-1:
+  product-catalog-service:
     image: master-thesis/product-catalog-service-server:lastest
-    ports:
-      - "2011:2011"
     environment:
-      - server.port=2011
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
     networks:
+      - cloudnativeinfrastructure_security
       - basecloudnativeinfrastructure_discovery
       - baseinfrastructure_messaging
       - baseinfrastructure_cassandra
       - baseinfrastructure_memcache
       - baseinfrastructure_mongo
 
-  product-catalog-service-replicas-2:
-    image: master-thesis/product-catalog-service-server:lastest
-    ports:
-      - "2012:2012"
+  purchase-order-service:
+    image: master-thesis/purchase-order-service-server:lastest
     environment:
-      - server.port=2012
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
     networks:
+      - cloudnativeinfrastructure_security
       - basecloudnativeinfrastructure_discovery
       - baseinfrastructure_messaging
       - baseinfrastructure_cassandra
@@ -68,6 +46,8 @@ services:
 
 
 networks:
+  cloudnativeinfrastructure_security:
+    external: true
   basecloudnativeinfrastructure_discovery:
     external: true
   baseinfrastructure_messaging:

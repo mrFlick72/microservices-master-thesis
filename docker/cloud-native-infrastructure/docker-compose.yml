@@ -1,12 +1,24 @@
 version: "2.1"
 
 services:
+  authentication-server:
+    image: master-thesis/authentication-server:lastest
+    ports:
+      - "9090:9090"
+    environment:
+      - spring.profiles.active=docker
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - security
+      - baseinfrastructure_memcache
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
   zipkin:
     image: master-thesis/zipkin-server:lastest
     ports:
-      - "4000:4000"
+      - "8050:8050"
     environment:
-      - server.port=4000
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
@@ -17,9 +29,9 @@ services:
   turbine-stream:
     image: master-thesis/turbine-stream-server:lastest
     ports:
-      - "4001:4001"
+      - "7070:7070"
+      - "7071:7071"
     environment:
-      - server.port=4001
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
@@ -32,7 +44,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - server.port=8000
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
@@ -44,7 +55,6 @@ services:
     ports:
       - "5050:5050"
     environment:
-      - server.port=5050
       - spring.profiles.active=docker
       - eureka.instance.preferIpAddress=true
       - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
@@ -54,6 +64,8 @@ services:
       - baseinfrastructure_messaging
 
 networks:
+  security:
+    driver: bridge
   baseinfrastructure_memcache:
     external: true
   basecloudnativeinfrastructure_discovery:

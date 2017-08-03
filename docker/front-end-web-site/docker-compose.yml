@@ -1,0 +1,38 @@
+version: "2.1"
+
+services:
+  emarcker-web-site:
+    image: master-thesis/emarket-web-site:lastest
+    ports:
+      - "2000:2000"
+    environment:
+      - spring.profiles.active=docker
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - cloudnativeinfrastructure_security
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+
+
+  product-catalog-management-web-site:
+    image: master-thesis/product-catalog-management-web-site:lastest
+    ports:
+      - "2020:2020"
+    environment:
+      - spring.profiles.active=docker
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    networks:
+      - cloudnativeinfrastructure_security
+      - basecloudnativeinfrastructure_discovery
+      - baseinfrastructure_messaging
+
+
+networks:
+  cloudnativeinfrastructure_security:
+    external: true
+  basecloudnativeinfrastructure_discovery:
+    external: true
+  baseinfrastructure_messaging:
+    external: true

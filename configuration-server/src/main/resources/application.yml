@@ -11,5 +11,7 @@ spring:
   cloud:
     config:
       server:
+        native:
+          searchLocations: file://${LOCAL_REPO}
         git:
           uri: file://${GIT_LOCAL_REPO}
